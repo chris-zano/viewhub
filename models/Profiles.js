@@ -1,6 +1,6 @@
-const loadDB = require("./loadDB").loadDB;
+const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-const AuthFactor = require("./auth");
+const AuthFactor = require("../utils/auth");
 const User = require("./Users");
 const filepath = path.join(__dirname, "../DB/neDB/profiles.db");
 const db = loadDB(filepath);
@@ -99,7 +99,7 @@ class Profile {
                                 ((err, numReplaced) => {
                                     if (err) reject({ error: true, msg: `c=> ${error}` })
                                     else {
-                                        resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                        resolve({ error: false, msg: "success", userId: id, docUpdated: numReplaced });
                                     }
                                 })
                             )
@@ -186,6 +186,42 @@ class Profile {
             })
         })
     }
+
+    static updatePictureUrl(id, profilePicUrl) {
+        return new Promise((resolve, reject) => {
+            User.checkId(id)//check if user is a registered user
+            .then(response => {
+                if (response.msg == "User match"){
+                    Profile.checkProfile(id)//check if user profile exists
+                    .then(res => {
+                        if (res.msg == "User match") {
+                            db.update( // update user details
+                                { _id: id },
+                                {
+                                    $set: {
+                                        profilePicUrl: profilePicUrl
+                                    }
+                                },
+                                ((err, numReplaced) => {
+                                    if (err) reject({ error: true, msg: `c=> ${error}` })
+                                    else {
+                                        resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                    }
+                                })
+                            )
+                        }
+                    })
+                    .catch(error => {
+                        reject({error: true, msg: `a=> ${error}`})
+                    })
+                }
+            })
+            .catch(error => {
+                reject({error: true, msg: `b=> ${error}`})
+            })
+        })
+    }
+    
 }
 
 module.exports = Profile;

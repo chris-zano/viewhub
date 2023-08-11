@@ -1,6 +1,6 @@
-const loadDB = require("./loadDB").loadDB;
+const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-const AuthFactor = require("./auth");
+const AuthFactor = require("../utils/auth");
 const filepath = path.join(__dirname, "../DB/neDB/users.db");
 const db = loadDB(filepath);
 
@@ -82,10 +82,10 @@ class User {
         })
     }
 
-    static authWithPassword(email, password) {
+    static authWithPassword(username, password) {
         return new Promise((resolve, reject) => {
             db.find(
-                {email: email, password:AuthFactor.hashWithKey(password, "low")},
+                {username: username, password:AuthFactor.hashWithKey(password, "low")},
                 {multi: false},
                 (err, doc) => {
                     if (err) {
@@ -96,7 +96,7 @@ class User {
                             reject({error: true, msg: "Wrong Email or Password"});
                         }
                         else {
-                            resolve({error: false, msg: "Email and Password match", userID: doc[0]["_id"]});
+                            resolve({error: false, msg: "Username and Password match", userID: doc[0]["_id"]});
                         }
                     }
                 }

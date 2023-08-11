@@ -5,7 +5,7 @@ const router = express.Router();
 
 // javascript files will be serves through this route
 router.get("/js/:filename", (req, res) => {
-    fs.createReadStream(path.join(__dirname, "../public/js", `${req.params.filename}.js`)).pipe(res);
+    fs.createReadStream(path.join(__dirname, `../public/js/${req.params.filename}.js`)).pipe(res);
 })
 
 // css files will be servedthrough this route
@@ -37,3 +37,5 @@ router.get("/video/thumbnail/:filename", (req, res) => {
 router.get("/video/stream/:filename", (req, res) => {
     fs.createReadStream(path.join(__dirname, "../DB/videos", `${req.params.filename}`)).pipe(res);
 })
+
+module.exports = router;

@@ -1,10 +1,7 @@
-async function checkLoginState() {
+function checkLoginState() {
     const loginState = localStorage.getItem("loginState");
     if (!loginState) {
-        const req = await fetch('/login');
-        const res = await req.json();
-
-        console.log(res);
+        window.location.href = "/login";
     }
 }
 
