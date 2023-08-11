@@ -10,7 +10,7 @@ router.get('/login', (req, res) => {
     // console.log(req);
     console.log("================== ",req.headers['user-agent']);
     console.log("================== ",req.headers['user-agent']);
-    res.status(200  ).json({message: "Login request received successfully"});
+    res.status(200).json({message: "Login request received successfully"});
 })
 
 module.exports = router
