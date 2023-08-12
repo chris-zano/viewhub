@@ -20,4 +20,6 @@ router.post("/update/name", userController.userUpdateName);
 router.post("/update/gender", userController.userUpdatedobAndgender);
 router.post("/update/username", userController.userUpdateUsername);
 router.post("/update/ppic", upload.single("ppic") ,userController.userUpdateProfilePic);
+
+router.get("/userLogout/:userId", userController.userLogout);
 module.exports = router

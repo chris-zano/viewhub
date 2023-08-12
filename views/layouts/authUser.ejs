@@ -1,12 +1,11 @@
 <div>
-    <% if (userId != null) { %>
+    <% if (userId !=null) { %>
         <div id="setid" style="scale: 0;"><%= userId %></div>
-    <% } %>
+        <% } %>
 </div>
 
 <script>
-    if (document.readyState == "loading")
-    {
+    if (document.readyState == "loading") {
         document.addEventListener("DOMContentLoaded", main);
     }
     else {
@@ -14,12 +13,16 @@
     }
 
     function main() {
-        const userId = document.getElementById("setid").textContent;
+        const userId = document.getElementById("setid").textContent.trim();
+        const expiration_date = Date.now() + 604_800
         const authObj = {
             isLoggedIn: true,
-            userId: userId
+            userId: userId,
+            expiration: expiration_date
         }
         localStorage.setItem("loginState", JSON.stringify(authObj));
+        localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
+                
         location.href = "/"
     }
 </script>
