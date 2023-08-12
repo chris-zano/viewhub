@@ -1,11 +1,15 @@
 <div>
-    <form action="#" method="post">
+    <% if (error == true) { %>
+     <div>Incorrect usernmae or password</div>
+    <% } %>
+    <form action="/userlogin" method="post">
         <label for="username">Username</label>
         <input type="text" name="username" id="username" required>
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
+        <p>Don't have an account? <a href="/signup">Sign Up</a> here</p>
         <input type="submit" value="Next">
     </form>
 </div>

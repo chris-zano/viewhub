@@ -2,7 +2,6 @@ const Profile = require("../models/Profiles");
 const User = require("../models/Users");
 
 exports.userSignup = (req, res) => {
-    console.log(req.body);
     const user = new User(req.body.email, req.body.password);
     user.createUser()
     .then(response => {
@@ -11,7 +10,7 @@ exports.userSignup = (req, res) => {
             newprofile.init()
             .then(onexec => {
                 if(onexec.error == false && onexec.msg == "No error! Profile initialized successfuly") {
-                    res.render("../views/layouts/flname", {pageTitle: "Create-Profile ~ name", userId: response.userId})
+                    res.render("signin", {pageTitle: "Create-Profile ~ name", userId: response.userId, error: true, msg: "Invalid Email Format"})
                 }
                 else {
                     throw new Error(onexec.msg);
@@ -22,36 +21,37 @@ exports.userSignup = (req, res) => {
             })
         }
         else if (response.error == true) {
-            throw new error(response.msg);
+            res.render("signin", {pageTitle: "signup", userId: null, error: true, msg: "User Already Exists"});
         }
     })
     .catch(error => {
-        throw new Error(error);
+        if (error.error == true) {
+            if (error.msg = "User already exists") {
+                res.render("signin", {pageTitle: "signup", userId: null, error: true, msg: "User already exists"});
+            }
+        }
     })
 }
 
 exports.userLogin = (req, res) => {
-    console.log(req.body);
-    User.authWithPassword(req.body.username, req.body.password)
+    Profile.checkUsernameExists(req.body.username, req.body.password)
     .then(response => {
         if (response.error == false && response.msg == "Username and Password match") {
-            res.status(200).json({message: response.msg, userId: response.userId});   
-        }
-        else if(response.error == true) {
-            throw new Error(response.msg);
+            res.render("signin", {pageTitle: "authenticateUser", error: false, userId: response.userId, msg: "no error"});  
         }
     })
     .catch(error => {
-        throw new Error(error);
+        if(error.error == true) {
+            res.render("signin", {pageTitle: "login", userId: null, error: true})
+        }
     })
 }
 
 exports.userUpdateName = (req, res) => {
-    console.log(req.body);
     Profile.updateUserFirstAndLastNames(req.body.userId, req.body.lastname, req.body.firstname)
     .then(response => {
         if (response.error == false && response.msg == "success") {
-            res.render("../views/layouts/username", {pageTitle: "Create-Profile ~ username", userId: response.userId})
+            res.render("signin", {pageTitle: "Create-Profile ~ username", userId: response.userId})
         }
     })
     .catch(error => {
@@ -60,11 +60,10 @@ exports.userUpdateName = (req, res) => {
 }
 
 exports.userUpdateUsername = (req, res) => {
-    console.log(req.body);
     Profile.updateUsername(req.body.userId, req.body.username)
     .then(response => {
         if (response.error == false && response.msg == "success") {
-            res.render("../views/layouts/gender", {pageTitle: "Create-Profile ~ gender", userId: req.body.userId});
+            res.render("signin", {pageTitle: "Create-Profile ~ gender", userId: req.body.userId});
         }
         else {
             throw new Error(response.msg);
@@ -76,12 +75,10 @@ exports.userUpdateUsername = (req, res) => {
 }
 
 exports.userUpdatedobAndgender = (req, res) => {
-    console.log(req.body);
-
     Profile.updatedobAndGender(req.body.userId, req.body.dob, req.body.gender)
     .then(response => {
         if (response.error == false && response.msg == "success") {
-            res.render("../views/layouts/picture", {pageTitle: "Create-Profile ~ picture", userId: req.body.userId});
+            res.render("signin", {pageTitle: "Create-Profile ~ picture", userId: req.body.userId});
         }
         else {
             throw new Error(response.msg);
@@ -94,12 +91,10 @@ exports.userUpdatedobAndgender = (req, res) => {
 }
 
 exports.userUpdateProfilePic = (req, res) => {
-    console.log(req.body);
-
     Profile.updatePictureUrl(req.body.userId, `/image/profile/${req.file.filename}`)
     .then(response => {
         if (response.error == false && response.msg == "success") {
-            res.render("index", {pageTitle: "Home", userId: req.body.userId});
+            res.render("signin", {pageTitle: "authenticateUser", error: false, userId: req.body.userId, msg: "no error"})
         }
         else {
             throw new Error(response.msg);

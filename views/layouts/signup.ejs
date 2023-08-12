@@ -1,11 +1,16 @@
 <div>
-    <form action="/signup" method="post">
+    <% if (error == true) { %>
+        <div><%= msg %></div>
+    <% } %>
+
+    <form action="/userSignup" method="post">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
 
+        <p>Already have an account? <a href="/login">Log In</a></p>
         <input type="submit" value="Next">
     </form>
 </div>

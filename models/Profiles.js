@@ -80,6 +80,37 @@ class Profile {
         })
     }
 
+    static checkUsernameExists(username, password) {
+        return new Promise((resolve, reject) => {
+            console.log({username: username, password:AuthFactor.hashWithKey(password, "low")});
+            db.find(
+                {username: username},
+                {multi: false},
+                (err, doc) => {
+                    if (err) {
+                        reject({error: true, msg: err});
+                    }
+                    else {
+                        if(doc.length == 0) {
+                            reject({error: true, msg: "Wrong Username"});
+                        }
+                        else {
+                            User.authWithPassword(doc[0]._id, password)
+                            .then(response => {
+                                if (response.msg == "Username and Password match") {
+                                    resolve({error: false, msg: "Username and Password match", userId: doc[0]["_id"]})
+                                }
+                            })
+                            .catch(error => {
+                                reject({error: false, msg: error, userID: null})
+                            })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
     static updateUserFirstAndLastNames(id, lastname, firstname) {
         return new Promise((resolve, reject) => {
             User.checkId(id)//check if user is a registered user

@@ -1,0 +1,25 @@
+<div>
+    <% if (userId != null) { %>
+        <div id="setid" style="scale: 0;"><%= userId %></div>
+    <% } %>
+</div>
+
+<script>
+    if (document.readyState == "loading")
+    {
+        document.addEventListener("DOMContentLoaded", main);
+    }
+    else {
+        main();
+    }
+
+    function main() {
+        const userId = document.getElementById("setid").textContent;
+        const authObj = {
+            isLoggedIn: true,
+            userId: userId
+        }
+        localStorage.setItem("loginState", JSON.stringify(authObj));
+        location.href = "/"
+    }
+</script>
