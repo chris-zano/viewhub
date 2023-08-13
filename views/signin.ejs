@@ -9,25 +9,25 @@
 <body>
 
     <% if (pageTitle == "signup") { %>
-        <%- include('./layouts/signup.ejs') %>
+        <%- include('./layouts/auth/signup.ejs') %>
     <% } %>
     <% if (pageTitle == "login") { %>
-        <%- include('./layouts/login') %>
+        <%- include('./layouts/auth/login') %>
     <% } %>
     <% if (pageTitle == "Create-Profile ~ name") { %>
-        <%- include('./layouts/flname') %>
+        <%- include('./layouts/auth/flname') %>
     <% } %>
     <% if (pageTitle == "Create-Profile ~ gender") { %>
-        <%- include('./layouts/gender') %>
+        <%- include('./layouts/auth/gender') %>
     <% } %>
     <% if (pageTitle == "Create-Profile ~ username") { %>
-        <%- include('./layouts/username') %>
+        <%- include('./layouts/auth/username') %>
     <% } %>
     <% if (pageTitle == "Create-Profile ~ picture") { %>
-        <%- include('./layouts/picture') %>
+        <%- include('./layouts/auth/picture') %>
     <% } %>
     <% if (pageTitle == "authenticateUser") { %>
-        <%- include('./layouts/authUser') %>
+        <%- include('./layouts/auth/authUser') %>
     <% } %>
 
 </body>

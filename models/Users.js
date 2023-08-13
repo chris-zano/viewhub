@@ -7,10 +7,13 @@ const db = loadDB(filepath);
 
 /**
  * User - class for creating User objects
+ * 
  * This class is for initialising and storing user credentials [email, password]
  * in a separate database.
- * For all methods, on success the ID property of the user object is resolved.
- * On failure, error is set to true and a message [msg] is set.
+ * 
+ * *For all methods, on success the ID property of the user object is resolved.
+ * 
+ * *On failure, error is set to true and a message [msg] is set.
  * 
  * @param {email}  email the email property
  * @param {password} password the password Property
@@ -67,11 +70,16 @@ class User {
     }
 
     /**
-     * checkId(id:- mandatory!! [ id property of the object ])
+     * *checkId(id:- mandatory!! [ id property of the object ])
+     * 
      * @description this method checks the User Credentials databsae for an id match
+     * 
      * @useCase this method is useful when running crud operations for a user object, with properties set in another database
+     * 
      * @param {id} id The id of the user object
+     * 
      * @returns Promise: The resolved object has _MSG_ and _ID_ properties set appropriately
+     * 
      * @more if the function returns true, it means the id matches that of a user in the databse
      */
     static checkId(id) {
@@ -84,7 +92,7 @@ class User {
                         reject(err);
                     }
                     if (doc.length == 0) {
-                        resolve({ msg: "No user with such id", id: id });
+                        reject({ msg: "No user with such id", id: id });
                     }
                     else {
                         resolve({ msg: "User match", id: doc[0]._id, })
@@ -140,7 +148,6 @@ class User {
                             reject({error: true, msg: "Wrong Password"});
                         }
                         else {
-                            console.log(doc);
                             resolve({error: false, msg: "Username and Password match", userID: doc[0]["_id"]});
                         }
                     }

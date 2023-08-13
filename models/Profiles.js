@@ -5,11 +5,35 @@ const User = require("./Users");
 const filepath = path.join(__dirname, "../DB/neDB/profiles.db");
 const db = loadDB(filepath);
 
+/**
+ * Profile - blueprints for user profile.
+ * instantiates a user object with objectkeys as follows
+ * 
+ * *[lastname, firstname, username, gender, DOB, followers, following, profilePicUrl].
+ * 
+ * This class provides methods for performing _CRUD_ operations on a user instance.
+ * 
+ * *It provides individual methods for create update and delete of object instances.
+ * 
+ * *It provides a single method for reading the entire object at once
+ */
 class Profile {
+    /**
+     * instantiates a user object with objectkeys as follows
+     * 
+     * @param {string} id User id.
+     * *The user id should be authenticated by the User class before beign passed as a parameter to this class
+     */
+    
     constructor(id) {
         this._id = id;
     }
 
+    /**
+     * *_init()_ -::- initialises the user Profile, after user id has been authenticated.
+     * 
+     * @returns a new promise, which resolve the user id on success, rejects with appropriate error values and message set correctly
+     */
     init() {
         const profileObject = {
             "_id": this._id,
@@ -60,6 +84,11 @@ class Profile {
         })
     }
 
+    /**
+     * *checkProfile(id) -::- checks to see if the id has a profile instance
+     * @param {string} id
+     * @returns a match for the profile id in question
+     */
     static checkProfile(id) {
         return new Promise((resolve, reject) => {
             db.find(
@@ -80,30 +109,35 @@ class Profile {
         })
     }
 
+    /**
+     * *_checkUsernameExists()_ -::- checks if username exists, for login authentication
+     * @param {string} username
+     * @param {string} password 
+     * @returns a promise that resolves an object with error values and messages set appropriately
+     */
     static checkUsernameExists(username, password) {
         return new Promise((resolve, reject) => {
-            console.log({username: username, password:AuthFactor.hashWithKey(password, "low")});
             db.find(
-                {username: username},
-                {multi: false},
+                { username: username },
+                { multi: false },
                 (err, doc) => {
                     if (err) {
-                        reject({error: true, msg: err});
+                        reject({ error: true, msg: err });
                     }
                     else {
-                        if(doc.length == 0) {
-                            reject({error: true, msg: "Wrong Username"});
+                        if (doc.length == 0) {
+                            reject({ error: true, msg: "Wrong Username" });
                         }
                         else {
                             User.authWithPassword(doc[0]._id, password)
-                            .then(response => {
-                                if (response.msg == "Username and Password match") {
-                                    resolve({error: false, msg: "Username and Password match", userId: doc[0]["_id"]})
-                                }
-                            })
-                            .catch(error => {
-                                reject({error: false, msg: error, userID: null})
-                            })
+                                .then(response => {
+                                    if (response.msg == "Username and Password match") {
+                                        resolve({ error: false, msg: "Username and Password match", userId: doc[0]["_id"] })
+                                    }
+                                })
+                                .catch(error => {
+                                    reject({ error: false, msg: error, userID: null })
+                                })
                         }
                     }
                 }
@@ -111,189 +145,162 @@ class Profile {
         })
     }
 
+    /**
+     * 
+     * @param {string} id 
+     * @param {string} lastname 
+     * @param {string} firstname 
+     * @returns a new promise that resolves an object appropriate properties on success
+     */
     static updateUserFirstAndLastNames(id, lastname, firstname) {
         return new Promise((resolve, reject) => {
             User.checkId(id)//check if user is a registered user
-            .then(response => {
-                if (response.msg == "User match"){
-                    Profile.checkProfile(id)//check if user profile exists
-                    .then(res => {
-                        if (res.msg == "User match") {
-                            db.update( // update user details
-                                { _id: id },
-                                {
-                                    $set: {
-                                        lastname: lastname,
-                                        firstname: firstname
-                                    }
-                                },
-                                ((err, numReplaced) => {
-                                    if (err) reject({ error: true, msg: `c=> ${error}` })
-                                    else {
-                                        resolve({ error: false, msg: "success", userId: id, docUpdated: numReplaced });
-                                    }
-                                })
-                            )
-                        }
-                    })
-                    .catch(error => {
-                        reject({error: true, msg: `a=> ${error}`})
-                    })
-                }
-            })
-            .catch(error => {
-                reject({error: true, msg: `b=> ${error}`})
-            })
+                .then(response => {
+                    if (response.msg == "User match") {
+                        Profile.checkProfile(id)//check if user profile exists
+                            .then(res => {
+                                if (res.msg == "User match") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                lastname: lastname,
+                                                firstname: firstname
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userId: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                            })
+                            .catch(error => {
+                                reject({ error: true, msg: `a=> ${error}` })
+                            })
+                    }
+                })
+                .catch(error => {
+                    reject({ error: true, msg: `b=> ${error}` })
+                })
         })
     }
-    
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {date} dob 
+     * @param {string} gender 
+     * @returns a new promise that resolves the appropriate object on success
+     */
     static updatedobAndGender(id, dob, gender) {
         return new Promise((resolve, reject) => {
             User.checkId(id)//check if user is a registered user
-            .then(response => {
-                if (response.msg == "User match"){
-                    Profile.checkProfile(id)//check if user profile exists
-                    .then(res => {
-                        if (res.msg == "User match") {
-                            db.update( // update user details
-                                { _id: id },
-                                {
-                                    $set: {
-                                        dob: dob,
-                                        gender: gender
-                                    }
-                                },
-                                ((err, numReplaced) => {
-                                    if (err) reject({ error: true, msg: `c=> ${error}` })
-                                    else {
-                                        resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
-                                    }
-                                })
-                            )
-                        }
-                    })
-                    .catch(error => {
-                        reject({error: true, msg: `a=> ${error}`})
-                    })
-                }
-            })
-            .catch(error => {
-                reject({error: true, msg: `b=> ${error}`})
-            })
+                .then(response => {
+                    if (response.msg == "User match") {
+                        Profile.checkProfile(id)//check if user profile exists
+                            .then(res => {
+                                if (res.msg == "User match") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                dob: dob,
+                                                gender: gender
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                            })
+                            .catch(error => {
+                                reject({ error: true, msg: `a=> ${error}` })
+                            })
+                    }
+                })
+                .catch(error => {
+                    reject({ error: true, msg: `b=> ${error}` })
+                })
         })
     }
-    
+
     static updateUsername(id, username) {
         return new Promise((resolve, reject) => {
             User.checkId(id)//check if user is a registered user
-            .then(response => {
-                if (response.msg == "User match"){
-                    Profile.checkProfile(id)//check if user profile exists
-                    .then(res => {
-                        if (res.msg == "User match") {
-                            db.update( // update user details
-                                { _id: id },
-                                {
-                                    $set: {
-                                        username: username
-                                    }
-                                },
-                                ((err, numReplaced) => {
-                                    if (err) reject({ error: true, msg: `c=> ${error}` })
-                                    else {
-                                        resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
-                                    }
-                                })
-                            )
-                        }
-                    })
-                    .catch(error => {
-                        reject({error: true, msg: `a=> ${error}`})
-                    })
-                }
-            })
-            .catch(error => {
-                reject({error: true, msg: `b=> ${error}`})
-            })
+                .then(response => {
+                    if (response.msg == "User match") {
+                        Profile.checkProfile(id)//check if user profile exists
+                            .then(res => {
+                                if (res.msg == "User match") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                username: username
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                            })
+                            .catch(error => {
+                                reject({ error: true, msg: `a=> ${error}` })
+                            })
+                    }
+                })
+                .catch(error => {
+                    reject({ error: true, msg: `b=> ${error}` })
+                })
         })
     }
 
     static updatePictureUrl(id, profilePicUrl) {
         return new Promise((resolve, reject) => {
             User.checkId(id)//check if user is a registered user
-            .then(response => {
-                if (response.msg == "User match"){
-                    Profile.checkProfile(id)//check if user profile exists
-                    .then(res => {
-                        if (res.msg == "User match") {
-                            db.update( // update user details
-                                { _id: id },
-                                {
-                                    $set: {
-                                        profilePicUrl: profilePicUrl
-                                    }
-                                },
-                                ((err, numReplaced) => {
-                                    if (err) reject({ error: true, msg: `c=> ${error}` })
-                                    else {
-                                        resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
-                                    }
-                                })
-                            )
-                        }
-                    })
-                    .catch(error => {
-                        reject({error: true, msg: `a=> ${error}`})
-                    })
-                }
-            })
-            .catch(error => {
-                reject({error: true, msg: `b=> ${error}`})
-            })
+                .then(response => {
+                    if (response.msg == "User match") {
+                        Profile.checkProfile(id)//check if user profile exists
+                            .then(res => {
+                                if (res.msg == "User match") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                profilePicUrl: profilePicUrl
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                            })
+                            .catch(error => {
+                                reject({ error: true, msg: `a=> ${error}` })
+                            })
+                    }
+                })
+                .catch(error => {
+                    reject({ error: true, msg: `b=> ${error}` })
+                })
         })
     }
-    
+
 }
 
 module.exports = Profile;
-
-const me = new Profile("25zUV0SI2M3IGkKW");
-me.init()
-    .then(res => {
-        switch (res.error) {
-            case true:
-                console.log("ERROR=> ",res.msg);
-                break;
-            case false:
-                console.log(res);
-                break;
-            default:
-                console.log("serious error here lol :)");
-                break;
-        }
-    })
-    .catch(error => {
-        console.log(error);
-    })
-
-Profile.updateUserFirstAndLastNames("25zUV0SI2M3IGkKW","Doe", "John")
-.then(res => {
-    console.log(res);
-})
-.catch(err => {
-    console.log(err);
-})
-Profile.updatedobAndGender("25zUV0SI2M3IGkKW","23/01/2005", "male")
-.then(res => {
-    console.log(res);
-})
-.catch(err => {
-    console.log(err);
-})
-Profile.updateUsername("25zUV0SI2M3IGkKW","DoeJohn")
-.then(res => {
-    console.log(res);
-})
-.catch(err => {
-    console.log(err);
-})

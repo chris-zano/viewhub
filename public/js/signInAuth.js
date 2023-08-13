@@ -56,7 +56,7 @@ function checkLoginState() {
             listenOnLogout(JSON.parse(loginState).userId)
                 .then(response => {
                     if (response.error == false && response.message == "User Logged Out Successfully") {
-                        
+
                         localStorage.removeItem("loginState");
                         localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
                         alert("Session Expired. Please Login again to continue");
@@ -66,6 +66,35 @@ function checkLoginState() {
         })
     } catch (error) {
         console.log(error);
+    }
+
+    //add listener to the profile button
+    try {
+        const profileBtn = document.getElementById("profileBtn");
+        profileBtn.addEventListener("click", () => {
+            getUserProfile(JSON.parse(loginState).userId)
+                .then(response => {
+                    if (response.error == false) {//the user has been autheticated
+                        if(response.userId == JSON.parse(loginState).userId) {//check if id matches cached id
+                            location.href = `/user/profile/${response.userId}`
+                        }
+                    }
+                })
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getUserProfile(id) {
+    try {
+        const req = await fetch(`/get/profile/userbyId/${id}`);
+        const res = await req.json();
+
+        return (res);
+    }
+    catch (error) {
+        location.href = `/error/${error}`;
     }
 }
 

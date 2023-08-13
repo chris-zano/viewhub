@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const adminRoutes = require('./routes/adminRoutes');
 const fileRoutes = require('./routes/fileRoutes');
 const userRoutes = require('./routes/userRoutes');
+const videoRoutes = require('./routes/videoRoutes');
 
 app.use(express.urlencoded({extended: true}));
 app.use("public", express.static(path.join(__dirname, "public")));
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(adminRoutes);
 app.use(fileRoutes);
 app.use(userRoutes);
+app.use(videoRoutes);
 
 const port = process.env.port || 5500
 app.listen(5500, ()=> {

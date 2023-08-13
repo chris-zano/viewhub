@@ -48,9 +48,8 @@ exports.userLogin = (req, res) => {
 }
 
 exports.userLogout = (req, res) => {
-    const userId = req.params.userId;
-    console.log(userId);
-    //TODO: log user logout session to access logs using userId as param.
+    //const userId = req.params.userId;
+    //TODO: log user logout to access logs using userId as param.
 
     res.status(200).json({error: false, message: "User Logged Out Successfully"});
 }
