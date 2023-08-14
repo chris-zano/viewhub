@@ -18,9 +18,13 @@ function extractObj(stream) {
     })
 }
 
+/**
+ * uploads a video to the db
+ * @param {object} req request object
+ * @param {object} res resonse object
+ * @return {object} 
+ */
 exports.uploadVideo = (req, res) => {
-    console.log(req.body);
-    console.log(req.files);
     // res.end("Video Uploaded Successfully")
     
     User.checkId(req.body.creatorId)
@@ -59,6 +63,12 @@ exports.uploadVideo = (req, res) => {
 
 }
 
+/**
+ * fetches a creator's video array
+ * @param {object} req request object
+ * @param {object} res response object
+ * @return {object}
+ */
 exports.getCreatorVideos = (req, res) => {
     Uploads.getCreatorUploads(req.params.creatorId)
     .then( response => {

@@ -46,10 +46,7 @@ class User {
         return new Promise((resolve, reject) => {
             User.checkEmail(this._email)
                     .then(res => {
-                        if (res.msg == "User match") {
-                            reject({ error: true, msg: "User already exists" });
-                        }
-                        else if (res.msg == "No user with such email") {
+                        if (res.msg == "No user with such email") {
                             db.insert(
                                 userObject,
                                 (err, doc) => {
@@ -116,12 +113,11 @@ class User {
                     if (err) {
                         reject(err);
                     }
-                    console.log(doc.length);
                     if (doc.length == 0) {
-                        resolve({ msg: "No user with such email", email: email });
+                        resolve({ msg: "No user with such email", email: email, userId: null });
                     }
                     else if (doc.length == 1) {
-                        reject({error:true, msg: "User match", email: doc[0].email, userID: doc[0]["_id"] })
+                        reject({error:true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
                     }
                 }
             )

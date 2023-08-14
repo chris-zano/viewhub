@@ -5,19 +5,7 @@ const User = require("./Users");
 const filepath = path.join(__dirname, "../DB/neDB/video_uploads.db");
 const db = loadDB(filepath);
 
-/**
- * *_Uploads_ -::- blueprints for video uploads, defines video object structure, properties and methods
- * @param {string} creatorId 
- * @param {string} title 
- * @param {string} description 
- * @param {string} category 
- * @param {string} thumbnailUrl 
- * @param {string} streamUrl 
- * @param {string} tags 
- * @param {boolean} privacy 
- * @param {boolean} locale 
- * @param {boolean} license 
-*/
+
 class Uploads {
 
     /**
@@ -48,6 +36,7 @@ class Uploads {
 
     /**
      * initialise the video object and store it in the videos db
+     * @returns {object}
      */
     init() {
         const dateTime = new Date().toDateString();
@@ -86,7 +75,7 @@ class Uploads {
      * 
      * * the creatorId is authenticated by this method and not the calling function
      * @param {string} creatorId 
-     * @returns new promise that resolves the data retreived from the database
+     * @returns {object} new promise that resolves the data retreived from the database
      */
     static getCreatorUploads(creatorId) {
         return new Promise((resolve, reject) => {

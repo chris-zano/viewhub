@@ -301,6 +301,26 @@ class Profile {
         })
     }
 
+    /**
+     * getUserProfileById - static method [fetches user profile]
+     * 
+     * @param {string} id - the user Id or creator Id
+     * @returns {object}
+    */
+    static getUserProfileById(id) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: id},
+                {multi: false},
+                (error, document) => {
+                    if(error) reject({error: true, message: error, document: null});
+                    console.log(document);
+                    resolve({error:false, message: "data retreived successfully", document: document})
+                }
+            )
+        })
+    }
+
 }
 
 module.exports = Profile;

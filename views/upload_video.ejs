@@ -34,12 +34,12 @@
 
         <fieldset>
             <label for="description">description</label>
-            <input type="text" name="description" id="description">
+            <input type="text" name="description" id="description" required>
         </fieldset>
 
         <fieldset>
             <label for="category">Category</label>
-            <select name="category" id="category">
+            <select name="category" id="category" required>
                 <option value="sports_and_games">Sports & games</option>
                 <option value="music">music</option>
                 <option value="cars">Cars</option>
@@ -53,32 +53,33 @@
 
         <fieldset>
             <label for="tags">tags</label>
-            <input type="text" name="tags" id="tags">
+            <input type="text" name="tags" id="tags" required>
         </fieldset>
 
         <fieldset>
             <label for="private">private</label>
-            <input type="radio" name="privacy" id="private" value="private">
+            <input type="radio" name="privacy" id="private" value="private" required>
             <label for="public">public</label>
-            <input type="radio" name="privacy" id="public" value="public">
+            <input type="radio" name="privacy" id="public" value="public" required>
         </fieldset>
 
         <fieldset>
             <label for="locale">local</label>
-            <input type="radio" name="locale" id="local" value="local">
+            <input type="radio" name="locale" id="local" value="local" required>
             <label for="global">global</label>
-            <input type="radio" name="locale" id="global" value="global">
+            <input type="radio" name="locale" id="global" value="global" required>
         </fieldset>
 
         <fieldset>
             <label for="open">Creative Common</label>
-            <input type="radio" name="license" id="open" value="open">
+            <input type="radio" name="license" id="open" value="open" required>
             <label for="closed">View Hub Creator License</label>
-            <input type="radio" name="license" id="closed" value="closed">
+            <input type="radio" name="license" id="closed" value="closed" required>
         </fieldset>
 
         <input type="submit" value="Upload">
     </form>
+    <script src="/js/utils"></script>
 </body>
 
 </html>

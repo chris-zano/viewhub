@@ -7,12 +7,22 @@
     <title>Your Profile - User Name</title>
 </head>
 <body>
-    <div>Welcome to your profile @username_name</div>
+    <div>Welcome to your profile @name</div>
     <form action="/" method="get">
         <input type="submit" value="Home">
     </form>
-    <div id="userId" style="display: none;"><%= userId %></div>
+    <div id="userId" style="display: none;"><%= document._id %></div>
+    <button type="submit" id="changePassword" data-userId="<%= document._id %>">Change Password</button>
 
+    <div class="caontainer">
+        <div><%= document.firstname %> <%= document.lastname %></div>
+        <div><%= document.username %></div>
+        <div>Followers == <%= document.followers %> Following == <%= document.following %></div>
+        <img src="<%= document.profilePicUrl %>" alt="profilePicUrl" width="50px" height="50px" style="border-radius: 50%;">
+    </div>
+
+    <div id="userUploads"></div>
+    <script src="/js/utils"></script>
     <script src="/js/profile_main"></script>
 </body>
 </html>

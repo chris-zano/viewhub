@@ -20,15 +20,10 @@ exports.userSignup = (req, res) => {
                 throw new Error(error);
             })
         }
-        else if (response.error == true) {
-            res.render("signin", {pageTitle: "signup", userId: null, error: true, msg: "User Already Exists"});
-        }
     })
     .catch(error => {
         if (error.error == true) {
-            if (error.msg = "User already exists") {
-                res.render("signin", {pageTitle: "signup", userId: null, error: true, msg: "User already exists"});
-            }
+            res.render("signin", {pageTitle: "signup", userId: null, error: true, msg: "User already exists"});
         }
     })
 }
