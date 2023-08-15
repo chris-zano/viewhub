@@ -15,14 +15,14 @@ const db = loadDB(filepath);
  * 
  * *On failure, error is set to true and a message [msg] is set.
  * 
- * @param {email}  email the email property
- * @param {password} password the password Property
+ * @param {string}  email the email property
+ * @param {string} password the password Property
  */
 class User {
     /**
      * constructor(format[example@email.com]), password:(will be hashed[encrypted] on instantiation))
-     * @param {email} email The email property
-     * @param {password} password The password property
+     * @param {string} email The email property
+     * @param {string} password The password property
      */
     constructor(email, password) {
         this._email = email;
@@ -73,7 +73,7 @@ class User {
      * 
      * @useCase this method is useful when running crud operations for a user object, with properties set in another database
      * 
-     * @param {id} id The id of the user object
+     * @param {string} id The id of the user object
      * 
      * @returns Promise: The resolved object has _MSG_ and _ID_ properties set appropriately
      * 
@@ -101,8 +101,8 @@ class User {
 
     /**
      * checkEmail(email) - checks if the email has already been registered / verified / stored in the database
-     * @param {email} email The enail property of the user object
-     * @returns Promise -::- This resolves an object with appropriate _ERROR STATES_ and _MESSAGES_ set correctly
+     * @param {string} email The enail property of the user object
+     * @returns {object} Promise -::- This resolves an object with appropriate _ERROR STATES_ and _MESSAGES_ set correctly
      */
     static checkEmail(email) {
         return new Promise((resolve, reject) => {
@@ -126,9 +126,9 @@ class User {
 
     /**
      * authWithPassword - authenticates a user whose username has been verified by the calling function
-     * @param {id} id The id property passed from the calling function
-     * @param {password} password The password property passed from the calling function
-     * @returns Promise -::- Resolves an object with appropriate _ERROR STATES_ and _MESSAGES_ set correctly
+     * @param {string} id The id property passed from the calling function
+     * @param {string} password The password property passed from the calling function
+     * @returns {object} Promise -::- Resolves an object with appropriate _ERROR STATES_ and _MESSAGES_ set correctly
      */
     static authWithPassword(id, password) {
         return new Promise((resolve, reject) => {
