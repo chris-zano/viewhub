@@ -151,6 +151,50 @@ class User {
             )
         })
     }
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {string} current_password 
+     * @param {string} new_password 
+     * @returns {object} resolves the message "password updated" on success, with error state of "false"
+     * else error is set to "true" and message set as well.
+     */
+    static updateUserPassword(userId, current_password, new_password) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: userId},
+                {multi: false},
+                (error, document) => {
+                    if(error) reject({error: true, message: error});
+                    else {
+                        if(document[0].password == AuthFactor.hashWithKey(current_password, "low"))
+                        {
+                            db.update(
+                                {_id: userId},
+                                {
+                                    $set: {
+                                        password: AuthFactor.hashWithKey(new_password, "low")
+                                    }
+                                },
+                                (error, numReplaced) => {
+                                    if (error) reject({error: true, message: error});
+                                    else {
+                                        if(numReplaced == 1) {
+                                            resolve({error: false, message: "password updated"});
+                                        }
+                                        else {
+                                            reject({error: true, message: "an unknown error occured!!!"});
+                                        }
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            )
+        })
+    }
 }
 
 

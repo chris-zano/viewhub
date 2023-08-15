@@ -38,8 +38,9 @@ router.get("/user/auth/email/:email/:userId", (req, res) => {
 })
 
 router.get("/user/getverificationcode/:email", (req, res) => {
-    const verificationCode = Math.floor(1000 + Math.random() * 9000);
+    const verificationCode = Math.floor(1000 + Math.random() * 9000);//generate random 4 digit number
 
+    //create a transporter profile, that allows login access to your gmail
     const transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
@@ -48,6 +49,7 @@ router.get("/user/getverificationcode/:email", (req, res) => {
         }
     })
 
+    //compose an email
     const mailOptions = {
         from: "niicodes.teamst0199@gmail.com",
         to: req.params.email,
@@ -55,6 +57,7 @@ router.get("/user/getverificationcode/:email", (req, res) => {
         text: `Your verification code is: ${verificationCode}`
     };
 
+    //send an email
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log('Error sending email:', error);
@@ -91,6 +94,23 @@ router.get("/user/password_change/authorized", (req,res) => {
     void(req);
     res.render("layouts/profile/passwordreset", { error: false, userId: req.params.userId, authorized: false });
 
+})
+
+router.get("/admin/update/password/:userId/:current_password/:new_password", (req, res) => {
+    try {
+        User.updateUserPassword(req.params.userId, req.params.current_password, req.params.new_password)
+        .then(response => {
+            if (response.error == false && response.message == "password updated")
+            {
+                res.status(200).json({message: "password updated"});
+            }
+        })
+        .catch(error => {
+            if (error) res.status(200).json({message: "failed to update password"});
+        })
+    } catch (error) {
+        
+    }
 })
 
 module.exports = router
