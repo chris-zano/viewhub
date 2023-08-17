@@ -314,7 +314,6 @@ class Profile {
                 {multi: false},
                 (error, document) => {
                     if(error) reject({error: true, message: error, document: null});
-                    console.log(document);
                     resolve({error:false, message: "data retreived successfully", document: document})
                 }
             )

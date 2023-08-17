@@ -97,6 +97,25 @@ class Uploads {
             })
         })
     }
+
+    /**
+     * returns an specified video object by Id
+     * @param {string} videoId 
+     * @returns {object}
+     */
+    static getVideoObject(videoId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: videoId},
+                {multi: false},
+                (error, document) => {
+                    if(error) reject({error: true, message: error, document: null});
+                    resolve({error: false, message: "success", document: document[0]});
+                }
+            )
+        })
+
+    }
 }
 
 module.exports = Uploads;

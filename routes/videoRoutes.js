@@ -9,4 +9,17 @@ router.post("/upload/video/:userId", upload.fields([{name: "main_video"}, {name:
 
 router.get("/get/creator/uploads/:creatorId", videoController.getCreatorVideos);
 
+router.get("/tview/stream/video/:videoId", (req, res) => {
+    videoController.getVideoObject(req.params.videoId)
+    .then(response => {
+        if (response.error == false) {
+
+            res.render("tview", {document: response.document})
+        }
+    })
+    .catch(error => {
+        res.render("error", {message: error});
+    })
+})
+
 module.exports = router;

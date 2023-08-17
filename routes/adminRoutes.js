@@ -1,9 +1,17 @@
 // require("env").config();
 const express = require('express');
 const router = express.Router();
-const User = require('../models/Users');
-const VerifyCode = require('../models/Verifycode');
+const path = require("path");
+
 const nodemailer = require("nodemailer");
+const adminController = require("../controllers/adminController");
+
+const User = require('../models/Users');
+const Profile = require('../models/Profiles');
+const VerifyCode = require('../models/Verifycode');
+
+const multer = require('multer');
+const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/', (req, res) => {
     res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
@@ -98,6 +106,7 @@ router.get("/user/password_change/authorized", (req,res) => {
 
 router.get("/admin/update/password/:userId/:current_password/:new_password", (req, res) => {
     try {
+        console.log(req.params);
         User.updateUserPassword(req.params.userId, req.params.current_password, req.params.new_password)
         .then(response => {
             if (response.error == false && response.message == "password updated")
@@ -112,5 +121,26 @@ router.get("/admin/update/password/:userId/:current_password/:new_password", (re
         
     }
 })
+
+router.get("/user/edit/profile/:userId", (req, res) => {
+    try {
+        Profile.getUserProfileById(req.params.userId)
+        .then(response => {
+            if (response.error == false) {
+                console.log(response.document[0]);
+                res.render("layouts/profile/editprofile", {userId: req.params.userId, document: response.document[0]});
+            }
+        })
+        .catch(error => {
+            res.render(`error/${error}`)
+        })
+    } catch (error) {
+        res.render(`error/${error}`)
+    }
+})
+
+router.post("/edit/update/name", adminController.userUpdateName);
+router.post("/edit/update/username", adminController.userUpdateUsername);
+router.post("/edit/update/ppic", upload.single("ppic"), adminController.userUpdateProfilePic);
 
 module.exports = router

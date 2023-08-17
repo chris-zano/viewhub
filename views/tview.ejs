@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tview Stream ~ <%= document.title %>
+    </title>
+</head>
+
+<body>
+    <div>
+        <form action="/user/profile/<%= document.creatorId %>" method="get">
+            <input type="submit" value="Back">
+        </form>
+    </div>
+    <div>
+        <video src="<%= document.streamUrl %>" autoplay="false" controls="true"
+            style="width: 400px; height: 300px;"></video>
+        <div>
+            <p><%= document.title %></p>
+            <p><%= document.description %></p>
+            <p><%= document.views %></p>
+            <p><%= document.likes %></p>
+            <p><%= document.comments %></p>
+        </div>
+    </div>
+</body>
+
+</html>

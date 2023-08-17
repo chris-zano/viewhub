@@ -80,3 +80,21 @@ exports.getCreatorVideos = (req, res) => {
         res.status(404).json({error: true, message: error, data: null});
     })
 }
+
+/**
+ * retrieves a particular video object
+ * @param {string} videoId
+ */
+exports.getVideoObject = (videoId) => {
+    return new Promise((resolve, reject) => {
+        Uploads.getVideoObject(videoId)
+        .then(response => {
+            if (response.error == false && response.message == "success") {
+                resolve({error: false, document: response.document, message: "success"});
+            }
+        })
+        .catch(error => {
+            reject({error: true, document: null, message: error})
+        })
+    })
+}

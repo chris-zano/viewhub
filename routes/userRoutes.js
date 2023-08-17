@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const userController = require("../controllers/userController");
 const path = require("path");
-const multer = require('multer');
 const User = require('../models/Users');
 const Profile = require('../models/Profiles');
+const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/login', (req, res) => {
@@ -38,6 +38,7 @@ router.get("/user/profile/:userId", (req, res) => {
     Profile.getUserProfileById(req.params.userId)
         .then(response => {
             if (response.error == false && response.message == "data retreived successfully") {
+                console.log(response.document[0]);
                 res.render("layouts/profile/profile", { document: response.document[0] });
             }
         })

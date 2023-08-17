@@ -22,7 +22,7 @@ async function getUserProfile(id) {
  * @param {CallableFunction} callback 
  */
 function addeventlistener(element, event, callback) {
-    element.addEventListener(event, callback)
+    return element.addEventListener(event, callback)
 }
 
 /**
@@ -40,7 +40,7 @@ function getId(id) {
  * @param {HTMLElement.attribute} attribute 
  */
 function getattribute(element, attribute) {
-    element.getAttribute(attribute);
+    return element.getAttribute(attribute);
 }
 
 /**
@@ -51,7 +51,7 @@ function getattribute(element, attribute) {
  */
 
 function setattribute(element, key, value) {
-    element.setAttribute(key, value);
+    return element.setAttribute(key, value);
 }
 
 /**
@@ -59,7 +59,7 @@ function setattribute(element, key, value) {
  * @param {WindowLocalStorage.key} key 
  */
 function getLocalStorage(key) {
-    localStorage.getItem(key);
+    return localStorage.getItem(key);
 }
 
 /**
@@ -68,5 +68,32 @@ function getLocalStorage(key) {
  * @param {WindowLocalStorage.value} value
  */
 function setLocalStorage(key, value) {
-    localStorage.setItem(key, value);
+    return localStorage.setItem(key, value);
+}
+
+class Tview {
+    constructor(videoObject) {
+        this.videoObject = videoObject;
+    }
+
+    renderObjectTemlate() {
+        const divElement = document.createElement("div");
+        setattribute(divElement, "id", this.videoObject._id);
+        const date = new Date(this.videoObject.createdAt);
+        date.toDateString();
+
+        divElement.innerHTML = `
+        <a href="/tview/stream/video/${this.videoObject._id}">
+        <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" width="150px" height="150px" style="border-radius: 10px;">
+        <p>${this.videoObject.title}</p>
+        <p>${this.videoObject.description}</p>
+        <p>${this.videoObject.views}</p>
+        <p>${this.videoObject.likes}</p>
+        <p>${this.videoObject.comments}</p>
+        <p>${date}</p>
+        </a>
+        `;
+
+        return (divElement);
+    }
 }

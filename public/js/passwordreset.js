@@ -25,7 +25,7 @@ function main() {
                 console.log(response);
                 if (response.message == "password updated") {
                     alert("Password Updated succesfully");
-                    location.href = "/"
+                    location.href = `/user/profile/${JSON.parse(getLocalStorage("loginState")).userId}`;
                 }
                 else {
                     console.log(response.message);
@@ -47,7 +47,7 @@ function main() {
 async function requestPasswordChange(current_password, new_password)
 {
     try {
-        const req = await fetch(`/admin/update/password/${JSON.parse(localStorage.getItem("loginState")).userId}/${current_password}/${new_password}`);
+        const req = await fetch(`/admin/update/password/${JSON.parse(getLocalStorage("loginState")).userId}/${current_password}/${new_password}`);
         const res = await req.json();
         return (res);
     }
