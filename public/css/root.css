@@ -1,0 +1,40 @@
+:root {
+    --dark-grey: rgba(180, 179, 179, 0.889);
+    --box-shadow-wide: 0px 3px 30px var(--dark-grey);
+    --box-shadow-thin: 0px 3px 3px var(--dark-grey);
+    --button-width-desktop: 120px;
+    --button-height-desktop: 40px;
+    --button-color-blue: rgba(14, 14, 185, 0.918);
+    --border-radius-default: 10px;
+    --border-radius-image: 50%;
+    --background-light: rgb(241, 237, 237)
+    --error-message: rgb(100, 206, 105);
+
+}
+
+@font-face {
+    font-family: robotoRegular;
+    src: url('/font/roboReg.ttf');
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+* {
+    outline: none !important;
+    font-family: robotoRegular;
+}

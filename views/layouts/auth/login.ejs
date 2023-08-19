@@ -1,15 +1,22 @@
 <div>
     <% if (error == true) { %>
-     <div>Incorrect usernmae or password</div>
+     <div class="error_message_div">Incorrect usernmae or password</div>
     <% } %>
     <form action="/userlogin" method="post">
-        <label for="username">Username</label>
+        <div class="form_title">Login</div>
+        <div>
+            <label for="username">Username</label>
         <input type="text" name="username" id="username" required>
+        </div>
 
+       <div>
         <label for="password">Password</label>
         <input type="password" name="password" id="password" required>
+       </div>
 
-        <p>Don't have an account? <a href="/signup">Sign Up</a> here</p>
-        <input type="submit" value="Next">
+        <div>
+            <p>Don't have an account? <a href="/signup">Sign Up</a> here</p>
+        </div>
+        <div><input type="submit" value="Next"></div>
     </form>
 </div>

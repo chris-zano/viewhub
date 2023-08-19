@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    background: url('/images/favicon.jpg') center;
+    image-rendering: optimizeQuality;
+    background-color: #070707dc;
+    background-blend-mode: multiply;
+    padding: 1em 1.5em;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+main > div {
+    padding: 1em;
+    display: grid;
+}
+
+@media (min-width: 869px) {
+    main > div {
+        width: 400px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 868px) {
+    main > div {
+        aspect-ratio: 2/3;
+    }
+}
+
+.error_message_div {
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-align: center;
+    height: fit-content;
+    padding: 10px;
+    font-size: 14px;
+    color: var(--error-message);
+}
+
+main > div > form {
+    background-color: rgba(255, 255, 255, 0.377);
+    background-color: rgba(255, 192, 203, 0.541);
+    border: 1px solid var(--background-light);
+    backdrop-filter: blur(4px);
+    border-radius: var(--border-radius-default);
+    padding: inherit;
+    display: grid;
+    row-gap: 1em;
+}
+
+div.form_title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+form > * {
+    display: grid;
+    row-gap: 5px;
+    
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+input {
+    border: 1px solid rgb(248, 143, 143);
+    text-indent: 10px;
+    font-size: 14px;
+    border-radius: var(--border-radius-default);
+    outline: 1px solid var(--error-message);
+    height: var(--button-height-desktop);
+}
+
+input[type="submit"] {
+    border: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+input[type="submit"]:hover {
+    background-color: rgb(248, 143, 143);
+}
+
+input#ppic {
+    border: transparent;
+    margin: auto;
+    
+}
+
+fieldset {
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+legend {
+    padding: 10px;
+    margin: 0 10px;
+}
+.gender_div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    column-gap: 10px;
+}
+
+div.default_image_div{
+    display: grid;
+    place-items: center;
+}
+
+.default_image {
+    border-radius: 50%;
+}

@@ -1,9 +1,15 @@
 <div>
     <form action="/update/ppic" method="post" enctype="multipart/form-data">
+        <div class="form_title">Add a Profile Picture</div>
+        <div class="default_image_div">
+            <img src="/images/favicon.jpg" alt="default_image" width="100px" height="100px" class="default_image">
+        </div>
         <input type="hidden" name="userId" value="<%= userId %>">
-        <input type="file" name="ppic" id="ppic" accept="image/jpeg, image/jpg, image/png, image/gif">
-    
+        <div>
+            <input type="file" name="ppic" id="ppic" accept="image/jpeg, image/jpg, image/png, image/gif" required>
+        </div>
+
         <input type="submit" value="Next">
     </form>
-    
+
 </div>

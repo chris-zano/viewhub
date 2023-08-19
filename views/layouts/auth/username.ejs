@@ -1,9 +1,13 @@
 <div>
     <form action="/update/username" method="post">
         <input type="hidden" name="userId" value="<%= userId %>">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" required>
+        <div>
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
 
-        <input type="submit" value="Next">
+        <div>
+            <input type="submit" value="Next">
+        </div>
     </form>
 </div>

@@ -4,31 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" href="/css/signin">
     <title><%= pageTitle %></title>
 </head>
 <body>
-
-    <% if (pageTitle == "signup") { %>
-        <%- include('./layouts/auth/signup.ejs') %>
-    <% } %>
-    <% if (pageTitle == "login") { %>
-        <%- include('./layouts/auth/login') %>
-    <% } %>
-    <% if (pageTitle == "Create-Profile ~ name") { %>
-        <%- include('./layouts/auth/flname') %>
-    <% } %>
-    <% if (pageTitle == "Create-Profile ~ gender") { %>
-        <%- include('./layouts/auth/gender') %>
-    <% } %>
-    <% if (pageTitle == "Create-Profile ~ username") { %>
-        <%- include('./layouts/auth/username') %>
-    <% } %>
-    <% if (pageTitle == "Create-Profile ~ picture") { %>
-        <%- include('./layouts/auth/picture') %>
-    <% } %>
-    <% if (pageTitle == "authenticateUser") { %>
-        <%- include('./layouts/auth/authUser') %>
-    <% } %>
+    <main>
+        <% if (pageTitle == "signup") { %>
+            <%- include('./layouts/auth/signup.ejs') %>
+        <% } %>
+        <% if (pageTitle == "login") { %>
+            <%- include('./layouts/auth/login') %>
+        <% } %>
+        <% if (pageTitle == "Create-Profile ~ name") { %>
+            <%- include('./layouts/auth/flname') %>
+        <% } %>
+        <% if (pageTitle == "Create-Profile ~ gender") { %>
+            <%- include('./layouts/auth/gender') %>
+        <% } %>
+        <% if (pageTitle == "Create-Profile ~ username") { %>
+            <%- include('./layouts/auth/username') %>
+        <% } %>
+        <% if (pageTitle == "Create-Profile ~ picture") { %>
+            <%- include('./layouts/auth/picture') %>
+        <% } %>
+        <% if (pageTitle == "authenticateUser") { %>
+            <%- include('./layouts/auth/authUser') %>
+        <% } %>
+    </main>
     <script src="/js/utils"></script>
 </body>
 </html>

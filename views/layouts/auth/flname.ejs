@@ -1,12 +1,18 @@
 <div>
     <form action="/update/name" method="post">
         <input type="hidden" name="userId" value="<%= userId %>">
-        <label for="firstname">*First name</label>
-        <input type="text" name="firstname" id="firstname" required>
+        <div>
+            <label for="firstname">*First name</label>
+            <input type="text" name="firstname" id="firstname" required>
+        </div>
 
-        <label for="lastname">*Last name</label>
-        <input type="text" name="lastname" id="lastname" required>
+        <div>
+            <label for="lastname">*Last name</label>
+            <input type="text" name="lastname" id="lastname" required>
+        </div>
 
-        <input type="submit" value="Next">
+        <div>
+            <input type="submit" value="Next">
+        </div>
     </form>
 </div>

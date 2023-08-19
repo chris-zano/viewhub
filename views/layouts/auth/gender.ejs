@@ -1,22 +1,26 @@
 <div>
     <form action="/update/gender" method="post">
         <input type="hidden" name="userId" value="<%= userId %>">
-       <fieldset>
-        <legend>Gender</legend>
+            <fieldset>
+                <legend>Gender</legend>
 
-        <label for="male">Male</label>
-        <input type="radio" name="gender" id="male" value="male">
+            <div class="gender_div">
+                <input type="radio" name="gender" id="male" value="male" required>
+                <label for="male">Male</label>
+            </div>
 
-        <label for="female">Female</label>
-        <input type="radio" name="gender" id="female" value="female">
-       </fieldset>
+            <div class="gender_div">
+                <input type="radio" name="gender" id="female" value="female" required>
+                <label for="female">Female</label>
+            </div>
+            </fieldset>
 
-       <fieldset>
-        <legend>Date of Birth</legend>
-        <label for="dob">DOB</label>
-        <input type="date" name="dob" id="dob">
-       </fieldset>
+        <fieldset>
+            <legend>Date of Birth</legend>
+            <label for="dob">DOB</label>
+            <input type="date" name="dob" id="dob">
+        </fieldset>
 
-       <input type="submit" value="Next">
+        <input type="submit" value="Next">
     </form>
 </div>

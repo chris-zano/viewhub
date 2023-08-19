@@ -1,16 +1,24 @@
 <div>
-    <% if (error == true) { %>
-        <div><%= msg %></div>
+    <% if (error==true) { %>
+        <div class="error_message_div"><%= msg %></div>
     <% } %>
 
     <form action="/userSignup" method="post">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" required>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+        </div>
 
-        <p>Already have an account? <a href="/login">Log In</a></p>
-        <input type="submit" value="Next">
+        <div>
+            <p>Already have an account? <a href="/login">Log In</a></p>
+        </div>
+        <div>
+            <input type="submit" value="Next">
+        </div>
     </form>
 </div>
