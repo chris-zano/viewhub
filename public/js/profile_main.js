@@ -20,7 +20,6 @@ function main() {
 
     fetch_C_Up(document.getElementById("userId").textContent)
     .then(response => {
-        console.log(response);
         for (let video of response.data) {
             //render videolist by thumbnails and descriptions in grid format
             const tview = new Tview(video);

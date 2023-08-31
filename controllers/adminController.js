@@ -9,7 +9,6 @@ exports.userUpdateName = (req, res) => {
                     Profile.getUserProfileById(req.body.userId)
                         .then(response => {
                             if (response.error == false) {
-                                console.log(response.document[0]);
                                 res.render("layouts/profile/editprofile", { userId: req.body.userId, document: response.document[0] });
                             }
                         })
@@ -34,7 +33,6 @@ exports.userUpdateUsername = (req, res) => {
                     Profile.getUserProfileById(req.body.userId)
                         .then(response => {
                             if (response.error == false) {
-                                console.log(response.document[0]);
                                 res.render("layouts/profile/editprofile", { userId: req.body.userId, document: response.document[0] });
                             }
                         })
@@ -59,7 +57,6 @@ exports.userUpdateProfilePic = (req, res) => {
                     Profile.getUserProfileById(req.body.userId)
                         .then(response => {
                             if (response.error == false) {
-                                console.log(response.document[0]);
                                 res.render("layouts/profile/editprofile", { userId: req.body.userId, document: response.document[0] });
                             }
                         })

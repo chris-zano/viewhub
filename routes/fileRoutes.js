@@ -8,7 +8,7 @@ router.get("/js/:filename", (req, res) => {
     fs.createReadStream(path.join(__dirname, `../public/js/${req.params.filename}.js`)).pipe(res);
 })
 
-// css files will be servedthrough this route
+// css files will be served through this route
 router.get("/css/:filename", (req, res) => {
     fs.createReadStream(path.join(__dirname, "../public/css", `${req.params.filename}.css`)).pipe(res);
 })

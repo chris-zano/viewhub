@@ -71,6 +71,43 @@ function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
 }
 
+function getPastTime(time) {
+    try {
+        const now = new Date();
+        
+        const timestamp = Math.floor((now - time) / 1000);
+
+        if (timestamp < 60) {
+            return Math.floor(timestamp) + " seconds";
+        }
+        else if (timestamp < 3600) {
+            return Math.floor(timestamp / 60) + " minutes";
+        }
+        else if (timestamp < 86400) {
+            return Math.floor(timestamp / 3600) + " hours";
+        }
+        else if (timestamp < 604800) {
+            return Math.floor(timestamp / 86400) + " days";
+        }
+        else if (timestamp < 2419200) {
+            return Math.floor(timestamp / 604800) + " weeks";
+        }
+        else if (timestamp < 29030400) {
+            if (Math.floor(timestamp / 2419200) == 1) {
+                return Math.floor(timestamp / 2419200) + " month";
+            }
+            else {
+                return Math.floor(timestamp / 2419200) + " months";
+            }
+        }
+        else {
+            return Math.floor(timestamp / 29030400) + " years";
+        }
+    } catch (error) {
+        location.href = `/error/${error}`;
+    }
+}
+
 class Tview {
     constructor(videoObject) {
         this.videoObject = videoObject;
@@ -79,18 +116,35 @@ class Tview {
     renderObjectTemlate() {
         const divElement = document.createElement("div");
         setattribute(divElement, "id", this.videoObject._id);
-        const date = new Date(this.videoObject.createdAt);
-        date.toDateString();
+        setattribute(divElement, "class", "link_object");
+        const date = getPastTime(this.videoObject.dateTime);
+
 
         divElement.innerHTML = `
-        <a href="/tview/stream/video/${this.videoObject._id}">
-        <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" width="150px" height="150px" style="border-radius: 10px;">
-        <p>${this.videoObject.title}</p>
-        <p>${this.videoObject.description}</p>
-        <p>${this.videoObject.views}</p>
-        <p>${this.videoObject.likes}</p>
-        <p>${this.videoObject.comments}</p>
-        <p>${date}</p>
+        <a href="/tview/stream/video/${this.videoObject._id}" class="object_route">
+            <div class="first_child_link">
+                <div class="video_thumbnail">
+                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl"
+                        style="border-radius: 10px;">
+                </div>
+                <div class="video_details">
+                    <div class="creator_profile_image">
+                        <img src="${this.videoObject.creatorProfilePic}" alt="profilePicUrl">
+                    </div>
+                    <div class="video_information_div">
+                        <div class="video_title">
+                            <p>${this.videoObject.title}</p>
+                        </div>
+                        <div class="creator_name">
+                            <p>Tview</p>
+                        </div>
+                        <div class="video_view_and_date">
+                            <p>${this.videoObject.views} views</p>
+                            <p>${date} ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </a>
         `;
 

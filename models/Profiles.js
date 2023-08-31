@@ -320,6 +320,20 @@ class Profile {
         })
     }
 
+    static getUserProfilePicture(id) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: id},
+                {multi: false},
+                (error, document) => {
+                    if (error) reject({error: true, message: error, imgUrl: null});
+                    resolve({error: false, message:"image found", imgUrl: document[0].profilePicUrl})
+                }
+            )
+        })
+    }
+
 }
+
 
 module.exports = Profile;

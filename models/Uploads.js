@@ -2,6 +2,7 @@ const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
+const Profile = require("./Profiles");
 const filepath = path.join(__dirname, "../DB/neDB/video_uploads.db");
 const db = loadDB(filepath);
 
@@ -39,7 +40,7 @@ class Uploads {
      * @returns {object}
      */
     init() {
-        const dateTime = new Date().toDateString();
+        const dateTime = new Date();
 
         const videoObject =
         {
@@ -53,7 +54,7 @@ class Uploads {
             privacy: this._privacy,
             locale: this._locale,
             license: this._license,
-            dateTime: dateTime,
+            dateTime: dateTime.getTime(),
             views: 0,
             likes: 0,
             comments: 0
@@ -61,12 +62,20 @@ class Uploads {
 
         return new Promise((resolve, reject) => {
             //authenticate the upload from the calling function
-            db.insert(videoObject, (err, doc) => {
-                if (err) {
-                    reject({error: true, msg: err});
-                }
-                resolve({error: false, msg: "init successful", videoId: doc._id});
-            })
+            Profile.getUserProfilePicture(this._creatorId)
+                .then(res => {
+                    if (res.error == false && res.imgUrl != null) {
+                        videoObject.creatorProfilePic = res.imgUrl
+                        db.insert(videoObject, (err, doc) => {
+                            if (err) {
+                                reject({ error: true, msg: err });
+                            }
+                            resolve({ error: false, msg: "init successful", videoId: doc._id });
+                        })
+                    }
+                }).catch(err =>{
+                    reject({error: err})
+                })
         })
     }
 
@@ -80,21 +89,21 @@ class Uploads {
     static getCreatorUploads(creatorId) {
         return new Promise((resolve, reject) => {
             User.checkId(creatorId)//check id for match [authenticates request]
-            .then( response => {
-                if (response.msg == "User match" && response.id == creatorId) {
-                    db.find(
-                        {creatorId: creatorId},
-                        {multi: true},
-                        (err, document) => {
-                            if (err) reject({error: true, msg: err, data: null});
-                            resolve({error: false, msg: "data retreive success", data: document})//return creator data as array
-                        }
-                    )
-                }
-            })
-            .catch(error => {
-                reject({error: true, msg: err, data: null})
-            })
+                .then(response => {
+                    if (response.msg == "User match" && response.id == creatorId) {
+                        db.find(
+                            { creatorId: creatorId },
+                            { multi: true },
+                            (err, document) => {
+                                if (err) reject({ error: true, msg: err, data: null });
+                                resolve({ error: false, msg: "data retreive success", data: document })//return creator data as array
+                            }
+                        )
+                    }
+                })
+                .catch(error => {
+                    reject({ error: true, msg: error, data: null })
+                })
         })
     }
 
@@ -106,16 +115,16 @@ class Uploads {
     static getVideoObject(videoId) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: videoId},
-                {multi: false},
+                { _id: videoId },
+                { multi: false },
                 (error, document) => {
-                    if(error) reject({error: true, message: error, document: null});
-                    resolve({error: false, message: "success", document: document[0]});
+                    if (error) reject({ error: true, message: error, document: null });
+                    resolve({ error: false, message: "success", document: document[0] });
                 }
             )
         })
-
     }
 }
+
 
 module.exports = Uploads;
