@@ -126,6 +126,7 @@ class Tview {
                 <div class="video_thumbnail">
                     <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl"
                         style="border-radius: 10px;">
+                    <span class="video_duration">${this.videoObject.duration}</span>
                 </div>
                 <div class="video_details">
                     <div class="creator_profile_image">

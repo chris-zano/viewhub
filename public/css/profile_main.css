@@ -84,8 +84,7 @@ div.link_object .first_child_link {
     
 }
 
-.link_object .first_child_link .video_thumbnail::after {
-    content: "13.53";
+.link_object .first_child_link .video_duration {
     color: white;
     font-size: 14px;
     text-align: center;

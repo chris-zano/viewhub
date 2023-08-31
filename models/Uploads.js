@@ -22,7 +22,7 @@ class Uploads {
      * @param {string} locale 
      * @param {string} license 
     */
-    constructor(creatorId, title, description, category, thumbnailUrl, streamUrl, tags, privacy, locale, license) {
+    constructor(creatorId, title, description, category, thumbnailUrl, streamUrl, tags, privacy, locale, license /*duration*/) {
         this._creatorId = creatorId;
         this._title = title;
         this._description = description;
@@ -33,6 +33,7 @@ class Uploads {
         this._privacy = privacy;
         this._locale = locale;
         this._license = license;
+        this._duration = duration;
     }
 
     /**
@@ -54,6 +55,7 @@ class Uploads {
             privacy: this._privacy,
             locale: this._locale,
             license: this._license,
+            // duration: this._duration,
             dateTime: dateTime.getTime(),
             views: 0,
             likes: 0,

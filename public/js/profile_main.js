@@ -22,6 +22,7 @@ function main() {
     .then(response => {
         for (let video of response.data) {
             //render videolist by thumbnails and descriptions in grid format
+            
             const tview = new Tview(video);
             getId("usertviewlist").append(tview.renderObjectTemlate());
         }
@@ -29,6 +30,7 @@ function main() {
     .catch (error => {
         location.href = `/error/${error}`;
     })
+
 
 
 }
@@ -44,3 +46,9 @@ async function fetch_C_Up(id) {
     return res;
 }
 
+
+async function getVideoDuration(videoId) {
+    const req = await fetch(`/admin/get/videoduration/${videoId}`);
+    const res = await req.json();
+    return(res)
+}

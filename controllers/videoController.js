@@ -1,5 +1,7 @@
+const { path } = require("ffprobe-static");
 const Uploads = require("../models/Uploads");
 const User = require("../models/Users");
+const { getVideoInformation } = require("../utils/getvideoinfo");
 
 /**
  * extracts the properties from the request object.$8 takes request.body as argument
@@ -34,7 +36,18 @@ exports.uploadVideo = (req, res) => {
                 //user is authenticated, so continue
                 const streamUrl = `/video/stream/${req.files.main_video[0].filename}`;
                 const thumbnailUrl = `/video/thumbnail/${req.files.main_thumbnail[0].filename}`;
-
+                // getVideoInformation(path.join(__dirname, "../DB/video_thumbnails/", req.files.main_video[0].filename))
+                // .then(resp => {
+                //     if (resp.error == false) {
+                //         console.log(resp.duration);
+                //         return(resp.duration)
+                //     }
+                // })
+                // .catch(error => {
+                //     if (error.error == true) {
+                //         res.render("error", {message: error})
+                //     }
+                // })
                 const vidObj = extractObj(req.body);
 
                 const upload = new Uploads(
