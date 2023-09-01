@@ -19,7 +19,7 @@ ul, ol, li {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     box-shadow: 0px 1px 2px #d4d4d49c;
-    padding: 5px;
+    padding: 15px;
     display: flex;
     flex-flow: row;
     justify-content: end;
@@ -35,15 +35,23 @@ ul, ol, li {
     border-radius: 10px;
     cursor: pointer;
     margin-right: 10px;
+    font-size: 18px;
+    transition: all ease-in-out .3s;
 }
 
 .header_container .nav_button:hover {
-    background: #fff;
-    color: rgba(255, 0, 0, 0.747);
+    box-shadow: 0px 3px 3px #f547479c;
+    background: #f54747d5;
+    color: #ffffff;
 }
 
 .main_container {
     padding: 1em 3rem;
+    background-color: #faf8f8;
+    height: 100vh;
+    overflow-y: scroll;
+    width: 100%;
+    overflow-x: wrap;
 }
 
 
@@ -88,6 +96,8 @@ div.link_object .first_child_link {
     color: white;
     font-size: 14px;
     text-align: center;
+    display: grid;
+    place-items: center;
     position: absolute;
     width: 50px;
     height: 20px;

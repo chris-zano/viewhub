@@ -38,7 +38,7 @@ router.get("/user/profile/:userId", (req, res) => {
     Profile.getUserProfileById(req.params.userId)
         .then(response => {
             if (response.error == false && response.message == "data retreived successfully") {
-                console.log(response.document[0]);
+                // console.log(response.document[0]);
                 res.render("layouts/profile/profile", { document: response.document[0] });
             }
         })

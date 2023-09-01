@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/favicon.jpg" type="image/x-icon">
     <title>Upload Content</title>
 </head>
 
@@ -12,11 +13,7 @@
     <form action="/" method="get">
         <input type="submit" value="Home">
     </form>
-    <form action="/upload/video/userId" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="creatorId" name="creatorId" value="">
-        <script>
-            document.getElementById("creatorId").setAttribute("value", `${JSON.parse(localStorage.getItem("loginState")).userId}`)
-        </script>
+    <form action="" method="post" enctype="multipart/form-data" id="upload_form">
         <fieldset>
             <label for="main_video">Add a video</label>
             <input type="file" name="main_video" id="main_video" accept="video/*" required>
@@ -80,6 +77,16 @@
         <input type="submit" value="Upload">
     </form>
     <script src="/js/utils"></script>
+    <script>
+        if (document.readyState == "loading") {
+            document.addEventListener("DOMContentLoaded", main);
+        }
+        else main()
+
+        function main() {
+            document.getElementById("upload_form").setAttribute("action", `/upload/video/${JSON.parse(getLocalStorage("loginState")).userId}`)
+        }
+    </script>
 </body>
 
 </html>

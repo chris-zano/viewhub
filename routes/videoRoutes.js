@@ -13,7 +13,6 @@ router.get("/tview/stream/video/:videoId", (req, res) => {
     videoController.getVideoObject(req.params.videoId)
     .then(response => {
         if (response.error == false) {
-
             res.render("tview", {document: response.document})
         }
     })

@@ -247,7 +247,7 @@ class Profile {
                                             }
                                         },
                                         ((err, numReplaced) => {
-                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            if (err) reject({ error: true, msg: `c=> ${err}` })
                                             else {
                                                 resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
                                             }

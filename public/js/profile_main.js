@@ -22,7 +22,6 @@ function main() {
     .then(response => {
         for (let video of response.data) {
             //render videolist by thumbnails and descriptions in grid format
-            
             const tview = new Tview(video);
             getId("usertviewlist").append(tview.renderObjectTemlate());
         }

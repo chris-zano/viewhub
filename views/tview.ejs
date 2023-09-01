@@ -4,27 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tview Stream ~ <%= document.title %>
+    <link rel="shortcut icon" href="/images/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/tviewpc">
+    <title>Tview ~ <%= document.title %>
     </title>
 </head>
 
 <body>
-    <div>
+    <div class="header_container">
+        <form action="/" method="get">
+            <input type="submit" value="Home" class="nav_button">
+        </form>
         <form action="/user/profile/<%= document.creatorId %>" method="get">
-            <input type="submit" value="Back">
+            <input type="submit" value="Back" class="nav_button">
         </form>
     </div>
-    <div>
-        <video src="<%= document.streamUrl %>" autoplay="false" controls="true"
-            style="width: 400px; height: 300px;"></video>
-        <div>
-            <p><%= document.title %></p>
-            <p><%= document.description %></p>
-            <p><%= document.views %></p>
-            <p><%= document.likes %></p>
-            <p><%= document.comments %></p>
+    <main class="main_container">
+        <div class="media_div">
+            <div class="player_div">
+                <video src="<%= document.streamUrl %>" autoplay="false" controls="true"></video>
+            </div>
+            <div class="media_details">
+                <a href="/user/profile/<%= document.creatorId %>" class="creator_url">
+                    <div class="img_prof">
+                        <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
+                    </div>
+                    <div class="creator_details">
+                        <span class="creator_firstname">Creator</span>
+                        <span class="creator_lastname">Name</span>
+                    </div>
+                </a>
+                <div class="title_des">
+                    <p class="video_title"><%= document.title %></p>
+                    <p class="video_des"><%= document.description %></p>
+                </div>
+                <div class="likes_comment">
+                    <div class="likes"><%= document.likes %> likes</div>
+                    <div class="comments"><%= document.comments %> comments</div>
+                    <div class="views"><%= document.views %> views</div>
+                </div>
+            </div>
         </div>
-    </div>
+        <!-- <div class="recommendations"></div> -->
+    </main>
 </body>
 
 </html>

@@ -9,7 +9,6 @@ exports.getVideoInformation = (videoPath) => {
                 const inminutes = duration / 60;
                 const minutes = String(inminutes).slice(0, String(inminutes).indexOf("."))
                 const seconds = Math.floor((Number(String(inminutes).slice(String(inminutes).indexOf(".") + 1, String(inminutes).indexOf(".") + 4)) / 1000) * 60)
-                console.log(`${minutes}:${seconds}`);
                 resolve({error: false, duration:`${minutes}:${seconds}`})
             })
             .catch(error => {

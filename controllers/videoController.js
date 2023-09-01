@@ -1,4 +1,5 @@
 const { path } = require("ffprobe-static");
+const npath = require("path")
 const Uploads = require("../models/Uploads");
 const User = require("../models/Users");
 const { getVideoInformation } = require("../utils/getvideoinfo");
@@ -29,52 +30,44 @@ function extractObj(stream) {
  */
 exports.uploadVideo = (req, res) => {
     // res.end("Video Uploaded Successfully")
-    
-    User.checkId(req.body.creatorId)
+    User.checkId(req.params.userId)
         .then(response => {
-            if ((response.msg == "User match") && (response.id.trim() == req.body.creatorId.trim())) {
+            if ((response.msg == "User match") && (response.id.trim() == req.params.userId.trim())) {
                 //user is authenticated, so continue
                 const streamUrl = `/video/stream/${req.files.main_video[0].filename}`;
                 const thumbnailUrl = `/video/thumbnail/${req.files.main_thumbnail[0].filename}`;
-                // getVideoInformation(path.join(__dirname, "../DB/video_thumbnails/", req.files.main_video[0].filename))
-                // .then(resp => {
-                //     if (resp.error == false) {
-                //         console.log(resp.duration);
-                //         return(resp.duration)
-                //     }
-                // })
-                // .catch(error => {
-                //     if (error.error == true) {
-                //         res.render("error", {message: error})
-                //     }
-                // })
-                const vidObj = extractObj(req.body);
 
-                const upload = new Uploads(
-                    vidObj.creatorId, vidObj.title, vidObj.description, 
-                    vidObj.category, thumbnailUrl, streamUrl,
-                    vidObj.tags, vidObj.privacy, vidObj.locale,
-                    vidObj.license
-                )
-                
-                upload.init()
-                .then(init_response => {
-                    if (init_response.error == false && init_response.msg == "init successful")
-                    {
-                        res.render("index", {pageTitle: "Home", error: false, userId: null, msg: "no error"})
-                    }
-                })
-                .catch(error => {
-                    res.render("error",{message: error.msg})
-                })
+                getVideoInformation(npath.join(__dirname, "../DB/video_thumbnails/", req.files.main_video[0].filename))
+                    .then(resp => {
+                        if (resp.error == false) {
+                            const videoDuration = resp.duration;
+                            const vidObj = extractObj(req.body);
+
+                            const upload = new Uploads(
+                                req.params.userId.trim(), vidObj.title, vidObj.description,
+                                vidObj.category, thumbnailUrl, streamUrl,
+                                vidObj.tags, vidObj.privacy, vidObj.locale,
+                                vidObj.license, videoDuration
+                            )
+                            
+                            upload.init()
+                                .then(init_response => {
+                                    if (init_response.error == false && init_response.msg == "init successful") {
+                                        res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
+                                    }
+                                })
+                                .catch(error => {
+                                    res.render("error", { message: error.msg })
+                                })
+                        }
+                    })
+                    .catch(error => {
+                        if (error.error == true) {
+                            res.render("error", { message: error })
+                        }
+                    })
             }
         })
-        .catch(error => {
-            if (error.msg == "No user with such id") {
-                res.render("error", { message: error.msg })
-            }
-        })
-
 }
 
 /**
@@ -85,14 +78,14 @@ exports.uploadVideo = (req, res) => {
  */
 exports.getCreatorVideos = (req, res) => {
     Uploads.getCreatorUploads(req.params.creatorId)
-    .then( response => {
-        if (response.error == false) {
-            res.status(200).json({error: false, message: "found'em",data: response.data});
-        }
-    })
-    .catch(error => {
-        res.status(404).json({error: true, message: error, data: null});
-    })
+        .then(response => {
+            if (response.error == false) {
+                res.status(200).json({ error: false, message: "found'em", data: response.data });
+            }
+        })
+        .catch(error => {
+            res.status(404).json({ error: true, message: error, data: null });
+        })
 }
 
 /**
@@ -102,13 +95,13 @@ exports.getCreatorVideos = (req, res) => {
 exports.getVideoObject = (videoId) => {
     return new Promise((resolve, reject) => {
         Uploads.getVideoObject(videoId)
-        .then(response => {
-            if (response.error == false && response.message == "success") {
-                resolve({error: false, document: response.document, message: "success"});
-            }
-        })
-        .catch(error => {
-            reject({error: true, document: null, message: error})
-        })
+            .then(response => {
+                if (response.error == false && response.message == "success") {
+                    resolve({ error: false, document: response.document, message: "success" });
+                }
+            })
+            .catch(error => {
+                reject({ error: true, document: null, message: error })
+            })
     })
 }
