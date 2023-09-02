@@ -105,3 +105,14 @@ exports.getVideoObject = (videoId) => {
             })
     })
 }
+
+exports.getRecommendedVideos = (req, res) => {
+    Uploads.getRecommendations(req.params.license, req.params.tags, req.params.category)
+    .then(response => {
+        
+        res.status(200).json({document: response.document})
+    })
+    .catch(error => {
+        console.log("error => ", error);
+    })
+}

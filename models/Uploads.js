@@ -126,6 +126,43 @@ class Uploads {
             )
         })
     }
+
+    static getRecommendations(license, tags, category) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {
+                    license: license,
+                    tags: tags.replaceAll("hashtag_", "#"),
+                    category: category
+                },
+                {multi: true},
+                (error, document) => {
+                    if(error) reject({error: true, message: error})
+                    
+                    if (document.length == 0) {
+                        db.find({}, (error, doc) =>{
+                            if(error) reject({error: true, message: error})
+                            if(doc.length == 0){
+                                reject({error: true, message: "no videos found"})
+                            }
+                            else if (doc.length <= 100){
+                                resolve({error: false, document: doc})
+                            }
+                            else if(doc.length > 100) {
+                                resolve({error:false, document: doc.slice(0,99)})
+                            }
+                        })
+                    }
+                    else if (document.length <= 100) {
+                        resolve({error: false, document: document})
+                    }
+                    else {
+                        resolve({error:false, document: document.slice(0,99)})
+                    }
+                }
+            )
+        })
+    }
 }
 
 

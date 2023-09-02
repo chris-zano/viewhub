@@ -37,16 +37,27 @@
                 <div class="title_des">
                     <p class="video_title"><%= document.title %></p>
                     <p class="video_des"><%= document.description %></p>
+                    <div class="views"><%= document.views %> views</div>
                 </div>
                 <div class="likes_comment">
                     <div class="likes"><%= document.likes %> likes</div>
-                    <div class="comments"><%= document.comments %> comments</div>
-                    <div class="views"><%= document.views %> views</div>
+                    <div class="likes"><%= document.comments %> comments</div>
                 </div>
             </div>
         </div>
-        <!-- <div class="recommendations"></div> -->
+        <div class="recommendations">
+            <div class="refparams" id="license"><%= document.license %></div>
+            <div class="refparams" id="tags"><%= document.tags %></div>
+            <div class="refparams" id="category"><%= document.category %></div>
+            <div id="usertviewlist">
+
+
+            </div>
+        </div>
     </main>
+    <script src="/js/utils"></script>
+    <script src="/js/class_tview"></script>
+    <script src="/js/tview"></script>
 </body>
 
 </html>
