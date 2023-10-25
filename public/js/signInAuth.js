@@ -6,6 +6,7 @@
 function checkLoginState() {
     // fetch login state from local storage
     const loginState = localStorage.getItem("loginState");
+    var logoutBtn;
 
     if (!loginState) {
         window.location.href = "/login";
@@ -51,7 +52,7 @@ function checkLoginState() {
 
     //add listener to the logout button
     try {
-        const logoutBtn = document.getElementById("logoutBtn");
+        logoutBtn = document.getElementById("logoutBtn");
         logoutBtn.addEventListener("click", () => {
             listenOnLogout(JSON.parse(loginState).userId)
                 .then(response => {
@@ -74,11 +75,18 @@ function checkLoginState() {
         profileBtn.addEventListener("click", () => {
             getUserProfile(JSON.parse(loginState).userId)
                 .then(response => {
+                    console.log(response);
                     if (response.error == false) {//the user has been autheticated
-                        if(response.userId == JSON.parse(loginState).userId) {//check if id matches cached id
+                        if (response.userId == JSON.parse(loginState).userId) {//check if id matches cached id
                             location.href = `/user/profile/${response.userId}`
                         }
                     }
+                    else {
+                        logoutBtn.click();
+                    }
+                })
+                .catch(err => {
+                    location.href = `/error/${err}`;
                 })
         })
     } catch (error) {

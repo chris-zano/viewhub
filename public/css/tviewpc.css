@@ -63,16 +63,16 @@ li {
 }
 
 .media_div {
-    grid-column: 1 / span 8;
+    grid-column: 1 / span 7;
     height: 60vh;
     display: flex;
     flex-flow: column;
     row-gap: 3px;
-    padding: 0 20px;
+    padding: 0 0px;
 }
 
 .recommendations {
-    grid-column: 9 / span 4;
+    grid-column: 8 /  12;
     height: 100%;
     /* background-color: rgba(146, 124, 0, 0.747); */
 }
@@ -183,7 +183,7 @@ div.link_object {
     margin: 10px 0;
     width: 300px;
     height: fit-content;
-    padding: 3px;
+    padding: 2px;
     border: 1px solid transparent;
     border-radius: 10px;
     display: grid;
@@ -192,6 +192,7 @@ div.link_object {
 
 div.link_object:hover {
     box-shadow: 0px 3px 3px slategrey;
+    /* border: 1px solid slategray; */
 }
 
 div.link_object .first_child_link {
@@ -206,14 +207,18 @@ div.link_object .first_child_link {
 .link_object .first_child_link .video_thumbnail {
     grid-row: 1 / span 2;
     display: grid;
-    place-items: center;
+    place-items: start;
+    justify-content: center;
 }
 
 .link_object .first_child_link .video_thumbnail img {
-    width: 100%;
+    width: 298px;
+    object-fit: cover;
+    column-span: all;
     height: 180px;
-    
+    margin: 0 auto;
 }
+
 
 .link_object .first_child_link .video_duration {
     color: white;
@@ -222,7 +227,8 @@ div.link_object .first_child_link {
     display: grid;
     place-items: center;
     position: absolute;
-    width: 50px;
+    min-width: 50px;
+    padding-inline: 2px;
     height: 20px;
     bottom: 117px;
     right: 11px;

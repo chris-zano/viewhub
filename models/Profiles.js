@@ -24,7 +24,7 @@ class Profile {
      * @param {string} id User id.
      * *The user id should be authenticated by the User class before beign passed as a parameter to this class
      */
-    
+
     constructor(id) {
         this._id = id;
     }
@@ -102,7 +102,26 @@ class Profile {
                         resolve({ msg: "No user with such id", id: id });
                     }
                     else {
-                        resolve({ msg: "User match", id: doc[0].id, userID: doc[0]["_id"] })
+                        if (doc[0].username == "") {
+                            User.checkId(id)
+                                .then(res => {
+                                    if (res.msg == "User match") {
+                                        resolve({ msg: "no username found", userID: doc[0]._id })
+                                    }
+                                })
+                                .catch(error => {
+                                    db.remove({ _id: id, username: "" },
+                                        { multi: false, returnUpdatedDocs: false },
+                                        (err, numRemoved) => {
+                                            if (err) reject({ msg: "Error removing false document!!!" });
+                                            reject({ error: "user does not exist!!", msg: "False document removed!!!" });
+                                        }
+                                    )
+                                })
+                        }
+                        else {
+                            resolve({ msg: "User match", userID: doc[0]._id })
+                        }
                     }
                 }
             )
@@ -126,7 +145,20 @@ class Profile {
                     }
                     else {
                         if (doc.length == 0) {
-                            reject({ error: true, msg: "Wrong Username" });
+                            User.checkEmail(username)
+                                .then(res => {
+                                    if (res.msg == "No user with such email") {
+                                        reject({ error: true, msg: "Wrong Username" });
+                                    }
+                                })
+                                .catch(err => {
+                                    if (err.msg == "User match" && err.email == username) {
+                                        resolve({ error: false, userId: err.userId, msg: "username matches an email" });
+                                    }
+                                    else {
+                                        reject(err);
+                                    }
+                                })
                         }
                         else {
                             User.authWithPassword(doc[0]._id, password)
@@ -157,9 +189,27 @@ class Profile {
             User.checkId(id)//check if user is a registered user
                 .then(response => {
                     if (response.msg == "User match") {
+                        console.log('here 1');
                         Profile.checkProfile(id)//check if user profile exists
                             .then(res => {
-                                if (res.msg == "User match") {
+                                if (res.msg == "no username found") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                lastname: lastname,
+                                                firstname: firstname
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${error}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userId: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                                else if (res.msg == "User match") {
                                     db.update( // update user details
                                         { _id: id },
                                         {
@@ -238,7 +288,23 @@ class Profile {
                     if (response.msg == "User match") {
                         Profile.checkProfile(id)//check if user profile exists
                             .then(res => {
-                                if (res.msg == "User match") {
+                                if (res.msg == "no username found") {
+                                    db.update( // update user details
+                                        { _id: id },
+                                        {
+                                            $set: {
+                                                username: username
+                                            }
+                                        },
+                                        ((err, numReplaced) => {
+                                            if (err) reject({ error: true, msg: `c=> ${err}` })
+                                            else {
+                                                resolve({ error: false, msg: "success", userID: id, docUpdated: numReplaced });
+                                            }
+                                        })
+                                    )
+                                }
+                                else if (res.msg == "User match") {
                                     db.update( // update user details
                                         { _id: id },
                                         {
@@ -309,12 +375,13 @@ class Profile {
     */
     static getUserProfileById(id) {
         return new Promise((resolve, reject) => {
+            console.log('here 1');
             db.find(
-                {_id: id},
-                {multi: false},
+                { _id: id },
+                { multi: false },
                 (error, document) => {
-                    if(error) reject({error: true, message: error, document: null});
-                    resolve({error:false, message: "data retreived successfully", document: document})
+                    if (error) reject({ error: true, message: error, document: null });
+                    resolve({ error: false, message: "data retreived successfully", document: document })
                 }
             )
         })
@@ -323,11 +390,11 @@ class Profile {
     static getUserProfilePicture(id) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: id},
-                {multi: false},
+                { _id: id },
+                { multi: false },
                 (error, document) => {
-                    if (error) reject({error: true, message: error, imgUrl: null});
-                    resolve({error: false, message:"image found", imgUrl: document[0].profilePicUrl})
+                    if (error) reject({ error: true, message: error, imgUrl: null });
+                    resolve({ error: false, message: "image found", imgUrl: document[0].profilePicUrl })
                 }
             )
         })

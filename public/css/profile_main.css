@@ -99,7 +99,8 @@ div.link_object .first_child_link {
     display: grid;
     place-items: center;
     position: absolute;
-    width: 50px;
+    min-width: 50px;
+    padding-inline: 2px;
     height: 20px;
     bottom: 117px;
     right: 11px;

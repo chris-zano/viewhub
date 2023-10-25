@@ -3,16 +3,30 @@
         <input type="hidden" name="userId" value="<%= userId %>">
         <div>
             <label for="firstname">*First name</label>
-            <input type="text" name="firstname" id="firstname" required>
+            <input type="text" name="firstname" id="firstname" class="user-input" required>
         </div>
 
         <div>
             <label for="lastname">*Last name</label>
-            <input type="text" name="lastname" id="lastname" required>
+            <input type="text" name="lastname" id="lastname" class="user-input" required>
         </div>
 
         <div>
             <input type="submit" value="Next" id="next-btn">
         </div>
     </form>
+    <script>
+        for (let input of document.querySelectorAll(".user-input")) {
+            input.addEventListener("click", (e)=>{
+                if (e.target.previousElementSibling.style.display != "none") {
+                    e.target.previousElementSibling.style.display = "none";
+                }
+            })
+            input.addEventListener("change", (e)=>{
+                if (e.target.previousElementSibling.style.display != "none") {
+                    e.target.previousElementSibling.style.display = "none";
+                }
+            })
+        }
+    </script>
 </div>

@@ -4,21 +4,37 @@
     <% } %>
 
     <form action="/userSignup" method="post">
-        <div>
+        <div class="form_title">signup</div>
+
+        <div class="input-field">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" class="user-input" required>
         </div>
 
-        <div>
+        <div class="input-field">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
+            <input type="password" name="password" id="password" class="user-input" required>
         </div>
 
-        <div>
-            <p>Already have an account? <a href="/login">Log In</a></p>
+        <div class="create-account-div">
+            <p>Already have an account? <a href="/login" class="signup">Log In</a></p>
         </div>
         <div>
             <input type="submit" value="Next" id="next-btn">
         </div>
     </form>
+    <script>
+        for (let input of document.querySelectorAll(".user-input")) {
+            input.addEventListener("click", (e)=>{
+                if (e.target.previousElementSibling.style.display != "none") {
+                    e.target.previousElementSibling.style.display = "none";
+                }
+            })
+            input.addEventListener("change", (e)=>{
+                if (e.target.previousElementSibling.style.display != "none") {
+                    e.target.previousElementSibling.style.display = "none";
+                }
+            })
+        }
+    </script>
 </div>

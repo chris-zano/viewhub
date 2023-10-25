@@ -5,13 +5,14 @@
 }
 
 main {
-    background: #dfdddd;
+    background: #efeded;
     padding: 1em 1.5em;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
     display: grid;
-    place-items: center;
+    justify-content: center;
+    /* place-items: center; */
 }
 
 main > div {
@@ -44,29 +45,45 @@ main > div {
 }
 
 main > div > form {
-    background: #fff;
+    background: #faf9f9;
     min-width: 300px;
+    min-height: 400px;
     padding: 1em;
     display: grid;
     row-gap: 1em;
+    border-radius: 1em;
 }
 
 div.form_title {
     text-align: center;
-    text-transform: uppercase;
+    text-transform: lowercase;
     font-weight: bold;
 }
 
 form > * {
     display: grid;
     row-gap: 5px;
-    
+}
+form div.input-field {
+    position: relative;
+}
+
+.input-field > label {
+    font-weight: 500;
+    color: #383636;
+    font-size: 14px;
+    text-transform: lowercase;
+    margin-right: 10px;
+    position: absolute;
+    top: 13px;
+    left: 5%;
 }
 
 label {
-    font-weight: bold;
+    font-weight: 500;
+    color: #383636;
     font-size: 14px;
-    text-transform: uppercase;
+    text-transform: lowercase;
     margin-right: 10px;
 }
 
@@ -79,7 +96,17 @@ input {
     height: var(--button-height-desktop);
 }
 
+.signup:hover {
+    color: #ec4343;
+}
+
+.create-account-div {
+    margin-inline: auto;
+}
 input[type="submit"] {
+    width: 175px;
+    margin-inline: auto;
+    text-indent: 0px;
     background-color: #2846ee;
     color: #fff;
     border: transparent;
@@ -89,7 +116,9 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: rgb(66, 140, 236);
+    background-color: transparent;
+    border: 1px solid #2846ee;
+    color: #2846ee;
 }
 
 input#ppic {
