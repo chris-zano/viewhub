@@ -1,3 +1,4 @@
+const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
 const User = require("../models/Users");
 
@@ -74,11 +75,17 @@ exports.userUpdateProfilePic = (req, res) => {
 }
 
 exports.reportError = (req, res) => {
-    console.log(req.body);
     if (req.body != {}) {
-        res.end("Success");
+        const report = new ReportError(req.body);
+        report.createReport()
+        .then(fdb => {
+            res.status(200).json(fdb);
+        })
+        .catch(err => {
+            res.status(500).json({error: err, message: "Internal Server Error !!!"});
+        })
     }
     else {
-        res.end("failure");
+        res.status(500).json({error: err, message: "Internal Server Error !!!"});
     }
 }
