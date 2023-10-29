@@ -6,21 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" href="/css/global-header">
+    <link rel="stylesheet" href="/css/global-footer">
+    <link rel="stylesheet" href="/css/main">
     <link rel="stylesheet" href="/css/profile_main">
     <title>Your Profile - User Name</title>
 </head>
 
 <body>
-    <div id="userId" style="display: none;"><%= document._id %></div>
-    <div class="header_container">
-        <form action="/" method="get">
-            <input type="submit" value="Home" class="nav_button">
-        </form>
+    <%- include('../global/header') %>
+    
+    <div class="main_container">
         <button class="nav_button" type="submit" id="editProfile" data-userId="<%= document._id %>">Edit
             Profile</button>
-    </div>
-
-    <div class="main_container">
         <div class="profile_view">
             <div>
                 <%= document.firstname %>
@@ -40,6 +39,7 @@
     </div>
 
     <div id="userUploads"></div>
+    <%- include('../global/footer') %>
     <script src="/js/utils"></script>
     <script src="/js/class_tview"></script>
     <script src="/js/profile_main"></script>

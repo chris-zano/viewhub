@@ -24,6 +24,5 @@ body::-webkit-scrollbar-thumb {
 .container-main {
     height: 100vh;
     padding: 2rem 1rem;
-
     background-color: var( --background-light);
 }

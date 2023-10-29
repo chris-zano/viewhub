@@ -47,6 +47,10 @@ router.get("/user/profile/:userId", (req, res) => {
         })
 })
 
+router.get("/user/settings", (req, res) => {
+    res.render("settings");
+})
+
 router.post("/userSignup", userController.userSignup);
 router.post("/userlogin", userController.userLogin);
 router.post("/update/name", userController.userUpdateName);
