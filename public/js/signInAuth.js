@@ -65,18 +65,31 @@ function checkLoginState() {
                     }
                     else {
                         //TODO:notify developer of error
-                        localStorage.removeItem("loginState");
-                        localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
+                        reportError(response)
+                            .then(res => {
+                                console.log(res.status);
+                                console.log(res.json);
+                            })
+                            .catch(err => {
+                                console.log("failed to send error message: ", err);
+                            })
+
+                        localStorage.clear();
                         alert("Session Expired. Please Login again to continue");
                         window.location.href = "/login";
                     }
                 })
         })
     } catch (error) {
-        console.log(error);
-        //TODO:notify developer of error
-        localStorage.removeItem("loginState");
-        localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
+        reportError(error)
+            .then(res => {
+                console.log(res.status);
+                console.log(res.json);
+            })
+            .catch(err => {
+                console.log("failed to send error message: ", err);
+            })
+        localStorage.clear();
         alert("Session Expired. Please Login again to continue");
         window.location.href = "/login";
     }
@@ -92,17 +105,36 @@ function checkLoginState() {
                         if (response.userId == JSON.parse(loginState).userId) {//check if id matches cached id
                             location.href = `/user/profile/${response.userId}`
                         }
+                        else {
+                            location.href = "/login";
+                        }
                     }
                     else {
                         logoutBtn.click();
                     }
                 })
                 .catch(err => {
-                    location.href = `/error/${err}`;
+                    reportError(err)
+                        .then(res => {
+                            console.log(res.status);
+                            console.log(res.json);
+                        })
+                        .catch(err => {
+                            console.log("failed to send error message: ", err);
+                        })
+                    location.href = `/login`;
                 })
         })
     } catch (error) {
-        location.href = `/error/${error}`;
+        reportError(err)
+            .then(res => {
+                console.log(res.status);
+                console.log(res.json);
+            })
+            .catch(err => {
+                console.log("failed to send error message: ", err);
+            })
+        location.href = `/login`;
     }
 }
 

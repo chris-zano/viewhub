@@ -16,6 +16,26 @@ async function getUserProfile(id) {
 }
 
 /**
+ * reports an error that was encountered at runtime to be logged.
+ * so a fix can be made.
+ * @param {JSON} reportObject 
+ * @returns the status of the post request from the server as well as a json.
+ */
+async function reportError(reportObject) {
+    const req = await fetch("/admin/error/report", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reportObject)
+    });
+    const status = await req.status();
+    const res = await req.json()
+
+    return ({status: status, json: res})
+}
+
+/**
  * 
  * @param {HTMLElement} element 
  * @param {HTMLElementEventMap} event 
