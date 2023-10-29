@@ -6,87 +6,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" href="/css/global-header">
+    <link rel="stylesheet" href="/css/global-footer">
+    <link rel="stylesheet" href="/css/main">
     <title>Upload Content</title>
 </head>
 
 <body>
-    <form action="/" method="get">
-        <input type="submit" value="Home">
-    </form>
-    <form action="" method="post" enctype="multipart/form-data" id="upload_form">
-        <fieldset>
-            <label for="main_video">Add a video</label>
-            <input type="file" name="main_video" id="main_video" accept="video/*" required>
-        </fieldset>
+    <%- include('layouts/global/header') %>
+        <main class="container-main">
+            <form action="/" method="get">
+                <input type="submit" value="Home">
+            </form>
+            <form action="" method="post" enctype="multipart/form-data" id="upload_form">
+                <fieldset>
+                    <label for="main_video">Add a video</label>
+                    <input type="file" name="main_video" id="main_video" accept="video/*" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="main_thumbnail">Select a thumbnail</label>
-            <input type="file" name="main_thumbnail" id="main_thumbnail" accept="image/*" required>
-        </fieldset>
+                <fieldset>
+                    <label for="main_thumbnail">Select a thumbnail</label>
+                    <input type="file" name="main_thumbnail" id="main_thumbnail" accept="image/*" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" required>
-        </fieldset>
+                <fieldset>
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="description">description</label>
-            <input type="text" name="description" id="description" required>
-        </fieldset>
+                <fieldset>
+                    <label for="description">description</label>
+                    <input type="text" name="description" id="description" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="category">Category</label>
-            <select name="category" id="category" required>
-                <option value="sports_and_games">Sports & games</option>
-                <option value="music">music</option>
-                <option value="cars">Cars</option>
-                <option value="smartphones">smartphones</option>
-                <option value="laptops">laptops</option>
-                <option value="apple">Apple</option>
-                <option value="gaming">gaming</option>
-                <option value="programming">programming</option>
-            </select>
-        </fieldset>
+                <fieldset>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" required>
+                        <option value="sports_and_games">Sports & games</option>
+                        <option value="music">music</option>
+                        <option value="cars">Cars</option>
+                        <option value="smartphones">smartphones</option>
+                        <option value="laptops">laptops</option>
+                        <option value="apple">Apple</option>
+                        <option value="gaming">gaming</option>
+                        <option value="programming">programming</option>
+                    </select>
+                </fieldset>
 
-        <fieldset>
-            <label for="tags">tags</label>
-            <input type="text" name="tags" id="tags" required>
-        </fieldset>
+                <fieldset>
+                    <label for="tags">tags</label>
+                    <input type="text" name="tags" id="tags" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="private">private</label>
-            <input type="radio" name="privacy" id="private" value="private" required>
-            <label for="public">public</label>
-            <input type="radio" name="privacy" id="public" value="public" required>
-        </fieldset>
+                <fieldset>
+                    <label for="private">private</label>
+                    <input type="radio" name="privacy" id="private" value="private" required>
+                    <label for="public">public</label>
+                    <input type="radio" name="privacy" id="public" value="public" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="locale">local</label>
-            <input type="radio" name="locale" id="local" value="local" required>
-            <label for="global">global</label>
-            <input type="radio" name="locale" id="global" value="global" required>
-        </fieldset>
+                <fieldset>
+                    <label for="locale">local</label>
+                    <input type="radio" name="locale" id="local" value="local" required>
+                    <label for="global">global</label>
+                    <input type="radio" name="locale" id="global" value="global" required>
+                </fieldset>
 
-        <fieldset>
-            <label for="open">Creative Common</label>
-            <input type="radio" name="license" id="open" value="open" required>
-            <label for="closed">View Hub Creator License</label>
-            <input type="radio" name="license" id="closed" value="closed" required>
-        </fieldset>
+                <fieldset>
+                    <label for="open">Creative Common</label>
+                    <input type="radio" name="license" id="open" value="open" required>
+                    <label for="closed">View Hub Creator License</label>
+                    <input type="radio" name="license" id="closed" value="closed" required>
+                </fieldset>
 
-        <input type="submit" value="Upload">
-    </form>
-    <script src="/js/utils"></script>
-    <script>
-        if (document.readyState == "loading") {
-            document.addEventListener("DOMContentLoaded", main);
-        }
-        else main()
+                <input type="submit" value="Upload">
+            </form>
+        </main>
 
-        function main() {
-            document.getElementById("upload_form").setAttribute("action", `/upload/video/${JSON.parse(getLocalStorage("loginState")).userId}`)
-        }
-    </script>
+    <%- include('layouts/global/footer') %>
+        <script src="/js/utils"></script>
+        <script>
+            if (document.readyState == "loading") {
+                document.addEventListener("DOMContentLoaded", main);
+            }
+            else main()
+
+            function main() {
+                document.getElementById("upload_form").setAttribute("action", `/upload/video/${JSON.parse(getLocalStorage("loginState")).userId}`)
+            }
+        </script>
 </body>
 
 </html>
