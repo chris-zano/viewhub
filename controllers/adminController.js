@@ -72,3 +72,13 @@ exports.userUpdateProfilePic = (req, res) => {
             res.render(`error/${error}`)
         })
 }
+
+exports.reportError = (req, res) => {
+    console.log(req.body);
+    if (req.body != {}) {
+        res.end("Success");
+    }
+    else {
+        res.end("failure");
+    }
+}

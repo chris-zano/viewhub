@@ -63,10 +63,22 @@ function checkLoginState() {
                         alert("Session Expired. Please Login again to continue");
                         window.location.href = "/login";
                     }
+                    else {
+                        //TODO:notify developer of error
+                        localStorage.removeItem("loginState");
+                        localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
+                        alert("Session Expired. Please Login again to continue");
+                        window.location.href = "/login";
+                    }
                 })
         })
     } catch (error) {
         console.log(error);
+        //TODO:notify developer of error
+        localStorage.removeItem("loginState");
+        localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
+        alert("Session Expired. Please Login again to continue");
+        window.location.href = "/login";
     }
 
     //add listener to the profile button

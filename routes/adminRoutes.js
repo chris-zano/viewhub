@@ -143,4 +143,7 @@ router.post("/edit/update/name", adminController.userUpdateName);
 router.post("/edit/update/username", adminController.userUpdateUsername);
 router.post("/edit/update/ppic", upload.single("ppic"), adminController.userUpdateProfilePic);
 
+//error handling routes
+router.post("/admin/error/report", adminController.reportError);
+
 module.exports = router
