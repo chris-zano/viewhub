@@ -1,0 +1,6 @@
+footer {
+    height: 100vh;
+    background-color: aquamarine;
+    padding: 2rem 1rem;
+    scroll-snap-align: top;
+}

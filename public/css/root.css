@@ -7,9 +7,12 @@
     --button-color-blue: rgba(14, 14, 185, 0.918);
     --border-radius-default: 7px;
     --border-radius-image: 50%;
-    --background-light: rgb(241, 237, 237)
+    --background-light: rgb(241, 237, 237);
     --error-message: rgb(100, 206, 105);
-
+    --default-dark-font: rgb(13, 13, 13);
+    --default-link-font-color: rgba(248, 35, 35, 0.764);
+    --color-theme-1: rgba(57, 250, 250, 0.941);
+    --transition-default:  all ease-in-out 250ms;
 }
 
 @font-face {
@@ -32,9 +35,22 @@ li {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: var(--default-dark-font);
 }
 
 * {
     outline: none !important;
     font-family: robotoRegular;
+}
+
+body {
+    background-color: #fffbfb;
+}
+
+.hidden {
+    display: none;
 }

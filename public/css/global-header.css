@@ -1,0 +1,111 @@
+header {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+    padding: 5px;
+    border-bottom: 1px solid rgb(235, 233, 233);
+}
+
+header div.profile-nav {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+header div.profile-nav .current-user {
+    width: 210px;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    padding: 5px 0;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+header div.profile-nav .current-user img.big_img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 2rem;
+    z-index: 9999;
+}
+
+header div.profile-nav .current-user:hover {
+    background-color: rgb(251, 252, 252);
+    border: 1px solid rgb(199, 192, 192);
+}
+
+h2#current-user-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+header div.profile-nav div.profile-action-buttons {
+    position: absolute;
+    top: 60px;
+    left: 1px;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    cursor: pointer;
+    background-color: rgb(250, 251, 252);
+    box-shadow: var(--box-shadow-thin);
+}
+
+header div.profile-nav div.profile-action-buttons button {
+    border: 1px solid transparent;
+    outline: none;
+    width: 200px;
+    height: 45px;
+    cursor: pointer;
+    transition: var(--transition-default);
+    background-color: transparent;
+}
+
+header div.profile-nav div.profile-action-buttons button#profileBtn {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+} 
+header div.profile-nav div.profile-action-buttons button#logoutBtn {  
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+header div.profile-nav div.profile-action-buttons button#profileBtn:hover {
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    background-color: var(--color-theme-1);
+} 
+header div.profile-nav div.profile-action-buttons button#logoutBtn:hover {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+    background-color: var(--color-theme-1);
+}
+
+header nav.main-header-nav ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    column-gap: 2rem;
+    padding-right: 2rem;
+}
+
+header nav.main-header-nav ul li, a {
+    cursor: pointer;
+    font-size: 18px;
+    transition: var(--transition-default);
+}
+
+header nav.main-header-nav ul li a:hover {
+    text-decoration: underline;
+    color: var(--default-link-font-color);
+} 
+
+
+.hidden {
+    display: none;
+}

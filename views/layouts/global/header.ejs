@@ -1,14 +1,42 @@
 <header>
-    <img src="/images/tagsbg.jpg" alt="example_img" class="big_img">
-    <div class="profile-action-buttons" id="profile-action-buttons">
-        <button type="submit" id="profileBtn">Profile</button>
-        <button type="submit" id="logoutBtn">Logout</button>
+    <div class="profile-nav">
+        <div class="current-user" id="current-user">
+            <img src="/images/tagsbg.jpg" alt="example_img" class="big_img">
+            <h2 class="current-user-name" id="current-user-name">User</h2>
+        </div>
+        <div class="profile-action-buttons hidden" id="profile-action-buttons">
+            <button type="submit" class="hidden" id="profileBtn">Profile</button>
+            <button type="submit" class="hidden" id="logoutBtn">Logout</button>
+        </div>
     </div>
-    <nav>
+    <nav class="main-header-nav">
         <ul>
             <li><a href="/nav/upload_video">Upload</a></li>
             <li><a href="#">Settings</a></li>
         </ul>
     </nav>
-<script src="/js/signInAuth" defer></script>
+    <script src="/js/signInAuth" defer></script>
+    <script>
+        document.getElementById("current-user").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            //remove hidden if it is hidden
+            toggleDisplay(["profile-action-buttons", "profileBtn", "logoutBtn"]);
+            
+        })
+
+
+        function toggleDisplay(array) {
+            if (document.getElementById(array[0]).classList.contains("hidden")) {
+                for (let item of array) {
+                    document.getElementById(item).classList.remove("hidden");
+                }
+            }
+            else {
+                for (let item of array) {
+                    document.getElementById(item).classList.add("hidden");
+                }
+            }
+        }
+    </script>
 </header>
