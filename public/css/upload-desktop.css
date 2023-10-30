@@ -24,8 +24,9 @@
 
     form#upload_form fieldset {
         background-color: var(--background-white);
+        box-shadow: var(--box-shadow-extra-thin);
         border-radius: 0.4rem;
-        padding: 3px 10px;
+        padding: 7px 10px;
         border: none;
         display: grid;
         grid-template-columns: max-content 350px;
@@ -47,6 +48,7 @@
 
     form#upload_form input[type="submit"] {
         width: 200px;
+        height: 40px;
         border-radius: 0.4rem;
         padding: 3px 10px;
         margin-inline: auto;

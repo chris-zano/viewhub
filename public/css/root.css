@@ -2,6 +2,7 @@
     --dark-grey: rgba(180, 179, 179, 0.889);
     --box-shadow-wide: 0px 3px 30px var(--dark-grey);
     --box-shadow-thin: 0px 3px 3px var(--dark-grey);
+    --box-shadow-extra-thin: 0px 3px 3px rgba(223, 221, 221, 0.834);
     --button-width-desktop: 120px;
     --button-height-desktop: 40px;
     --button-color-blue: rgba(14, 14, 185, 0.918);
