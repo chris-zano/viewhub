@@ -27,7 +27,23 @@ function checkLoginState() {
             // share a video
             // view a creators profile
             // read comments in comments section
-        window.location.href = "/login";
+
+        //get login-btn-show
+        const navParent = document.getElementById("main-header-nav");
+        const ulChild = document.getElementById("ul-li-a");
+
+        const loginElement = document.createElement("div");
+        loginElement.classList.add("login-btn");
+        loginElement.setAttribute("id", "login-btn-show");
+        loginElement.innerHTML = 
+        `
+            <li>
+                <a href="/login">Login</a>
+            </li>
+        `;
+
+        navParent.removeChild(ulChild);
+        navParent.appendChild(loginElement);
     }
 
     else {

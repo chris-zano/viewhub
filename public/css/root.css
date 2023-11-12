@@ -14,6 +14,7 @@
     --default-dark-font: rgb(13, 13, 13);
     --default-link-font-color: rgba(248, 35, 35, 0.764);
     --color-theme-1: rgba(57, 250, 250, 0.941);
+    --color-theme-1-dark: rgba(30, 119, 119, 0.941);
     --color-theme-2: rgba(2, 62, 62, 0.941);
     --color-theme-3: rgba(19, 13, 38, 0.941);
     --transition-default:  all ease-in-out 250ms;
