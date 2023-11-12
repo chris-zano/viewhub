@@ -9,6 +9,24 @@ function checkLoginState() {
     var logoutBtn;
 
     if (!loginState) {
+        //TODO: if loginState is false, navigation bar should have login button,
+        // disable navigation on the website
+        // - no profile page (should redirect to login)
+        // - no logout button
+        // - no settings (should redirect to login page)
+        // - no uploads page (should redirect to login page)
+        // -- user can watch videos / content on the pllatform, but cannot do the following
+            // -- like a video
+            // -- comment on a video
+            // -- save a video to watch later
+            // -- add a video to a playlist
+            // -- follow a creator
+        // -- user can do the following
+            // -- watch a video
+            // fast-forward through a video
+            // share a video
+            // view a creators profile
+            // read comments in comments section
         window.location.href = "/login";
     }
 
@@ -42,6 +60,9 @@ function checkLoginState() {
                                     body: "Login successful!!"
                                 })
                         });
+                        localStorage.setItem("loginNotification", JSON.stringify({ count: 2 }));
+                    }
+                    else {
                         localStorage.setItem("loginNotification", JSON.stringify({ count: 2 }));
                     }
                 }
