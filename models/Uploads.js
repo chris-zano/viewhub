@@ -163,6 +163,30 @@ class Uploads {
             )
         })
     }
+
+    static fetchUserFeedByLimit() {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {},
+                {multi: true},
+                (err, document) => {
+                    if (err) {
+                        console.log(err);
+                        reject({error: true, error_Object: err});
+                    }
+                    else {
+                        console.log(document);
+                        if (document.length < 1) {
+                            resolve({error: true, error_Message: "Empty feed"});
+                        }
+                        else {
+                            resolve({error: false, document: document})
+                        }
+                    }
+                }
+            )
+        })
+    }
 }
 
 

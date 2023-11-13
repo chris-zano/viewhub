@@ -14,6 +14,7 @@ class ReportError {
             db.insert(this._errorObject, (error, document) => {
                 if (error) reject({error: true, message: "error creating report"});
                 else {
+                    console.log(this._errorObject);
                     resolve({error: false, message: "report created successfully"});
                 }
             })

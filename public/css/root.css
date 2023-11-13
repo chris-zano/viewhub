@@ -1,4 +1,10 @@
+@font-face {
+    font-family: robotoRegular;
+    src: url('/font/roboReg.ttf');
+}
+
 :root {
+    --default-font: robotoRegular;
     --dark-grey: rgba(180, 179, 179, 0.889);
     --box-shadow-wide: 0px 3px 30px var(--dark-grey);
     --box-shadow-thin: 0px 3px 3px var(--dark-grey);
@@ -18,11 +24,6 @@
     --color-theme-2: rgba(2, 62, 62, 0.941);
     --color-theme-3: rgba(19, 13, 38, 0.941);
     --transition-default:  all ease-in-out 250ms;
-}
-
-@font-face {
-    font-family: robotoRegular;
-    src: url('/font/roboReg.ttf');
 }
 
 ul,
@@ -49,7 +50,7 @@ li {
 
 * {
     outline: none !important;
-    font-family: robotoRegular;
+    font-family: var(--default-font);
 }
 
 body {
