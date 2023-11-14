@@ -26,10 +26,7 @@ exports.getVideoInformation = (videoPath) => {
 
                 // in the case the duration property does not exist
                 if (actualTime == "Na:NaN") {
-                    console.log("here 1");
-                    console.log(info);
                     for (let stream of info.streams) {
-                        console.log(stream);
                         if (stream.codec_type == 'video') {
                             for (var key in stream.tags) {
                                 var regex = /duration/i;
@@ -43,7 +40,6 @@ exports.getVideoInformation = (videoPath) => {
                         actualTime = "0:00:00";
                     }
                 }
-                console.log(actualTime);
                 resolve({ error: false, duration: actualTime })
             })
             .catch(error => {

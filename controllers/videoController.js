@@ -49,7 +49,7 @@ exports.uploadVideo = (req, res) => {
                                 vidObj.tags, vidObj.privacy, vidObj.locale,
                                 vidObj.license, videoDuration
                             )
-                            
+
                             upload.init()
                                 .then(init_response => {
                                     if (init_response.error == false && init_response.msg == "init successful") {
@@ -88,6 +88,34 @@ exports.getCreatorVideos = (req, res) => {
         })
 }
 
+exports.fetchForYouByUserId = (req, res) => {
+    User.checkId(req.params.userId)
+        .then(response => {
+            if (response.msg == "User match" && response.id == req.params.userId) {
+                Uploads.fetchUserFeedByLimit()
+                .then(resp => {
+                        if (resp.error == true && resp.error_Message == "Empty feed") {
+                            res.status(200).json({message: "Empty Feed"});
+                        }
+                        else {
+                            res.status(200).json({message: "success"});
+                        }
+                    })
+                    .catch(err => {
+                        res.status(300).json({error_Object: err.error_Object})
+                    })
+                // res.status(200).json({message: 'success'});
+            }
+            else {
+                res.status(500).json({ message: 'INTERNAL SERVER ERROR' });
+            }
+        })
+        .catch(error => {
+            res.redirect("/login");
+        })
+
+}
+
 /**
  * retrieves a particular video object
  * @param {string} videoId
@@ -108,11 +136,11 @@ exports.getVideoObject = (videoId) => {
 
 exports.getRecommendedVideos = (req, res) => {
     Uploads.getRecommendations(req.params.license, req.params.tags, req.params.category)
-    .then(response => {
-        
-        res.status(200).json({document: response.document})
-    })
-    .catch(error => {
-        console.log("error => ", error);
-    })
+        .then(response => {
+
+            res.status(200).json({ document: response.document })
+        })
+        .catch(error => {
+            console.log("error => ", error);
+        })
 }

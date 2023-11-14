@@ -22,6 +22,7 @@ async function getUserProfile(id) {
  * @returns the status of the post request from the server as well as a json.
  */
 async function reportError(reportObject) {
+    console.log(reportObject);
     const req = await fetch("/admin/error/report", {
         method: "POST",
         headers: {
@@ -29,7 +30,7 @@ async function reportError(reportObject) {
         },
         body: JSON.stringify(reportObject)
     });
-    const status = await req.status();
+    const status = await req.status;
     const res = await req.json()
 
     return ({status: status, json: res})

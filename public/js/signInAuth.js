@@ -9,7 +9,41 @@ function checkLoginState() {
     var logoutBtn;
 
     if (!loginState) {
-        window.location.href = "/login";
+        //TODO: if loginState is false, navigation bar should have login button,
+        // disable navigation on the website
+        // - no profile page (should redirect to login)
+        // - no logout button
+        // - no settings (should redirect to login page)
+        // - no uploads page (should redirect to login page)
+        // -- user can watch videos / content on the pllatform, but cannot do the following
+        // -- like a video
+        // -- comment on a video
+        // -- save a video to watch later
+        // -- add a video to a playlist
+        // -- follow a creator
+        // -- user can do the following
+        // -- watch a video
+        // fast-forward through a video
+        // share a video
+        // view a creators profile
+        // read comments in comments section
+
+        //get login-btn-show
+        const navParent = document.getElementById("main-header-nav");
+        const ulChild = document.getElementById("ul-li-a");
+
+        const loginElement = document.createElement("div");
+        loginElement.classList.add("login-btn");
+        loginElement.setAttribute("id", "login-btn-show");
+        loginElement.innerHTML =
+            `
+            <li>
+                <a href="/login">Login</a>
+            </li>
+        `;
+
+        navParent.removeChild(ulChild);
+        navParent.appendChild(loginElement);
     }
 
     else {
@@ -44,6 +78,9 @@ function checkLoginState() {
                         });
                         localStorage.setItem("loginNotification", JSON.stringify({ count: 2 }));
                     }
+                    else {
+                        localStorage.setItem("loginNotification", JSON.stringify({ count: 2 }));
+                    }
                 }
 
             }
@@ -65,6 +102,7 @@ function checkLoginState() {
                     }
                     else {
                         //TODO:notify developer of error
+                        console.log("I am reporting an error");
                         reportError(response)
                             .then(res => {
                                 console.log(res.status);
@@ -81,6 +119,7 @@ function checkLoginState() {
                 })
         })
     } catch (error) {
+        console.log("I am reporting an error");
         reportError(error)
             .then(res => {
                 console.log(res.status);
@@ -114,6 +153,7 @@ function checkLoginState() {
                     }
                 })
                 .catch(err => {
+                    console.log("I am reporting an error");
                     reportError(err)
                         .then(res => {
                             console.log(res.status);
@@ -126,6 +166,7 @@ function checkLoginState() {
                 })
         })
     } catch (error) {
+        console.log("I am reporting an error");
         reportError(err)
             .then(res => {
                 console.log(res.status);

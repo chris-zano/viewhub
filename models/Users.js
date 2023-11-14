@@ -26,7 +26,7 @@ class User {
      */
     constructor(email, password) {
         this._email = email;
-        this._password = AuthFactor.hashWithKey(password, "low");
+        this._password = AuthFactor.hashWithKey(password);
     }
 
     /**
@@ -133,7 +133,7 @@ class User {
     static authWithPassword(id, password) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: id, password:AuthFactor.hashWithKey(password, "low")},
+                {_id: id, password:AuthFactor.hashWithKey(password)},
                 {multi: false},
                 (err, doc) => {
                     if (err) {
@@ -168,13 +168,13 @@ class User {
                 (error, document) => {
                     if(error) reject({error: true, message: error});
                     else {
-                        if(document[0].password == AuthFactor.hashWithKey(current_password, "low"))
+                        if(document[0].password == AuthFactor.hashWithKey(current_password))
                         {
                             db.update(
                                 {_id: userId},
                                 {
                                     $set: {
-                                        password: AuthFactor.hashWithKey(new_password, "low")
+                                        password: AuthFactor.hashWithKey(new_password)
                                     }
                                 },
                                 (error, numReplaced) => {

@@ -8,6 +8,7 @@ const upload = multer({ dest: path.join(__dirname, "../DB/video_thumbnails") });
 
 router.post("/upload/video/:userId", upload.fields([{name: "main_video"}, {name: "main_thumbnail"}]), videoController.uploadVideo);
 router.get("/get/creator/uploads/:creatorId", videoController.getCreatorVideos);
+router.get("/get/foryou/videos/:userId", videoController.fetchForYouByUserId);
 router.get("/user/get/recommendations/:license/:tags/:category", videoController.getRecommendedVideos);
 
 router.get("/tview/stream/video/:videoId", (req, res) => {
