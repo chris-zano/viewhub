@@ -89,13 +89,11 @@ exports.getCreatorVideos = (req, res) => {
 }
 
 exports.fetchForYouByUserId = (req, res) => {
-    console.log(req.params.userId);
     User.checkId(req.params.userId)
         .then(response => {
             if (response.msg == "User match" && response.id == req.params.userId) {
                 Uploads.fetchUserFeedByLimit()
                 .then(resp => {
-                        console.log(resp);
                         if (resp.error == true && resp.error_Message == "Empty feed") {
                             res.status(200).json({message: "Empty Feed"});
                         }

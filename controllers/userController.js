@@ -40,12 +40,15 @@ exports.userSignup = (req, res) => {
 }
 
 exports.userLogin = (req, res) => {
+    console.log(req.body);
     Profile.checkUsernameExists(req.body.username, req.body.password)
         .then(response => {
             if (response.error == false && response.msg == "Username and Password match") {
+                console.log("user match");
                 res.render("signin", { pageTitle: "authenticateUser", error: false, userId: response.userId, msg: "no error" });
             }
             else if (response.error == false && response.msg == "username matches an email") {
+                console.log("username matches an email");
                 Profile.checkProfile(response.userId)
                     .then(response1 => {
                         if (response1.msg == "No user with such id") {
@@ -62,6 +65,11 @@ exports.userLogin = (req, res) => {
         })
         .catch(error => {
             if (error.error == true && error.msg == "Wrong Username") {
+                console.log("Wrong username");
+                res.render("signin", { pageTitle: "login", userId: null, error: true })
+            }
+            else if (error.msg.msg == "Wrong Password") {
+                console.log(14);
                 res.render("signin", { pageTitle: "login", userId: null, error: true })
             }
         })

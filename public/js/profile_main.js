@@ -18,9 +18,10 @@ function main() {
         })
     })
 
-    fetch_C_Up(document.getElementById("userId").textContent)
+    fetch_C_Up(document.getElementById("editProfile").getAttribute("data-userId").trim())
     .then(response => {
         for (let video of response.data) {
+            console.log(video);
             //render videolist by thumbnails and descriptions in grid format
             const tview = new Tview(video);
             getId("usertviewlist").append(tview.renderObjectTemlate());

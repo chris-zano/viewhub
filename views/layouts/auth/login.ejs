@@ -2,7 +2,7 @@
     <% if (error==true) { %>
         <div class="error_message_div">Incorrect usernmae or password</div>
         <% } %>
-            <form action="/userlogin" method="post">
+            <form action="/userlogin" id="form" method="post">
                 <div class="form_title">Login</div>
                 <div class="input-field">
                     <label for="username">Username</label>
@@ -14,6 +14,9 @@
                     <input type="password" name="password" id="password" class="user-input" required>
                 </div>
 
+                <div class="forgot-password-div">
+                    <small><a href="/user/password/reset/null" class="signup" id="forgot-href">Forgot Password</a></small>
+                </div>
                 <div class="create-account-div">
                     <p>Don't have an account? <a href="/signup" class="signup">Sign Up</a> here</p>
                 </div>
@@ -21,12 +24,12 @@
             </form>
             <script>
                 for (let input of document.querySelectorAll(".user-input")) {
-                    input.addEventListener("click", (e)=>{
+                    input.addEventListener("click", (e) => {
                         if (e.target.previousElementSibling.style.display != "none") {
                             e.target.previousElementSibling.style.display = "none";
                         }
                     })
-                    input.addEventListener("change", (e)=>{
+                    input.addEventListener("change", (e) => {
                         if (e.target.previousElementSibling.style.display != "none") {
                             e.target.previousElementSibling.style.display = "none";
                         }

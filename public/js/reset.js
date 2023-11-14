@@ -11,6 +11,7 @@ function main() {
 
         authenticateUserEmail(email)
             .then(response => {
+                console.log({error: response.error, message: response.message});
                 if (response.message == "auth success") {
                     sendVerificationCodeViaEmail(email)
                         .then(response => {
@@ -42,7 +43,8 @@ function main() {
                         })
                 }
                 else if (response.message == "invalid auth credentials" || response.message == "an error occurred") {
-                    location.href = `/error/${response.message} - wrong email`
+                    alert("The email you provided cannot be verified")
+                    alert("Your account will temporarily be suspended, pending review")
                 }
 
             })
@@ -69,7 +71,7 @@ function enableVerificationButton() {
 
 async function authenticateUserEmail(email) {
     try {
-        const req = await fetch(`/user/auth/email/${email}/${JSON.parse(localStorage.getItem("loginState")).userId}`);
+        const req = await fetch(`/user/auth/email/${email}`);
         const res = await req.json();
         return (res);
     }
