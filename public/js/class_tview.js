@@ -1,7 +1,7 @@
 function getPastTime(time) {
     try {
         const now = new Date();
-        
+
         const timestamp = Math.floor((now - time) / 1000);
 
         if (timestamp < 60) {
@@ -17,7 +17,8 @@ function getPastTime(time) {
             return Math.floor(timestamp / 86400) + " days";
         }
         else if (timestamp < 2419200) {
-            return Math.floor(timestamp / 604800) + " weeks";
+            let weeks = Math.floor(timestamp / 604800)
+            return `${weeks}  ${weeks == 1 ? " week" : " weeks"}`
         }
         else if (timestamp < 29030400) {
             if (Math.floor(timestamp / 2419200) == 1) {
@@ -51,24 +52,24 @@ class Tview {
         <a href="/tview/stream/video/${this.videoObject._id}" class="object_route">
             <div class="first_child_link">
                 <div class="video_thumbnail">
-                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl"
-                        style="border-radius: 10px;">
+                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" loading="lazy">
                     <span class="video_duration">${this.videoObject.duration}</span>
                 </div>
                 <div class="video_details">
                     <div class="creator_profile_image">
                         <img src="${this.videoObject.creatorProfilePic}" alt="profilePicUrl">
+                        
                     </div>
                     <div class="video_information_div">
-                        <div class="video_title">
-                            <p>${this.videoObject.title}</p>
-                        </div>
                         <div class="creator_name">
                             <p>Tview</p>
                         </div>
+                        <div class="video_title">
+                            <p>${this.videoObject.title}</p>
+                        </div>
+                        
                         <div class="video_view_and_date">
-                            <p>${this.videoObject.views} views</p>
-                            <p>${date} ago</p>
+                            <p>${this.videoObject.views} views ~ ${date} ago</p>
                         </div>
                     </div>
                 </div>

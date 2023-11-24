@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const path = require("path");
 
-const nodemailer = require("nodemailer");
+const mailer = require("../utils/mail")
 const adminController = require("../controllers/adminController");
 
 const User = require('../models/Users');
@@ -52,42 +52,31 @@ router.get("/user/auth/email/:email", (req, res) => {
 
 router.get("/user/getverificationcode/:email", (req, res) => {
     const verificationCode = Math.floor(1000 + Math.random() * 9000);//generate random 4 digit number
+    const message = `Your verification code is: ${verificationCode}`;
+    const subject = 'Email Verification Code';
+    const recipient = req.params.email;
 
-    //create a transporter profile, that allows login access to your gmail
-    const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: "niicodes.teamst0199@gmail.com",
-            pass: "ldwqdwzudicildio"
-        }
-    })
-
-    //compose an email
-    const mailOptions = {
-        from: "niicodes.teamst0199@gmail.com",
-        to: req.params.email,
-        subject: 'Email Verification Code',
-        text: `Your verification code is: ${verificationCode}`
-    };
-
-    //send an email
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Error sending email:', error);
-        } else {
-            console.log('Email sent:', info.response);
-            const veriyObject = new VerifyCode(verificationCode, req.params.email);
-            veriyObject.storeCodeAndEmail()
-                .then(response => {
-                    if (response.error == null) {
-                        res.status(200).json({ message: "code generated successfully" });
-                    }
-                })
-                .catch(error => {
-                    res.status(404).json({ message: error });
-                })
-        }
-    });
+    mailer.sendMail(recipient, subject, message)
+        .then(response => {
+            if (response.message == "Email sent") {
+                const veriyObject = new VerifyCode(verificationCode, req.params.email);
+                veriyObject.storeCodeAndEmail()
+                    .then(response => {
+                        if (response.error == null) {
+                            res.status(200).json({ message: "code generated successfully" });
+                        }
+                    })
+                    .catch(error => {
+                        res.status(404).json({ message: error });
+                    })
+            }
+            else {
+                res.status(500).json({ message: "INTERNAL SERVER ERROR!" })
+            }
+        })
+        .catch(error => {
+            res.status(404).json({ message: error });
+        })
 
 })
 

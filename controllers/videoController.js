@@ -98,7 +98,7 @@ exports.fetchForYouByUserId = (req, res) => {
                             res.status(200).json({message: "Empty Feed"});
                         }
                         else {
-                            res.status(200).json({message: "success"});
+                            res.status(200).json({message: "success", document: resp.document});
                         }
                     })
                     .catch(err => {

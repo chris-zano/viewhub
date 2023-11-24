@@ -1,5 +1,7 @@
 const Profile = require("../models/Profiles");
 const User = require("../models/Users");
+const mailer = require("../utils/mail")
+
 
 exports.userSignup = (req, res) => {
     const user = new User(req.body.email, req.body.password);
@@ -22,7 +24,7 @@ exports.userSignup = (req, res) => {
             }
         })
         .catch(error => {
-            if (error.error == true) {
+            if (error.error == true && error.msg.msg != "User match") {
                 Profile.checkProfile(error.msg.userId)
                     .then(response1 => {
                         if (response1.msg == "No user with such id") {
@@ -35,6 +37,25 @@ exports.userSignup = (req, res) => {
                     .catch(error1 => {
                         res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "No such User Exists!" });
                     })
+            }
+            else {
+                const recipient = error.msg.email;
+                const subject = 'UNSUCCESSFUL LOGIN ATTEMPT';
+                const message = `
+                    <p>Dear ViewHub User,</p>
+                    <p>This email is to inform you that there has been an unsuccessful attempt to signin to your viewhub account with this email ${recipient}.</p>
+                    <p>If this was not you, click the button below to reset you account password; Otherwise, no further action is required</p>
+                    <p><a href="https://viewhub.io/admin/password/reset/u=?asjjuerbvnrio-10cc4lddi">Reset Password</a></p>
+                `;
+                
+                mailer.sendMail(recipient, subject, message)
+                .then(mail => {
+                    console.log(mail);
+                })
+                .catch(mailerror => {
+                    console.log(mailerror);
+                })
+                res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "Email already registered" });
             }
         })
 }
