@@ -175,7 +175,6 @@ class Uploads {
                         reject({error: true, error_Object: err});
                     }
                     else {
-                        console.log(document);
                         if (document.length < 1) {
                             resolve({error: true, error_Message: "Empty feed"});
                         }

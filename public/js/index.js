@@ -12,10 +12,17 @@ function indexMain() {
 
     fetchVideos(JSON.parse(getLocalStorage("loginState")).userId)
     .then(res => {
-        console.log(res.res.message);
         if (res.res.message == "Empty Feed") {
             alert("Upload a video to get started");
             window.location.href ="/nav/upload_video";
+        }
+        else {
+            const videoObjectArray = res.res.document;
+            for (let videoObject of videoObjectArray) {
+                const tviewTemplate = new Tview(videoObject);
+                const divElement = tviewTemplate.renderObjectTemlate();
+                document.getElementById("usertviewlist").appendChild(divElement);
+            }
         }
     })
     .catch(err => {

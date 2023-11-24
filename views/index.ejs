@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/root">
     <link rel="stylesheet" href="/css/global-header">
     <link rel="stylesheet" href="/css/global-footer">
+    <link rel="stylesheet" href="/css/tview_object">
     <link rel="stylesheet" href="/css/main">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Document</title>
@@ -19,11 +20,15 @@
 
         <main class="container-main">
             <section class="left-sidenav"><!-- This will be the left navigation --></section>
-            <section class="wrapper-main"><!-- this is where the videos will be --></section>
+            <section class="wrapper-main" id="usertviewlist">
+                <!-- this is where the videos will be -->
+
+            </section>
         </main>
 
         <%- include('layouts/global/footer') %>
             <script src="/js/utils"></script>
+            <script src="/js/class_tview"></script>
             <script src="/js/index"></script>
 </body>
 
