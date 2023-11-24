@@ -42,13 +42,8 @@ class AuthFactor {
         return encrypted.replace(/-/g, "");
     }
 
-    static hashWithKey(password, key) {
-        if (key == "low") {
-            return this.lowLevelEncryption(password);
-        }
-        else {
-            return this.lowLevelEncryption(password);
-        }
+    static hashWithKey(password) {
+        return this.lowLevelEncryption(password);
     }
 
 }

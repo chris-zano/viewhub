@@ -18,18 +18,23 @@ router.get('/', (req, res) => {
 })
 
 router.get('/user/password/reset/:userId', (req, res) => {
-    User.checkId(req.params.userId)
-        .then(response => {
-            if ((response.msg == "User match") && (response.id == req.params.userId)) {
-                res.render("layouts/profile/reset", { error: false, userId: req.params.userId, authorized: false });
-            }
-        })
-        .catch(error => {
-            res.render("error", { error: error });
-        })
+    if (req.params.userId != "null" || null) {
+        User.checkId(req.params.userId)
+            .then(response => {
+                if ((response.msg == "User match") && (response.id == req.params.userId)) {
+                    res.render("layouts/profile/reset", { error: false, userId: req.params.userId, authorized: false });
+                }
+            })
+            .catch(error => {
+                res.render("error", { error: error });
+            })
+    }
+    else {
+        res.render("layouts/profile/reset", { error: false, userId: null, authorized: false });
+    }
 })
 
-router.get("/user/auth/email/:email/:userId", (req, res) => {
+router.get("/user/auth/email/:email", (req, res) => {
     User.checkEmail(req.params.email)
         .then(error => {
             res.status(404).json({ error: error, message: "an error occurred" })
@@ -73,14 +78,14 @@ router.get("/user/getverificationcode/:email", (req, res) => {
             console.log('Email sent:', info.response);
             const veriyObject = new VerifyCode(verificationCode, req.params.email);
             veriyObject.storeCodeAndEmail()
-            .then(response => {
-                if (response.error == null) {
-                    res.status(200).json({message: "code generated successfully"});
-                }
-            })
-            .catch(error => {
-                res.status(404).json({message: error});
-            })
+                .then(response => {
+                    if (response.error == null) {
+                        res.status(200).json({ message: "code generated successfully" });
+                    }
+                })
+                .catch(error => {
+                    res.status(404).json({ message: error });
+                })
         }
     });
 
@@ -90,16 +95,16 @@ router.get("/user/getverificationcode/:email", (req, res) => {
 router.get("/user/verifycodeandemail/:email/:code", (req, res) => {
     const verifyObject = new VerifyCode(req.params.code, req.params.email);
     verifyObject.verifyCodeAndEmail()
-    .then(response => {
-        res.status(200).json({message: response.message})
-    })
-    .catch(error => {
-        res.status(200).json({error: error});
-    })
+        .then(response => {
+            res.status(200).json({ message: response.message })
+        })
+        .catch(error => {
+            res.status(200).json({ error: error });
+        })
 })
 
-router.get("/user/password_change/authorized", (req,res) => {
-    void(req);
+router.get("/user/password_change/authorized", (req, res) => {
+    void (req);
     res.render("layouts/profile/passwordreset", { error: false, userId: req.params.userId, authorized: false });
 
 })
@@ -108,32 +113,31 @@ router.get("/admin/update/password/:userId/:current_password/:new_password", (re
     try {
         console.log(req.params);
         User.updateUserPassword(req.params.userId, req.params.current_password, req.params.new_password)
-        .then(response => {
-            if (response.error == false && response.message == "password updated")
-            {
-                res.status(200).json({message: "password updated"});
-            }
-        })
-        .catch(error => {
-            if (error) res.status(200).json({message: "failed to update password"});
-        })
+            .then(response => {
+                if (response.error == false && response.message == "password updated") {
+                    res.status(200).json({ message: "password updated" });
+                }
+            })
+            .catch(error => {
+                if (error) res.status(200).json({ message: "failed to update password" });
+            })
     } catch (error) {
-        
+
     }
 })
 
 router.get("/user/edit/profile/:userId", (req, res) => {
     try {
         Profile.getUserProfileById(req.params.userId)
-        .then(response => {
-            if (response.error == false) {
-                // console.log(response.document[0]);
-                res.render("layouts/profile/editprofile", {userId: req.params.userId, document: response.document[0]});
-            }
-        })
-        .catch(error => {
-            res.render(`error/${error}`)
-        })
+            .then(response => {
+                if (response.error == false) {
+                    // console.log(response.document[0]);
+                    res.render("layouts/profile/editprofile", { userId: req.params.userId, document: response.document[0] });
+                }
+            })
+            .catch(error => {
+                res.render(`error/${error}`)
+            })
     } catch (error) {
         res.render(`error/${error}`)
     }

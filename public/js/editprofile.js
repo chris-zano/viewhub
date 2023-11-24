@@ -9,7 +9,7 @@ function main() {
         .then(response => {
             if (response.error == false) {//the user has been autheticated
                 if(response.userId == e.target.getAttribute("data-userId").trim()) {//check if id matches cached id
-                    location.href = `/user/password/reset/${e.target.getAttribute("data-userId").trim()}`;
+                    location.href = `/user/password/reset/${e.target.getAttribute("data-userId").trim()}/null`;
                 }
             }
         })

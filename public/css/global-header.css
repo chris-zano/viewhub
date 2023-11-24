@@ -66,6 +66,7 @@
         cursor: pointer;
         transition: var(--transition-default);
         background-color: transparent;
+        /* color: var(--color-theme-1); */
     }
 
     header div.profile-nav div.profile-action-buttons button#profileBtn {
@@ -110,6 +111,42 @@
     header nav.main-header-nav ul li a:hover {
         text-decoration: underline;
         color: var(--default-link-font-color);
+    }
+
+    header nav div.login-btn {
+        padding: 0 2rem;
+        margin: auto 0;
+        border-radius: 0.45rem;
+        box-shadow: var(--box-shadow-thin);
+        background-color: var(--color-theme-1);
+        height: 80%;
+        display: flex;
+        align-items: center;
+        float: inline-end;
+        margin-right: 2rem;
+        cursor: pointer;
+    }
+
+    header nav div.login-btn:hover {
+        background-color: var(--color-theme-1-dark);
+    }
+
+    header nav div.login-btn li  a{
+        font-weight: 600;
+        color: var(--default-dark-font);
+        transition: all ease-in-out 200ms;
+    }
+    
+    header nav div.login-btn:hover li a {
+        color: var(--background-light);
+    }
+
+    header nav div.login-btn-hide {
+        display: none;
+    }
+
+    header nav div.login-btn-show {
+        visibility: visible;
     }
 
 
@@ -216,8 +253,9 @@
         padding-right: 2rem;
     }
 
-    header nav.main-header-nav ul li,
+    header nav.main-header-nav ul li
     a {
+        font-family: var(--default-font);
         cursor: pointer;
         font-size: 14px;
         transition: var(--transition-default);
@@ -228,6 +266,34 @@
         color: var(--default-link-font-color);
     }
 
+    header nav div.login-btn {
+        padding: 0 2rem;
+        margin: auto 0;
+        border-radius: 0.45rem;
+        box-shadow: var(--box-shadow-thin);
+        background-color: var(--color-theme-1);
+        height: 80%;
+        display: flex;
+        align-items: center;
+        float: inline-end;
+        margin-right: 0.6rem;
+        cursor: pointer;
+    }
+
+    header nav div.login-btn:hover {
+        background-color: var(--color-theme-1-dark);
+    }
+
+    header nav div.login-btn li  a{
+        font-family: var(--default-font);
+        font-weight: 500;
+        color: var(--default-dark-font);
+        transition: all ease-in-out 200ms;
+    }
+    
+    header nav div.login-btn:hover li a {
+        color: var(--background-light);
+    }
 
     .hidden {
         display: none;

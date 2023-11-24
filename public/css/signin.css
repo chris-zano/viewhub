@@ -15,20 +15,20 @@ main {
     /* place-items: center; */
 }
 
-main > div {
+main>div {
     padding: 1em;
     display: grid;
 }
 
 @media (min-width: 869px) {
-    main > div {
+    main>div {
         width: 400px;
         height: 300px;
     }
 }
 
 @media (max-width: 868px) {
-    main > div {
+    main>div {
         aspect-ratio: 2/3;
     }
 }
@@ -44,7 +44,7 @@ main > div {
     color: var(--error-message);
 }
 
-main > div > form {
+main>div>form {
     background: #faf9f9;
     min-width: 300px;
     min-height: 400px;
@@ -52,6 +52,7 @@ main > div > form {
     display: grid;
     row-gap: 1em;
     border-radius: 1em;
+    position: relative;
 }
 
 div.form_title {
@@ -60,15 +61,16 @@ div.form_title {
     font-weight: bold;
 }
 
-form > * {
+form>* {
     display: grid;
     row-gap: 5px;
 }
+
 form div.input-field {
     position: relative;
 }
 
-.input-field > label {
+.input-field>label {
     font-weight: 500;
     color: #383636;
     font-size: 14px;
@@ -102,7 +104,28 @@ input {
 
 .create-account-div {
     margin-inline: auto;
+    font-size: 13px;
 }
+
+.create-account-div p {
+    color: rgb(154, 147, 147);
+}
+
+.create-account-div p a{
+    color: rgb(77, 75, 75);
+}
+
+.forgot-password-div {
+    position: absolute;
+    top: 50%;
+    padding: 1rem 0;
+    margin-left: 1.3rem;
+}
+
+.forgot-password-div small a {
+    color: rgb(154, 147, 147);
+}
+
 input[type="submit"] {
     width: 175px;
     margin-inline: auto;
@@ -124,7 +147,7 @@ input[type="submit"]:hover {
 input#ppic {
     border: transparent;
     margin: auto;
-    
+
 }
 
 fieldset {
@@ -137,6 +160,7 @@ legend {
     padding: 10px;
     margin: 0 10px;
 }
+
 .gender_div {
     display: flex;
     align-items: center;
@@ -144,7 +168,7 @@ legend {
     column-gap: 10px;
 }
 
-div.default_image_div{
+div.default_image_div {
     display: grid;
     place-items: center;
 }

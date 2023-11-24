@@ -1,24 +1,31 @@
 footer {
     height: 100vh;
-     font-family: sans-serif;
+    font-family: sans-serif;
     padding: 2rem 1rem;
-   font-size: 16px;
+    font-size: 16px;
 }
 
+<<<<<<< HEAD
 
 .footer_navigation{
+=======
+.footer_navigation {
+>>>>>>> origin/master
     display: flex;
     justify-content: space-around;
     margin-top: 70px;
-    
+
+<<<<<<< HEAD
+
+=======
 }
-
-
+>>>>>>> origin/master
 
 .links {
-     line-height: 50px;
+    line-height: 50px;
 }
 
+<<<<<<< HEAD
 
 .fa{
  padding: 10px;
@@ -31,18 +38,26 @@ footer {
 
 
 .row{
+=======
+.fa {
+    padding: 10px;
+}
+
+.row {
+>>>>>>> origin/master
     display: flex;
     align-items: center;
-    background:#edeef0;
+    background: #edeef0;
     border-radius: 30px;
     padding-left: 20px;
     margin-bottom: 25px;
     width: 500px;
     margin-top: 100px;
-    
-    
+
+
 }
 
+<<<<<<< HEAD
 .rowe{
     margin: auto;
     width:30%;
@@ -51,22 +66,35 @@ footer {
 
 
 p{
-    line-height: 30px;
-    
+=======
+.rowe {
+    margin: auto;
+    width: 30%;
 }
 
-input[type="text"]{
-    
-    border:none ;
+p {
+>>>>>>> origin/master
+    line-height: 30px;
+
+}
+
+input[type="text"] {
+
+    border: none;
     outline: none;
     background: transparent;
     padding: 10px;
-} 
+}
 
+<<<<<<< HEAD
    
 
 footer div.rowe button{
     border:none;
+=======
+footer button {
+    border: none;
+>>>>>>> origin/master
     outline: none;
     padding: 16px 50px;
     background: #ff5945;
@@ -75,6 +103,7 @@ footer div.rowe button{
     cursor: pointer;
     border-radius: 40px;
     margin-left: 200px;
+<<<<<<< HEAD
 }
 .fit{
     
@@ -93,6 +122,11 @@ footer div.rowe button{
     background-image:linear-gradient( 180deg, #8A3AB9,#BC2A8D,#CD486B,#E4405F,#BC2A8D,#E95950,#FBAD50, #FCC663,#FFFC00); 
     color: white; 
 }
+=======
+
+
+
+>>>>>>> origin/master
 
 .wat{
      color: white;
