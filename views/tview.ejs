@@ -9,63 +9,87 @@
     <link rel="stylesheet" href="/css/global-header">
     <link rel="stylesheet" href="/css/global-footer">
     <link rel="stylesheet" href="/css/tviewpc">
+    <link rel="stylesheet" href="/css/tview_object">
     <title>Tview ~ <%= document.title %>
     </title>
 </head>
 
 <body>
     <%- include("./layouts/global/header") %>
-    <!-- <div class="header_container">
-        <form action="/" method="get">
-            <input type="submit" value="Home" class="nav_button">
-        </form>
-        <form action="/user/profile/<%= document.creatorId %>" method="get">
-            <input type="submit" value="Back" class="nav_button">
-        </form>
-    </div> -->
 
 
-    <main class="main_container">
-        <div class="media_div">
-            <div class="player_div">
-                <video src="<%= document.streamUrl %>" autoplay="false" controls="true"></video>
-            </div>
-            <div class="media_details">
-                <a href="/user/profile/<%= document.creatorId %>" class="creator_url">
-                    <div class="img_prof">
-                        <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
-                    </div>
-                    <div class="creator_details">
-                        <span class="creator_firstname">Creator</span>
-                        <span class="creator_lastname">Name</span>
-                    </div>
-                </a>
-                <div class="title_des">
-                    <p class="video_title"><%= document.title %></p>
-                    <p class="video_des"><%= document.description %></p>
-                    <div class="views"><%= document.views %> views</div>
+        <main class="main_container">
+            <div class="media_div">
+                <div class="player_div">
+                    <video src="<%= document.streamUrl %>" autoplay="false" controls="true"></video>
                 </div>
-                <div class="likes_comment">
-                    <div class="likes"><%= document.likes %> likes</div>
-                    <div class="likes"><%= document.comments %> comments</div>
+                <div class="media_details">
+                    <a href="/user/profile/<%= document.creatorId %>" class="creator_url">
+                        <div class="img_prof">
+                            <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
+                        </div>
+                        <div class="creator_details">
+                            <span class="creator_firstname">Creator</span>
+                            <span class="creator_lastname">Name</span>
+                        </div>
+                    </a>
+                    <div class="title_des">
+                        <p class="video_title">
+                            <%= document.title %>
+                        </p>
+                    </div>
+                </div>
+                <div class="media_description">
+                    <p class="video_des">
+                        <%= document.description %>
+                    </p>
+                    <div class="views">
+                        <%= document.views %> views
+                    </div>
+                    <div class="likes">
+                        <%= document.likes %> likes
+                    </div>
+                    <div class="comments">
+                        <%= document.comments %> comments
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="recommendations">
-            <div class="refparams" id="license"><%= document.license %></div>
-            <div class="refparams" id="tags"><%= document.tags %></div>
-            <div class="refparams" id="category"><%= document.category %></div>
-            <div id="usertviewlist">
+            <div class="recommendations">
+                <div class="refparams_wrapper">
+                    <div class="refparams" id="license">
+                        <%= document.license %>
+                    </div>
+                    <div class="refparams" id="tags">
+                        <%= document.tags %>
+                    </div>
+                    <div class="refparams" id="category">
+                        <%= document.category %>
+                    </div>
+                    <div class="refparams" id="category">
+                        <%= document.category %>
+                    </div>
+                    <div class="refparams" id="category">
+                        <%= document.category %>
+                    </div>
+                    <div class="refparams" id="category">
+                        <%= document.category %>
+                    </div>
+                    <div class="refparams" id="category">
+                        <%= document.category %>
+                    </div>
+                </div>
+                <div id="usertviewlist">
 
 
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <%- include("./layouts/global/footer") %>
-    <script src="/js/utils"></script>
-    <script src="/js/class_tview"></script>
-    <script src="/js/tview"></script>
+        <%- include("./layouts/global/footer") %>
+
+            <script src="/js/utils"></script>
+            <script src="/js/class_tview"></script>
+            <script src="/js/tview"></script>
 </body>
 
 </html>

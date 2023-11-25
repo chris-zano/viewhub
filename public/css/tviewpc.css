@@ -1,0 +1,94 @@
+img {
+    width: 100px;
+    height: 100px;
+}
+
+@media (min-width: 768px) {
+    main.main_container {
+        width: 100%;
+        padding: 0 2rem;
+        display: flex;
+    }
+    
+    
+    main div.media_div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .media_div .player_div {
+        height: calc(100vh - 35vh);
+    }
+    
+    .media_div .player_div video {
+        width: calc(100vw - 40vw);
+        height: calc(100vh - 35vh);
+        border-radius: 1rem;
+    }
+    
+    .media_details {
+        margin-top: 11px;
+        display: flex;
+    }
+    
+    .media_details .creator_url {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .media_details .img_prof img.profile_image {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+    }
+
+    .media_details .creator_details span {
+        font-size: 14px;
+    }
+
+    .media_details .title_des {
+        margin: 0px 3px;
+        width: calc(100% - 15%);
+    }
+    
+    main.main_container div.recommendations {
+        margin-left: 2rem;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .recommendations .refparams_wrapper {
+        padding: 10px;
+        display: flex;
+        width: calc(100vw - 67vw);
+        overflow-x: scroll;
+    }
+
+    .recommendations .refparams_wrapper::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .recommendations .refparams {
+        background-color: rgba(200, 202, 202, 0.663);
+        color: rgb(32, 32, 34);
+        display: flex;
+        min-width: fit-content;
+        max-width: 170px;
+        margin-inline: 5px;
+        padding: 5px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: var(--transition-default);
+    }
+
+    .recommendations .refparams:hover {
+        background-color: rgba(71, 74, 74, 0.441);
+        color: rgb(0, 0, 0);
+    }
+}
+
