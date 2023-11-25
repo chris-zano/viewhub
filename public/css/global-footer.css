@@ -5,22 +5,46 @@ footer {
     font-size: 16px;
 }
 
+<<<<<<< HEAD
+
+.footer_navigation{
+=======
 .footer_navigation {
+>>>>>>> origin/master
     display: flex;
     justify-content: space-around;
     margin-top: 70px;
 
+<<<<<<< HEAD
+
+=======
 }
+>>>>>>> origin/master
 
 .links {
     line-height: 50px;
 }
 
+<<<<<<< HEAD
+
+.fa{
+ padding: 10px;
+ margin: 5px;
+ cursor: pointer;
+ 
+}
+
+
+
+
+.row{
+=======
 .fa {
     padding: 10px;
 }
 
 .row {
+>>>>>>> origin/master
     display: flex;
     align-items: center;
     background: #edeef0;
@@ -33,12 +57,23 @@ footer {
 
 }
 
+<<<<<<< HEAD
+.rowe{
+    margin: auto;
+    width:30%;
+    align-items: center;
+}
+
+
+p{
+=======
 .rowe {
     margin: auto;
     width: 30%;
 }
 
 p {
+>>>>>>> origin/master
     line-height: 30px;
 
 }
@@ -51,8 +86,15 @@ input[type="text"] {
     padding: 10px;
 }
 
+<<<<<<< HEAD
+   
+
+footer div.rowe button{
+    border:none;
+=======
 footer button {
     border: none;
+>>>>>>> origin/master
     outline: none;
     padding: 16px 50px;
     background: #ff5945;
@@ -61,8 +103,45 @@ footer button {
     cursor: pointer;
     border-radius: 40px;
     margin-left: 200px;
+<<<<<<< HEAD
+}
+.fit{
+    
+}
+.ytb{
+    color:#d90222; 
+     background-color: white; 
+     border-radius: 12px; 
+     border:1px solid black;
+     border: none; 
+     outline:none; 
+}
+
+.ig{
+    border-radius: 12px ;
+    background-image:linear-gradient( 180deg, #8A3AB9,#BC2A8D,#CD486B,#E4405F,#BC2A8D,#E95950,#FBAD50, #FCC663,#FFFC00); 
+    color: white; 
+}
+=======
 
 
 
+>>>>>>> origin/master
 
+.wat{
+     color: white;
+     background-color:#25d366;
+     border-radius: 12px;
+}
+
+.git{
+    background-color: black; 
+    color: white; 
+    border-radius: 12px;
+}
+
+.twit{
+    background-color:#08a0e9 ;
+    color: white; 
+    border-radius: 12px;
 }
