@@ -10,8 +10,6 @@ function main() {
     getVideoRecommendations()
     .then(response => {
         for (let video of response.document) {
-            console.log(video);
-            
             const tview = new Tview(video);
             getId("usertviewlist").append(tview.renderObjectTemlate());
         }
@@ -19,6 +17,19 @@ function main() {
     .catch(error => {
         console.log(error);
     })
+
+    const videoPlayer = document.getElementById("video_player");
+    const videoPlayerOverlay = document.getElementById("video_player_overlay");
+
+    videoPlayer.addEventListener("mouseenter", (e) => {
+        videoPlayerOverlay.classList.remove("hidden")
+    });
+
+    videoPlayer.addEventListener("mouseleave", (e) => {
+        setTimeout(()=>{
+            videoPlayerOverlay.classList.add("hidden")
+        }, 5000)
+    });
 }
 
 async function getVideoRecommendations() {
