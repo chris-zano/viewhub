@@ -19,14 +19,28 @@ img {
     
     .media_div .player_div {
         height: calc(100vh - 35vh);
+        cursor: pointer;
+        position: relative;
     }
     
     .media_div .player_div video {
         width: calc(100vw - 40vw);
         height: calc(100vh - 35vh);
         border-radius: 1rem;
+        cursor: pointer;
     }
     
+    .media_div .player_div .video-overlay {
+        position: absolute;
+        background-color: rgba(26, 26, 26, 0.328);
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        border-radius: 1rem;
+        padding: 10px 20px;
+    }
+
     .media_details {
         margin-top: 11px;
         display: flex;
@@ -70,9 +84,17 @@ img {
     }
 
     .recommendations .refparams_wrapper::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .recommendations .refparams_wrapper::-webkit-scrollbar-button {
         display: none;
     }
     
+    .recommendations .refparams_wrapper::-webkit-scrollbar-thumb {
+        background-color: transparent !important;
+    }
+
     .recommendations .refparams {
         background-color: rgba(200, 202, 202, 0.663);
         color: rgb(32, 32, 34);
@@ -81,6 +103,7 @@ img {
         max-width: 170px;
         margin-inline: 5px;
         padding: 5px 20px;
+        margin-top: 10px;
         border-radius: 20px;
         cursor: pointer;
         transition: var(--transition-default);
@@ -89,6 +112,10 @@ img {
     .recommendations .refparams:hover {
         background-color: rgba(71, 74, 74, 0.441);
         color: rgb(0, 0, 0);
+    }
+
+    #usertviewlist {
+        margin-top: 10px;
     }
 }
 

@@ -21,7 +21,13 @@
         <main class="main_container">
             <div class="media_div">
                 <div class="player_div">
-                    <video src="<%= document.streamUrl %>" autoplay="false" controls="true"></video>
+                    <video src="<%= document.streamUrl %>" autoplay="false" id="video_player"></video>
+                    <!-- TODO: add className "Hidden" to video-overlay -->
+                    <div class="video-overlay hidden" id="video_player_overlay">
+                        <div class="overlay-title">
+                            <h2><%= document.title %></h2>
+                        </div>
+                    </div>
                 </div>
                 <div class="media_details">
                     <a href="/user/profile/<%= document.creatorId %>" class="creator_url">
@@ -85,7 +91,7 @@
             </div>
         </main>
 
-        <%- include("./layouts/global/footer") %>
+        <!-- <%- include("./layouts/global/footer") %> -->
 
             <script src="/js/utils"></script>
             <script src="/js/class_tview"></script>
