@@ -223,7 +223,6 @@ class Profile {
             User.checkId(id)//check if user is a registered user
                 .then(response => {
                     if (response.msg == "User match") {
-                        console.log('here 1');
                         Profile.checkProfile(id)//check if user profile exists
                             .then(res => {
                                 if (res.msg == "no username found") {
@@ -409,7 +408,6 @@ class Profile {
     */
     static getUserProfileById(id) {
         return new Promise((resolve, reject) => {
-            console.log('here 1');
             db.find(
                 { _id: id },
                 { multi: false },
