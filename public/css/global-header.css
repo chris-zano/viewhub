@@ -10,7 +10,8 @@
     }
 
     header div.profile-nav {
-        display: block;
+        display: flex;
+        justify-content: end;
         position: relative;
         cursor: pointer;
     }
@@ -20,7 +21,7 @@
         border: 1px solid transparent;
         border-radius: 1rem;
         padding: 5px 0;
-        margin-left: 15px;
+        margin-right: 15px;
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -47,14 +48,14 @@
     header div.profile-nav div.profile-action-buttons {
         position: absolute;
         top: 60px;
-        left: 1px;
+        right: 22px;
         height: fit-content;
         width: fit-content;
         display: flex;
         flex-direction: column;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         cursor: pointer;
-        background-color: rgb(250, 251, 252);
+        background-color: rgb(238, 241, 243);
         box-shadow: var(--box-shadow-thin);
         z-index: 9999;
 
@@ -72,24 +73,24 @@
     }
 
     header div.profile-nav div.profile-action-buttons button#profileBtn {
-        border-top-right-radius: 1rem;
-        border-top-left-radius: 1rem;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
     }
 
     header div.profile-nav div.profile-action-buttons button#logoutBtn {
-        border-bottom-right-radius: 1rem;
-        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
     }
 
     header div.profile-nav div.profile-action-buttons button#profileBtn:hover {
-        border-bottom-right-radius: 1rem;
-        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
         background-color: var(--color-theme-1);
     }
 
     header div.profile-nav div.profile-action-buttons button#logoutBtn:hover {
-        border-top-right-radius: 1rem;
-        border-top-left-radius: 1rem;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
         background-color: var(--color-theme-1);
     }
 
@@ -97,10 +98,10 @@
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: right;
+        justify-content: left;
         align-items: center;
         column-gap: 2rem;
-        padding-right: 2rem;
+        padding-left: 2rem;
     }
 
     header nav.main-header-nav ul li,

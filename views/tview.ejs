@@ -20,12 +20,81 @@
 
         <main class="main_container">
             <div class="media_div">
-                <div class="player_div">
-                    <video src="<%= document.streamUrl %>" autoplay="true" id="video_player" controls="true"></video>
+                <div class="player_div" id="player_div">
+                    <video src="<%= document.streamUrl %>" autoplay="false" id="video_player"></video>
                     <!-- TODO: add className "Hidden" to video-overlay -->
                     <div class="video-overlay hidden" id="video_player_overlay">
                         <div class="overlay-title">
-                            <h2><%= document.title %></h2>
+                            <h2 id="video_h2">
+                                <%= document.title %>
+                            </h2>
+                            <div class="bottom-overlay-navigation">
+                                <div class="left-bottom-overlay-navigation">
+                                    <ul>
+                                        <li><button id="previous">
+                                                <img src="/graphics/previous" alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="play-pause">
+                                                <img src="/graphics/play" id="play" class="hidden"
+                                                    alt="tview_graphics" />
+                                                <img src="/graphics/pause" id="pause" alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="next">
+                                                <img src="/graphics/next" alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="replay">
+                                                <img src="/graphics/replay" alt="tview_graphics" />
+                                            </button></li>
+                                    </ul>
+                                </div>
+                                <div class="right-bottom-overlay-navigation">
+                                    <ul>
+                                        <li><button id="download">
+                                                <img src="/graphics/download" alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="volume">
+                                                <img src="/graphics/volume" id="unmuted" alt="tview_graphics" />
+                                                <img src="/graphics/muted" id="muted" class="hidden"
+                                                    alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="settings">
+                                                <img src="/graphics/settings" alt="tview_graphics" />
+                                                <div class="hidden settings_overlay" id="settings_overlay">
+                                                    <div class="quality-radio">
+                                                        <label for="1080p">1080p</label>
+                                                        <input type="radio" name="quality" id="1080p" value="1080p">
+                                                    </div>
+                                                    <div class="quality-radio">
+                                                        <label for="720p">720p</label>
+                                                        <input type="radio" name="quality" id="720p" value="720p">
+                                                    </div>
+                                                    <div class="quality-radio">
+                                                        <label for="480p">480p</label>
+                                                        <input type="radio" name="quality" id="480p" value="480p">
+                                                    </div>
+                                                    <div class="quality-radio">
+                                                        <label for="360p">360p</label>
+                                                        <input type="radio" name="quality" id="360p" value="360p">
+                                                    </div>
+                                                    <div class="quality-radio">
+                                                        <label for="240p">240p</label>
+                                                        <input type="radio" name="quality" id="240p" value="240p">
+                                                    </div>
+                                                    <div class="quality-radio">
+                                                        <label for="144p">144p</label>
+                                                        <input type="radio" name="quality" id="144p" value="144p">
+                                                    </div>
+                                                </div>
+                                            </button></li>
+                                        <li><button id="mini-player">
+                                                <img src="/graphics/mini-player" alt="tview_graphics" />
+                                            </button></li>
+                                        <li><button id="full-screen">
+                                                <img src="/graphics/full-screen" alt="tview_graphics" />
+                                            </button></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,9 +162,9 @@
 
         <!-- <%- include("./layouts/global/footer") %> -->
 
-            <script src="/js/utils"></script>
-            <script src="/js/class_tview"></script>
-            <script src="/js/tview"></script>
+        <script src="/js/utils"></script>
+        <script src="/js/class_tview"></script>
+        <script src="/js/tview"></script>
 </body>
 
 </html>

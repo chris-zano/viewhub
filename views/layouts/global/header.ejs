@@ -1,4 +1,14 @@
 <header>
+    <nav class="main-header-nav" id="main-header-nav">
+        <ul id="ul-li-a">
+            <li><a href="/">Home</a></li>
+            <li><a href="/nav/upload_video">Upload</a></li>
+            <li><a href="/user/settings">Settings</a></li>
+        </ul>
+
+        <!-- dynamicaly render this section based on loginState -->
+    </nav>
+    
     <div class="profile-nav">
         <div class="current-user" id="current-user">
             <img src="/images/tagsbg.jpg" alt="example_img" class="big_img">
@@ -9,15 +19,7 @@
             <button type="submit" class="hidden" id="logoutBtn">Logout</button>
         </div>
     </div>
-    <nav class="main-header-nav" id="main-header-nav">
-        <ul id="ul-li-a">
-            <li><a href="/">Home</a></li>
-            <li><a href="/nav/upload_video">Upload</a></li>
-            <li><a href="/user/settings">Settings</a></li>
-        </ul>
-
-        <!-- dynamicaly render this section based on loginState -->
-    </nav>
+    
     <script src="/js/signInAuth" defer></script>
     <script>
         document.getElementById("current-user").addEventListener("click", (e) => {
