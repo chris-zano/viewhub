@@ -9,30 +9,30 @@ img {
         padding: 0 2rem;
         display: flex;
     }
-    
-    
+
+
     main div.media_div {
         width: 100%;
         display: flex;
         flex-direction: column;
     }
-    
+
     .media_div .player_div {
         height: calc(100vh - 35vh);
         cursor: pointer;
         position: relative;
     }
-    
+
     .media_div .player_div video {
         width: calc(100vw - 40vw);
         height: calc(100vh - 35vh);
         border-radius: 1rem;
         cursor: pointer;
     }
-    
+
     .media_div .player_div .video-overlay {
         position: absolute;
-        background-color: rgba(26, 26, 26, 0.328);
+        background-color: rgba(15, 15, 15, 0.5);
         top: 0;
         right: 0;
         left: 0;
@@ -41,18 +41,22 @@ img {
         padding: 10px 20px;
     }
 
+    .media_div .player_div .video-overlay .overlay-title h2 {
+        color: aliceblue;
+    }
+
     .media_details {
         margin-top: 11px;
         display: flex;
     }
-    
+
     .media_details .creator_url {
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
     }
-    
+
     .media_details .img_prof img.profile_image {
         width: 65px;
         height: 65px;
@@ -67,7 +71,7 @@ img {
         margin: 0px 3px;
         width: calc(100% - 15%);
     }
-    
+
     main.main_container div.recommendations {
         margin-left: 2rem;
         display: flex;
@@ -75,7 +79,7 @@ img {
         justify-content: center;
         align-items: center;
     }
-    
+
     .recommendations .refparams_wrapper {
         padding: 10px;
         display: flex;
@@ -90,7 +94,7 @@ img {
     .recommendations .refparams_wrapper::-webkit-scrollbar-button {
         display: none;
     }
-    
+
     .recommendations .refparams_wrapper::-webkit-scrollbar-thumb {
         background-color: transparent !important;
     }
@@ -117,5 +121,110 @@ img {
     #usertviewlist {
         margin-top: 10px;
     }
+
+    .video-overlay .bottom-overlay-navigation {
+        background-color: rgba(255, 255, 255, 0.396);
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
+        width: 100%;
+        height: 60px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .bottom-overlay-navigation .left-bottom-overlay-navigation ul,
+    .bottom-overlay-navigation .right-bottom-overlay-navigation ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bottom-overlay-navigation ul li button {
+        width: 40px;
+        height: 40px;
+        margin-inline: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        border-radius: 0.5rem;
+        border: 1px solid transparent;
+        background-color: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    .bottom-overlay-navigation ul li button:hover {
+        background-color: rgba(198, 194, 194, 0.441);
+    }
+
+    .bottom-overlay-navigation ul li button img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+
+    button#replay img {
+        max-width: 25px;
+        max-height: 25px;
+    }
+    
+    button#volume img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+    
+    button#settings img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+
+    button#settings {
+        position: relative;
+    }
+
+    button#settings .settings_overlay {
+        position: absolute;
+        width: 100px;
+        height: 160px;
+        background-color: rgba(198, 194, 194, 0.441);
+        border-radius: 0.5rem;
+        backdrop-filter: blur(5px);
+        bottom: 0;
+        transform: translateY(-29.5%);
+        display: flex;
+        flex-flow: column;
+        column-gap: 3px;
+        row-gap: 3px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    button#settings .settings_overlay .quality-radio {
+        display: flex;
+        column-gap: 5px;
+        justify-content: start;
+        cursor: pointer;
+    }
+    
+    button#settings .settings_overlay .quality-radio label{
+        text-align: left;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    
+    button#settings .settings_overlay .quality-radio input[type="radio"] {
+        float: right;
+        cursor: pointer;
+    }
 }
 
+.hidden {
+    visibility: hidden;
+}

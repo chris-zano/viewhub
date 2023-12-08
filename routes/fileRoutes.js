@@ -18,9 +18,14 @@ router.get("/font/:fontname", (req, res) => {
     fs.createReadStream(path.join(__dirname, "../public/assets/fonts", req.params.fontname)).pipe(res);
 })
 
-//images will be served though these route
+//images will be served though this route
 router.get("/images/:filename", (req, res) => {
     fs.createReadStream(path.join(__dirname, "../public/assets/images", `${req.params.filename}`)).pipe(res);
+})
+
+//tview overlay images snd graphics will be served though this route
+router.get("/graphics/:filename", (req, res) => {
+    fs.createReadStream(path.join(__dirname, "../public/assets/images/tview-svgs", `${req.params.filename}.png`)).pipe(res);
 })
 
 // profile images
