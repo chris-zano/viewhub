@@ -1,6 +1,6 @@
 :root {
-    --object-width: 335px;
-    --object-height: 300px;
+    --object-width: 395px;
+    --object-height: 340px;
 }
 
 section#usertviewlist::-webkit-scrollbar { display: none;}
@@ -12,8 +12,10 @@ section#usertviewlist {
     height: 100%;
     display: flex;
     flex-flow: row wrap;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
+    padding-top: 1rem;
+    justify-content: center;
 }
 
 section#usertviewlist .link_object {

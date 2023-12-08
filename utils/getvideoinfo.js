@@ -17,7 +17,7 @@ exports.getVideoInformation = (videoPath) => {
                     minutes = (Number(aminutes) * 60);
                     let secondsa = Math.floor(Number(String(minutes).slice(String(minutes).indexOf(".") + 1) / 1000) * 60);
                     minutes = Number(String(minutes).slice(0, String(minutes).indexOf(".")));
-                    actualTime = `${hours}:${minutes}:${secondsa + secondsb}`;
+                    actualTime = `${hours}:${"0"+ minutes?minutes < 10: minutes}:${String((secondsa + secondsb)).slice(0,1)}`;
                 }
 
                 else {

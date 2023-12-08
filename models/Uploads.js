@@ -75,8 +75,8 @@ class Uploads {
                             resolve({ error: false, msg: "init successful", videoId: doc._id });
                         })
                     }
-                }).catch(err =>{
-                    reject({error: err})
+                }).catch(err => {
+                    reject({ error: err })
                 })
         })
     }
@@ -135,29 +135,29 @@ class Uploads {
                     tags: tags.replaceAll("hashtag_", "#"),
                     category: category
                 },
-                {multi: true},
+                { multi: true },
                 (error, document) => {
-                    if(error) reject({error: true, message: error})
-                    
+                    if (error) reject({ error: true, message: error })
+
                     if (document.length == 0) {
-                        db.find({}, (error, doc) =>{
-                            if(error) reject({error: true, message: error})
-                            if(doc.length == 0){
-                                reject({error: true, message: "no videos found"})
+                        db.find({}, (error, doc) => {
+                            if (error) reject({ error: true, message: error })
+                            if (doc.length == 0) {
+                                reject({ error: true, message: "no videos found" })
                             }
-                            else if (doc.length <= 100){
-                                resolve({error: false, document: doc})
+                            else if (doc.length <= 100) {
+                                resolve({ error: false, document: doc })
                             }
-                            else if(doc.length > 100) {
-                                resolve({error:false, document: doc.slice(0,99)})
+                            else if (doc.length > 100) {
+                                resolve({ error: false, document: doc.slice(0, 99) })
                             }
                         })
                     }
                     else if (document.length <= 100) {
-                        resolve({error: false, document: document})
+                        resolve({ error: false, document: document })
                     }
                     else {
-                        resolve({error:false, document: document.slice(0,99)})
+                        resolve({ error: false, document: document.slice(0, 99) })
                     }
                 }
             )
@@ -168,18 +168,54 @@ class Uploads {
         return new Promise((resolve, reject) => {
             db.find(
                 {},
-                {multi: true},
+                { multi: true },
                 (err, document) => {
                     if (err) {
                         console.log(err);
-                        reject({error: true, error_Object: err});
+                        reject({ error: true, error_Object: err });
                     }
                     else {
                         if (document.length < 1) {
-                            resolve({error: true, error_Message: "Empty feed"});
+                            resolve({ error: true, error_Message: "Empty feed" });
                         }
                         else {
-                            resolve({error: false, document: document})
+                            resolve({ error: false, document: document })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    //danger zone. Admin only
+
+    static updateVideo(id, query, value) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: id },
+                { multi: false },
+                (err, document) => {
+                    if (err) reject({ error: err });
+                    else {
+                        if (document) {
+                            db.update(
+                                { _id: id },
+                                {
+                                    $set: {
+                                        [query]: value
+                                    }
+                                },
+                                { multi: false },
+                                (error, nC) => {
+                                    if (error) reject({ error: err });
+                                    else {
+                                        resolve({ doc: nC });
+                                    }
+                                }
+                            )
+                        }
+                        else {
+                            resolve({doc: null})
                         }
                     }
                 }
