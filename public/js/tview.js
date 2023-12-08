@@ -18,18 +18,18 @@ function main() {
         console.log(error);
     })
 
-    const videoPlayer = document.getElementById("video_player");
-    const videoPlayerOverlay = document.getElementById("video_player_overlay");
+    // const videoPlayer = document.getElementById("video_player");
+    // const videoPlayerOverlay = document.getElementById("video_player_overlay");
 
-    videoPlayer.addEventListener("mouseenter", (e) => {
-        videoPlayerOverlay.classList.remove("hidden")
-    });
+    // videoPlayer.addEventListener("mouseenter", (e) => {
+    //     videoPlayerOverlay.classList.remove("hidden")
+    // });
 
-    videoPlayer.addEventListener("mouseleave", (e) => {
-        setTimeout(()=>{
-            videoPlayerOverlay.classList.add("hidden")
-        }, 5000)
-    });
+    // videoPlayer.addEventListener("mouseleave", (e) => {
+    //     setTimeout(()=>{
+    //         videoPlayerOverlay.classList.add("hidden")
+    //     }, 5000)
+    // });
 }
 
 async function getVideoRecommendations() {
