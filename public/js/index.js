@@ -42,7 +42,6 @@ async function fetchVideos(userId) {
         });
     }
     catch(error) {
-        console.log("I am reporting an error");
         reportError(error)
         .then(res => console.log(res))
         .catch(err => console.log(err))

@@ -75,7 +75,6 @@ exports.userUpdateProfilePic = (req, res) => {
 }
 
 exports.reportError = (req, res) => {
-    console.log(req.body);
     if (req.body != {}) {
         const report = new ReportError(req.body);
         report.createReport()

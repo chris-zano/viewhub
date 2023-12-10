@@ -102,7 +102,6 @@ function checkLoginState() {
                     }
                     else {
                         //TODO:notify developer of error
-                        console.log("I am reporting an error");
                         reportError(response)
                             .then(res => {
                                 console.log(res.status);
@@ -119,7 +118,6 @@ function checkLoginState() {
                 })
         })
     } catch (error) {
-        console.log("I am reporting an error");
         reportError(error)
             .then(res => {
                 console.log(res.status);
@@ -139,7 +137,6 @@ function checkLoginState() {
         profileBtn.addEventListener("click", () => {
             getUserProfile(JSON.parse(loginState).userId)
                 .then(response => {
-                    console.log(response);
                     if (response.error == false) {//the user has been autheticated
                         if (response.userId == JSON.parse(loginState).userId) {//check if id matches cached id
                             location.href = `/user/profile/${response.userId}`
@@ -153,7 +150,6 @@ function checkLoginState() {
                     }
                 })
                 .catch(err => {
-                    console.log("I am reporting an error");
                     reportError(err)
                         .then(res => {
                             console.log(res.status);
@@ -166,7 +162,6 @@ function checkLoginState() {
                 })
         })
     } catch (error) {
-        console.log("I am reporting an error");
         reportError(err)
             .then(res => {
                 console.log(res.status);

@@ -22,7 +22,14 @@ router.get("/get/profile/userbyId/:userId", (req, res) => {
     User.checkId(req.params.userId)
         .then(response => {
             if ((response.msg == "User match") && (response.id == req.params.userId)) {
-                res.status(200).json({ error: false, userId: req.params.userId, message: "User authenticated" });
+                Profile.getUserProfileById(req.params.userId)
+                    .then(resp => {
+                        res.status(200).json({ error: false, userId: req.params.userId, message: "User authenticated", document: resp.document });
+                    })
+                    .catch(err => {
+                        res.status(404).json({ error: true, userId: null, message: error.msg });
+                    })
+                
             }
         })
         .catch(error => {
@@ -38,7 +45,6 @@ router.get("/user/profile/:userId", (req, res) => {
     Profile.getUserProfileById(req.params.userId)
         .then(response => {
             if (response.error == false && response.message == "data retreived successfully") {
-                // console.log(response.document[0]);
                 res.render("layouts/profile/profile", { document: response.document[0] });
             }
         })

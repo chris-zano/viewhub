@@ -1,5 +1,5 @@
 function update() {
-    console.log("What do you want to update?");
+    //TODO: what would you like to update
 }
 
 update();

@@ -21,7 +21,7 @@
         <main class="main_container">
             <div class="media_div">
                 <div class="player_div" id="player_div">
-                    <video src="<%= document.streamUrl %>" autoplay="false" id="video_player"></video>
+                    <video src="<%= document.streamUrl %>" autoplay="true" id="video_player"></video>
                     <!-- TODO: add className "Hidden" to video-overlay -->
                     <div class="video-overlay hidden" id="video_player_overlay">
                         <div class="overlay-title">
@@ -136,18 +136,6 @@
                     </div>
                     <div class="refparams" id="tags">
                         <%= document.tags %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
                     </div>
                     <div class="refparams" id="category">
                         <%= document.category %>

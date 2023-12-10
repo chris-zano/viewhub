@@ -11,7 +11,6 @@ function main() {
 
         authenticateUserEmail(email)
             .then(response => {
-                console.log({error: response.error, message: response.message});
                 if (response.message == "auth success") {
                     sendVerificationCodeViaEmail(email)
                         .then(response => {
@@ -26,7 +25,6 @@ function main() {
                                         const code = document.getElementById("verification_code").value;
                                         verifyCodeWithEmailAndCode(email, code)//verify the input code with email and code
                                         .then(response => {
-                                            console.log(response);
                                             if(response.message == "verified") {
                                                 location.href = "/user/password_change/authorized"
                                             }

@@ -100,7 +100,6 @@ router.get("/user/password_change/authorized", (req, res) => {
 
 router.get("/admin/update/password/:userId/:current_password/:new_password", (req, res) => {
     try {
-        console.log(req.params);
         User.updateUserPassword(req.params.userId, req.params.current_password, req.params.new_password)
             .then(response => {
                 if (response.error == false && response.message == "password updated") {
@@ -120,7 +119,6 @@ router.get("/user/edit/profile/:userId", (req, res) => {
         Profile.getUserProfileById(req.params.userId)
             .then(response => {
                 if (response.error == false) {
-                    // console.log(response.document[0]);
                     res.render("layouts/profile/editprofile", { userId: req.params.userId, document: response.document[0] });
                 }
             })
