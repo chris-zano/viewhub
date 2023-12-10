@@ -9,24 +9,6 @@ function checkLoginState() {
     var logoutBtn;
 
     if (!loginState) {
-        //TODO: if loginState is false, navigation bar should have login button,
-        // disable navigation on the website
-        // - no profile page (should redirect to login)
-        // - no logout button
-        // - no settings (should redirect to login page)
-        // - no uploads page (should redirect to login page)
-        // -- user can watch videos / content on the pllatform, but cannot do the following
-        // -- like a video
-        // -- comment on a video
-        // -- save a video to watch later
-        // -- add a video to a playlist
-        // -- follow a creator
-        // -- user can do the following
-        // -- watch a video
-        // fast-forward through a video
-        // share a video
-        // view a creators profile
-        // read comments in comments section
 
         //get login-btn-show
         const navParent = document.getElementById("main-header-nav");
@@ -81,9 +63,19 @@ function checkLoginState() {
                     else {
                         localStorage.setItem("loginNotification", JSON.stringify({ count: 2 }));
                     }
+
                 }
 
             }
+
+            getUserProfile(JSON.parse(loginState).userId)
+            .then(res => {
+                localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
+                const username = res.document[0].username;
+                const ppURL = res.document[0].profilePicUrl;
+                document.getElementById("current-user-name").textContent = username.trim();
+                document.getElementById("big_img").setAttribute("src", ppURL.trim())
+            })
         }
     }
 

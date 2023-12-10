@@ -77,7 +77,6 @@ class Tview {
         </a>
         `;
 
-        console.log(this.videoObject.creatorId);
         getUserProfile(this.videoObject.creatorId)
             .then(res => {
                 const firstName = res.document[0].firstname;
