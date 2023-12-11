@@ -124,6 +124,26 @@ class User {
         })
     }
 
+    static getEmail(id) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: id },
+                { multi: false },
+                (err, doc) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    if (doc.length == 0) {
+                        resolve({ msg: "No user with such email", email: email, userId: null });
+                    }
+                    else if (doc.length == 1) {
+                        reject({error:true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
+                    }
+                }
+            )
+        })
+    }
+
     /**
      * authWithPassword - authenticates a user whose username has been verified by the calling function
      * @param {string} id The id property passed from the calling function

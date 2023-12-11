@@ -21,7 +21,7 @@
         <main class="main_container">
             <div class="media_div">
                 <div class="player_div" id="player_div">
-                    <video src="<%= document.streamUrl %>" autoplay="false" id="video_player"></video>
+                    <video src="<%= document.streamUrl %>" autoplay="fasle" id="video_player"></video>
                     <!-- TODO: add className "Hidden" to video-overlay -->
                     <div class="video-overlay hidden" id="video_player_overlay">
                         <div class="overlay-title">
@@ -99,13 +99,13 @@
                     </div>
                 </div>
                 <div class="media_details">
-                    <a href="/user/profile/<%= document.creatorId %>" class="creator_url">
+                    <a href="/user/profile/<%= document.creatorId %>" class="creator_url" id="creator_url">
                         <div class="img_prof">
                             <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
                         </div>
                         <div class="creator_details">
-                            <span class="creator_firstname">Creator</span>
-                            <span class="creator_lastname">Name</span>
+                            <span class="creator_firstname" id="creator_firstname">Creator</span>
+                            <span class="creator_lastname" id="creator_lastname">Name</span>
                         </div>
                     </a>
                     <div class="title_des">
@@ -140,18 +140,6 @@
                     <div class="refparams" id="category">
                         <%= document.category %>
                     </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
-                    <div class="refparams" id="category">
-                        <%= document.category %>
-                    </div>
                 </div>
                 <div id="usertviewlist">
 
@@ -165,6 +153,16 @@
         <script src="/js/utils"></script>
         <script src="/js/class_tview"></script>
         <script src="/js/tview"></script>
+        <script>
+            const elementdd = document.getElementById("creator_url").getAttribute("href");
+            const creatorId = elementdd.slice(elementdd.indexOf("profile/") + 8);
+
+            getUserProfile(creatorId)
+                .then(res => {
+                    const firstname = document.getElementById("creator_firstname").textContent = res.document[0].firstname;
+                    const lastname = document.getElementById("creator_lastname").textContent = res.document[0].lastname;
+                })
+        </script>
 </body>
 
 </html>

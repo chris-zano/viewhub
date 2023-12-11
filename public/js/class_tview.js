@@ -62,7 +62,7 @@ class Tview {
                     </div>
                     <div class="video_information_div">
                         <div class="creator_name">
-                            <p>Tview</p>
+                            <p id="first_last-name">Tview</p>
                         </div>
                         <div class="video_title">
                             <p>${this.videoObject.title}</p>
@@ -77,6 +77,19 @@ class Tview {
         </a>
         `;
 
+        getUserProfile(this.videoObject.creatorId)
+            .then(res => {
+                const firstName = res.document[0].firstname;
+                const lastName = res.document[0].lastname;
+
+                divElement.querySelector("#first_last-name").textContent = `${firstName} ${lastName}`;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
         return (divElement);
     }
+
+
 }

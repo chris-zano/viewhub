@@ -171,7 +171,6 @@ class Uploads {
                 { multi: true },
                 (err, document) => {
                     if (err) {
-                        console.log(err);
                         reject({ error: true, error_Object: err });
                     }
                     else {

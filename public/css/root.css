@@ -5,6 +5,7 @@
 
 :root {
     --default-font: robotoRegular;
+    --default-font-color-dark: #282727;
     --dark-grey: rgba(180, 179, 179, 0.889);
     --box-shadow-wide: 0px 3px 30px var(--dark-grey);
     --box-shadow-thin: 0px 3px 3px var(--dark-grey);
@@ -51,10 +52,27 @@ li {
 * {
     outline: none !important;
     font-family: var(--default-font);
+    color: var(--default-dark-font);
 }
 
 body {
     background-color: #fffbfb;
+    scroll-behavior: smooth;
+}
+
+*::-webkit-scrollbar {
+    width: 0.4rem;
+    border-radius: 1rem;
+}
+
+/* *::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    background-color: beige;
+} */
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: var(--color-theme-2);
 }
 
 .hidden {

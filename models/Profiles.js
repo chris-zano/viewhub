@@ -136,52 +136,38 @@ class Profile {
      */
     static checkUsernameExists(username, password) {
         return new Promise((resolve, reject) => {
-            console.log(1);
             db.find(
                 { username: username },
                 { multi: false },
                 (err, doc) => {
                     if (err) {
-                        console.log(2);
                         reject({ error: true, msg: err });
                     }
                     else {
-                        console.log(3);
                         if (doc.length == 0) {
-                            console.log(4);
                             User.checkEmail(username)
                                 .then(res => {
-                                    console.log(5);
                                     if (res.msg == "No user with such email") {
-                                        console.log(6);
                                         reject({ error: true, msg: "Wrong Username" });
                                     }
                                 })
                                 .catch(err => {
-                                    console.log(7);
                                     if (err.msg == "User match" && err.email == username) {
-                                        console.log(8);
                                         resolve({ error: false, userId: err.userId, msg: "username matches an email" });
                                     }
                                     else {
-                                        console.log(9);
                                         reject(err);
                                     }
                                 })
                         }
                         else {
-                            console.log(10);
                             User.authWithPassword(doc[0]._id, password)
                                 .then(response => {
-                                    console.log(11);
                                     if (response.msg == "Username and Password match") {
-                                        console.log(12);
                                         resolve({ error: false, msg: "Username and Password match", userId: doc[0]["_id"] })
                                     }
                                 })
                                 .catch(error => {
-                                    console.log(13);
-                                    console.log(error.msg);
                                     reject({ error: false, msg: error, userID: null })
                                 })
                         }

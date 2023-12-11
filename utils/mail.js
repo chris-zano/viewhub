@@ -22,10 +22,8 @@ exports.sendMail = (recipient, subject, message) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log('Error sending email:', error);
                 reject({error: true, message: "Error sending mail"});
             } else {
-                console.log('Email sent:', info.response);
                 resolve({error: false, message: "Email sent"})
             }
         });
