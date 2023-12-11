@@ -54,8 +54,79 @@ router.get("/user/profile/:userId", (req, res) => {
 })
 
 router.get("/user/settings", (req, res) => {
-    res.render("settings");
-})
+    res.render("settings", 
+    {
+        page: "default",
+        css: "default",
+        classes: {
+            default: "active",
+            dashboard: "inactive",
+            display: "inactive",
+            membership: "inactive",
+        }
+    });
+});
+
+router.get("/user/settings/default", (req, res) => {
+    res.render("settings", 
+    {
+        page: "default",
+        css: "default",
+        classes: {
+            default: "active",
+            dashboard: "inactive",
+            display: "inactive",
+            membership: "inactive"
+        }
+    });
+});
+
+router.get("/user/settings/dashboard", (req, res) => {
+    res.render("settings", 
+    {
+        page: "dashboard",
+        css: "dashboard",
+        classes: {
+            default: "inactive",
+            dashboard: "active",
+            display: "inactive",
+            membership: "inactive"
+        }
+    });
+});
+
+router.get("/user/settings/display", (req, res) => {
+    res.render("settings", 
+    {
+        page: "display",
+        css: "display",
+        classes: {
+            default: "inactive",
+            dashboard: "inactive",
+            display: "active",
+            membership: "inactive"
+        }
+    });
+});
+
+
+
+router.get("/user/settings/membership", (req, res) => {
+    res.render("settings", 
+    {
+        page: "membership",
+        css: "membership",
+        classes: {
+            default: "inactive",
+            dashboard: "inactive",
+            display: "inactive",
+            membership: "active"
+        }
+    });
+});
+
+
+
 
 router.post("/userSignup", userController.userSignup);
 router.post("/userlogin", userController.userLogin);

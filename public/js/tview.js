@@ -110,6 +110,22 @@ function main() {
         }
     });
 
+    //double-click full-screen
+    videoPlayerOverlay.addEventListener("dblclick", (e) => {
+        if (e.target.parentElement == document.getElementById("player_div")
+            || e.target.parentElement == document.getElementById("video_player_overlay")) {
+                if (videoPlayer.requestFullscreen) {
+                    videoPlayer.requestFullscreen();
+                } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+                    videoPlayer.mozRequestFullScreen();
+                } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                    videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+                    videoPlayer.msRequestFullscreen();
+                }
+        }
+    })
+
     //settings
     settings.addEventListener("click", () => {
         document.getElementById("settings_overlay").classList.toggle("hidden");

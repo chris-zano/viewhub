@@ -17,6 +17,22 @@ router.get('/', (req, res) => {
     res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
 })
 
+router.get('/user/get/email/:id', (req, res) => {
+    const id = req.params.id;
+
+    User.getEmail(id)
+        .then(response => {
+            if (response.msg == "No user with such email") {
+                res.status(500).end("a major error occured. contact the developer");
+            }
+        })
+        .catch(error => {
+            if (error.msg == "User match" && error.userId == id) {
+                res.status(200).json({email: error.email})
+            }
+        })
+})
+
 router.get('/user/password/reset/:userId', (req, res) => {
     if (req.params.userId != "null" || null) {
         User.checkId(req.params.userId)
