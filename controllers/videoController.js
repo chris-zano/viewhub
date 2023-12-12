@@ -141,6 +141,6 @@ exports.getRecommendedVideos = (req, res) => {
             res.status(200).json({ document: response.document })
         })
         .catch(error => {
-            console.log("error => ", error);
+            throw new Error(error)
         })
 }

@@ -61,15 +61,12 @@ exports.userSignup = (req, res) => {
 }
 
 exports.userLogin = (req, res) => {
-    console.log(req.body);
     Profile.checkUsernameExists(req.body.username, req.body.password)
         .then(response => {
             if (response.error == false && response.msg == "Username and Password match") {
-                console.log("user match");
                 res.render("signin", { pageTitle: "authenticateUser", error: false, userId: response.userId, msg: "no error" });
             }
             else if (response.error == false && response.msg == "username matches an email") {
-                console.log("username matches an email");
                 Profile.checkProfile(response.userId)
                     .then(response1 => {
                         if (response1.msg == "No user with such id") {
@@ -77,6 +74,9 @@ exports.userLogin = (req, res) => {
                         }
                         else if (response1.msg == "no username found") {
                             res.render("signin", { pageTitle: "Create-Profile ~ name", userId: response1.userID, message: "no username" });
+                        }
+                        else if (response1.msg == "User match") {
+                            res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "No such User Exists!" });
                         }
                     })
                     .catch(error1 => {
@@ -86,11 +86,9 @@ exports.userLogin = (req, res) => {
         })
         .catch(error => {
             if (error.error == true && error.msg == "Wrong Username") {
-                console.log("Wrong username");
                 res.render("signin", { pageTitle: "login", userId: null, error: true })
             }
             else if (error.msg.msg == "Wrong Password") {
-                console.log(14);
                 res.render("signin", { pageTitle: "login", userId: null, error: true })
             }
         })
@@ -104,7 +102,6 @@ exports.userLogout = (req, res) => {
 }
 
 exports.userUpdateName = (req, res) => {
-    console.log(req.body.userId, req.body.lastname, req.body.firstname);
     Profile.updateUserFirstAndLastNames(req.body.userId, req.body.lastname, req.body.firstname)
         .then(response => {
             if (response.error == false && response.msg == "success") {

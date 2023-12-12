@@ -17,33 +17,41 @@
 
 <body>
     <%- include('../global/header') %>
-    
-    <div class="main_container">
-        <button class="nav_button" type="submit" id="editProfile" data-userId="<%= document._id %>">Edit
-            Profile</button>
-        <div class="profile_view">
-            <div>
-                <%= document.firstname %>
-                    <%= document.lastname %>
-            </div>
 
-            <div>Followers == <%= document.followers %> Following == <%= document.following %>
+        <div class="main_container">
+
+            <section class="profile_banner">
+                <div class="profile_view">
+                    <img src="<%= document.profilePicUrl %>" alt="profilePicUrl" width="50px" height="50px"
+                        style="border-radius: 50%;">
+                        <div class="name-scribers">
+                            <h2>
+                                <%= document.firstname %>
+                                    <%= document.lastname %>
+                            </h2>
+                            <div class="subscribers">
+                                <h3>Subscribers</h3> 
+                                <small><%= document.followers %></small>
+                            </div>
+                        </div>
+                </div>
+                <div class="profile_action">
+                    <button class="nav_button" type="submit" id="editProfile" data-userId="<%= document._id %>">Edit
+                        Profile</button>
+                </div>
+            </section>
+
+            <div id="usertviewlist">
+
+
             </div>
-            <img src="<%= document.profilePicUrl %>" alt="profilePicUrl" width="50px" height="50px"
-                style="border-radius: 50%;">
         </div>
 
-        <div id="usertviewlist">
-
-
-        </div>
-    </div>
-
-    <div id="userUploads"></div>
-    <%- include('../global/footer') %>
-    <script src="/js/utils"></script>
-    <script src="/js/class_tview"></script>
-    <script src="/js/profile_main"></script>
+        <div id="userUploads"></div>
+        <%- include('../global/footer') %>
+            <script src="/js/utils"></script>
+            <script src="/js/class_tview"></script>
+            <script src="/js/profile_main"></script>
 </body>
 
 </html>

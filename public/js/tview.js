@@ -7,20 +7,29 @@ else {
 }
 
 function main() {
+    const videoPlayer = document.getElementById("video_player");
+    const videoPlayerOverlay = document.getElementById("video_player_overlay");
+
     getVideoRecommendations()
         .then(response => {
             for (let video of response.document) {
+
                 const tview = new Tview(video);
-                getId("usertviewlist").append(tview.renderObjectTemlate());
+                const url = window.location.href.slice(window.location.href.indexOf("/tview"));
+
+                if (`/tview/stream/video/${video._id}` == url) {
+                    delete(tview);
+                }
+                else{
+                    getId("usertviewlist").append(tview.renderObjectTemlate());
+                }
             }
         })
         .catch(error => {
             console.log(error);
         })
 
-    const videoPlayer = document.getElementById("video_player");
-    const videoPlayerOverlay = document.getElementById("video_player_overlay");
-
+    
     //get buttons
     const previous = document.getElementById("previous");
     const playPause = document.getElementById("play-pause");
@@ -101,6 +110,22 @@ function main() {
         }
     });
 
+    //double-click full-screen
+    videoPlayerOverlay.addEventListener("dblclick", (e) => {
+        if (e.target.parentElement == document.getElementById("player_div")
+            || e.target.parentElement == document.getElementById("video_player_overlay")) {
+                if (videoPlayer.requestFullscreen) {
+                    videoPlayer.requestFullscreen();
+                } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+                    videoPlayer.mozRequestFullScreen();
+                } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                    videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+                    videoPlayer.msRequestFullscreen();
+                }
+        }
+    })
+
     //settings
     settings.addEventListener("click", () => {
         document.getElementById("settings_overlay").classList.toggle("hidden");
@@ -109,7 +134,6 @@ function main() {
         qualityRadios.forEach((radio) => {
             radio.addEventListener('change', () => {
                 const value = radio.value;
-                console.log(value);
             });
 
         })
@@ -141,8 +165,6 @@ function main() {
         const previousVideoUrl = JSON.parse(localStorage.getItem('previous-video'));
 
         if (previousVideoUrl) {
-            console.log(previousVideoUrl);
-
             videoPlayer.src = previousVideoUrl;
         }
     });

@@ -4,7 +4,6 @@ else
     main();
 
 function main() {
-    console.log("we're here now !!!");
 
     document.getElementById("confirm_change").addEventListener("submit", (e) => {
         e.preventDefault();
@@ -22,7 +21,6 @@ function main() {
             //TODO request for a password change
             requestPasswordChange(current_password, new_password)
             .then(response => {
-                console.log(response);
                 if (response.message == "password updated") {
                     alert("Password Updated succesfully");
                     location.href = `/user/profile/${JSON.parse(getLocalStorage("loginState")).userId}`;
@@ -32,8 +30,6 @@ function main() {
                 }
             })
         }
-        console.log("old=> ", current_password);
-        console.log("new=> ", new_password);
     })
 }
 

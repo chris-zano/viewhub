@@ -4,55 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" href="/css/edit-profile">
     <title>Edit profile</title>
-    <style>
-        main {
-            display: grid;
-            grid-auto-flow: row;
-            gap: 1em;
-        }
-    </style>
 </head>
 
 <body>
     <main>
-        <div>
+        <div class="fork_men">
             <form action="/user/profile/<%= document._id %>" method="get">
-                <input type="submit" value="Back">
+                <input type="submit" value="Cancel" id="back">
             </form>
         </div>
-        <div>
+        <div class="fork_men">
             <form action="/edit/update/ppic" method="post" enctype="multipart/form-data">
-                <img src="<%= document.profilePicUrl %>" alt="profilePicUrl" width="50px" height="50px" style="border-radius: 50%;">
+                <img src="<%= document.profilePicUrl %>" alt="profilePicUrl" width="50px" height="50px"
+                    style="border-radius: 50%;">
                 <input type="hidden" name="userId" value="<%= document._id %>">
                 <input type="file" name="ppic" id="ppic" accept="image/jpeg, image/jpg, image/png, image/gif">
 
                 <input type="submit" value="Change">
             </form>
         </div>
-        <div>
+        <div class="fork_men">
             <form action="/edit/update/name" method="post">
                 <input type="hidden" name="userId" value="<%= document._id %>">
                 <div>
-                    <label for="firstname">*First name</label>
-                <input type="text" name="firstname" id="firstname" value="<%= document.firstname %>" required>
+                    <label for="firstname">First name</label>
+                    <input type="text" name="firstname" id="firstname" value="<%= document.firstname %>" required>
                 </div>
 
                 <div>
-                    <label for="lastname">*Last name</label>
-                <input type="text" name="lastname" id="lastname" value="<%= document.lastname %>" required>
+                    <label for="lastname">Last name</label>
+                    <input type="text" name="lastname" id="lastname" value="<%= document.lastname %>" required>
                 </div>
 
                 <div>
-                <input type="submit" value="Change">
+                    <input type="submit" value="Change">
                 </div>
             </form>
         </div>
-        <div>
+        <div class="fork_men">
             <form action="/edit/update/username" method="post">
                 <input type="hidden" name="userId" value="<%= document._id %>">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" value="<%= document.username %>" required>
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" value="<%= document.username %>" required>
+                </div>
 
                 <input type="submit" value="Change">
             </form>

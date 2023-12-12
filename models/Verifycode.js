@@ -65,7 +65,6 @@ class VerifyCode {
                 },
                 {multi: false},
                 (error, document) => {
-                    console.log(document);
                     if(error) reject({error: error});
                     else {
                         db.remove(
@@ -74,7 +73,6 @@ class VerifyCode {
                             (error, number) => {
                                 if(error) reject({error: error});
                                 else{
-                                    console.log(number, " deleted");
                                     resolve({number: number})
                                 }
                             }
