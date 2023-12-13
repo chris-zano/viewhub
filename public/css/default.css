@@ -161,4 +161,10 @@
     section.danger ul.list_container li div.action-btn button:hover {
         background-color: rgb(202, 10, 10);
     }
+
+    ul.list_container li div.action-btn button#twofa:hover {
+        background-color: #f0f0f0;
+        color: var(--default-font-color-dark);
+        box-shadow: none;
+    }
 }

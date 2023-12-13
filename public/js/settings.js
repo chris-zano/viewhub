@@ -65,7 +65,7 @@ async function getEmail(id) {
 
 function activateButtonElements() {
 
-    const btntwof_a = document.getElementById("2fa"),
+    const btntwof_a = document.getElementById("twofa"),
         btnprivate = document.getElementById("private"),
         btnmanage = document.getElementById("manage"),
         btndownload = document.getElementById("download"),
