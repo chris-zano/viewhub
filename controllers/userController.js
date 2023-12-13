@@ -159,3 +159,15 @@ exports.userUpdateProfilePic = (req, res) => {
             throw new Error(error);
         })
 }
+
+exports.updateUserPrefences = (req, res) => {
+    const {key, value} = req.body;
+    Profile.setProfileObject(req.params.id, key, value)
+    .then(response => {
+        console.log(response);
+        res.json("Hello")
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}

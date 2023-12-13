@@ -15,6 +15,21 @@ async function getUserProfile(id) {
     }
 }
 
+function fetchuserDetails() {
+    const loginState = localStorage.getItem("loginState");
+    getUserProfile(JSON.parse(loginState).userId)
+        .then(res => {
+            localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
+            const username = res.document[0].username;
+            const ppURL = res.document[0].profilePicUrl;
+            document.getElementById("current-user-name").textContent = username.trim();
+            document.getElementById("big_img").setAttribute("src", ppURL.trim())
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
+
 /**
  * reports an error that was encountered at runtime to be logged.
  * so a fix can be made.
@@ -32,7 +47,7 @@ async function reportError(reportObject) {
     const status = await req.status;
     const res = await req.json()
 
-    return ({status: status, json: res})
+    return ({ status: status, json: res })
 }
 
 /**

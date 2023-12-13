@@ -180,16 +180,16 @@ class Profile {
     static verifyUsername(username) {
         return new Promise((resolve, reject) => {
             db.find(
-                {username: username},
-                {multi: false},
+                { username: username },
+                { multi: false },
                 (err, doc) => {
-                    if (err) reject({error: true, res_status: 500});
+                    if (err) reject({ error: true, res_status: 500 });
                     else {
                         if (doc.length == 0) {
-                            reject({error: true, res_status: 400});
+                            reject({ error: true, res_status: 400 });
                         }
                         else {
-                            resolve({error: false, res_status: 200, userId: doc[0]._id});
+                            resolve({ error: false, res_status: 200, userId: doc[0]._id });
                         }
                     }
                 }
@@ -416,6 +416,37 @@ class Profile {
                 }
             )
         })
+    }
+
+    static setProfileObject(userId, key, value) {
+        console.log(userId);
+        let count = 0;
+        return new Promise((resolve, reject) => {
+            db.update(
+                { _id: userId },
+                {
+                    $set: {
+                        [key]: value
+                    }
+                },
+                { multi: false },
+                (error, numChanged) => {
+                    if (error) {
+                        console.log(key, value, 3);
+                    }
+                    else {
+                        if (numChanged == 1) {
+                            console.log(key, value, 1);
+                            resolve({error: false, message: "property set successfully"});
+                        }
+                        else {
+                            console.log(key, value, 2);
+                            resolve({error: true, message: "Failed to set property"});
+                        }
+                    }
+                }
+            )
+        });
     }
 
 }

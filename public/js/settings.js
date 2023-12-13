@@ -1,8 +1,20 @@
 if (document.readyState == "loading") document.addEventListener("DOMContentLoaded", main);
 else main();
 
+const userId = JSON.parse(localStorage.getItem("userDetails"))._id
+
+
 function main() {
     const userData = JSON.parse(localStorage.getItem("userDetails"));
+    const btnprivate = document.getElementById("private");
+
+    if (userData["account-visibility"] == "private") {
+        btnprivate.textContent = "Disable";
+    }
+    else {
+        btnprivate.textContent = "Enable";
+    }
+
     if (userData) {
 
         const name = `${userData.firstname} ${userData.lastname}`,
@@ -27,16 +39,9 @@ function main() {
             editButton.setAttribute("href", `/user/profile/${userId}`)
 
             //add functionality to button elements
-            // activateButtonElements();
+            activateButtonElements();
         } catch (error) {
             console.log(error);
-        }
-        const allButtons = document.querySelectorAll("button")
-
-        for (let button of allButtons) {
-            button.addEventListener("click", () => {
-                setOverlay()
-            })
         }
     }
     else {
@@ -82,53 +87,79 @@ function activateButtonElements() {
 function twof_a(twof_a) {
     twof_a.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function private(private) {
     private.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay()
-    })
+        const overlay = setOverlay("Private", "Public");
+        const yesBtn = overlay.querySelector("#yes-btn")
+        const noBtn = overlay.querySelector("#no-btn")
+
+        yesBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "account-visibility", "private")
+                .then(res => {
+                    e.target.textContent = "Disable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
+        noBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "account-visibility", "public")
+                .then(res => {
+                    e.target.textContent = "Enable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
+    });
 }
 function manage(manage) {
     manage.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function download(download) {
     download.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function watchHistory(watchHistory) {
     watchHistory.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function searchHistory(searchHistory) {
     searchHistory.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function deleteButton(btndeleteButton) {
     btndeleteButton.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 function deactivate(deactivate) {
     deactivate.addEventListener("click", (e) => {
         console.log(e.target);
-        setOverlay()
+        setOverlay("optionA", "optionB")
     })
 }
 
-function setOverlay() {
+function setOverlay(optionA, optionB) {
     const overlay = document.createElement("div");
     overlay.classList.add("overlay");
     overlay.innerHTML = `
@@ -138,12 +169,12 @@ function setOverlay() {
                 <ul class="list_container">
                     <li>
                         <div class="action-btn">
-                            <button type="button" id="yes-btn">Yes</button>
+                            <button type="button" id="yes-btn">${optionA}</button>
                         </div>
                     </li>
                     <li>
                         <div class="action-btn">
-                            <button type="button" id="no-btn">No</button>
+                            <button type="button" id="no-btn">${optionB}</button>
                         </div>
                     </li>
                 </ul>
@@ -151,13 +182,23 @@ function setOverlay() {
         </section>
     `
     document.getElementById("wrapper-main").append(overlay);
-    const yesBtn = overlay.querySelector("#yes-btn")
-    const noBtn = overlay.querySelector("#no-btn")
+    return overlay;
+}
 
-    yesBtn.addEventListener("click", () => {
-        overlay.style.display = "none"
-    })
-    noBtn.addEventListener("click", () => {
-        overlay.style.display = "none"
-    })
+async function updateUserPreference(id, key, value) {
+    const dataObj = { key: key, value: value }
+    const req = await fetch(`/user/update-preferences/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+    });
+
+    const res = await req.json();
+    const status = req.status;
+
+    // console.log(res);
+    // console.log(status);
+    return res
 }
