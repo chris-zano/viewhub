@@ -105,3 +105,16 @@ function getLocalStorage(key) {
 function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
 }
+
+function setTheme() {
+    const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
+    const rootUrl = document.querySelector("head").querySelector("#root-css")
+
+    if (themeStatus == "enabled") {
+        rootUrl.setAttribute("href", "/css/root-dark");
+    }
+    else if( themeStatus == "disabled") {
+        rootUrl.setAttribute("href", "/css/root")
+    }
+}
+setTheme()

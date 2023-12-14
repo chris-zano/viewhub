@@ -20,7 +20,7 @@
     }
     
     main .fork_men form {
-        background-color: rgb(255, 255, 255);
+        background-color: var(--background-light);
         box-shadow: var(--box-shadow-extra-thin);
         width: 500px;
         border-radius: 0.7rem;
@@ -33,6 +33,7 @@
 
     form label {
         font-size: 18px;
+        color: var(--default-dark-font);
     }
 
     input{
@@ -40,6 +41,7 @@
     }
     
     form input[type="text"] {
+        background-color: transparent;
         border: 1px solid #d5d0d0;
         border-radius: 7px;
         margin-left: 2rem;

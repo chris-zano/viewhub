@@ -88,12 +88,13 @@
         align-items: center;
         font-size: 14px;
         cursor: pointer;
+        color: var(--default-font-color-dark);
     }
 
     div.edit_profile_container ul li a:hover {
         border: 1px solid transparent;
         box-shadow: var(--box-shadow-thin);
-        background-color: rgb(1, 103, 255);
+        background-color: var(--button-color-blue);
         color: #fff;
     }
 
@@ -149,7 +150,7 @@
     }
 
     ul.list_container li div.action-btn button:hover {
-        background-color: rgb(1, 103, 255);
+        background-color: var(--button-color-blue);
         box-shadow: var(--box-shadow-thin);
         color: #fff;
     }
