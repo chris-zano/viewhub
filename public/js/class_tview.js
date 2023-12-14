@@ -42,6 +42,7 @@ class Tview {
     }
 
     renderObjectTemlate() {
+        const userid = JSON.parse(localStorage.getItem("userDetails"))._id;
         const divElement = document.createElement("div");
         setattribute(divElement, "id", this.videoObject._id);
         setattribute(divElement, "class", "link_object");
@@ -49,7 +50,7 @@ class Tview {
 
 
         divElement.innerHTML = `
-        <a href="/tview/stream/video/${this.videoObject._id}" class="object_route">
+        <a href="/tview/stream/video/${this.videoObject._id}/${userid}" class="object_route">
             <div class="first_child_link">
                 <div class="video_thumbnail">
                     <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" loading="lazy">

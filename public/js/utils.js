@@ -108,13 +108,26 @@ function setLocalStorage(key, value) {
 
 function setTheme() {
     const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
-    const rootUrl = document.querySelector("head").querySelector("#root-css")
+    const rootHead = document.querySelector("head")
 
     if (themeStatus == "enabled") {
+        rootHead.removeChild(rootHead.querySelector("#root-css"));
+        const rootUrl = document.createElement("link")
+        rootUrl.setAttribute("rel", "stylesheet");
+        rootUrl.setAttribute("id", "root-css");
         rootUrl.setAttribute("href", "/css/root-dark");
+
+        rootHead.append(rootUrl);
     }
     else if( themeStatus == "disabled") {
-        rootUrl.setAttribute("href", "/css/root")
+        rootHead.removeChild(rootHead.querySelector("#root-css"));
+
+        const rootUrl = document.createElement("link")
+        rootUrl.setAttribute("rel", "stylesheet");
+        rootUrl.setAttribute("id", "root-css");
+        rootUrl.setAttribute("href", "/css/root");
+
+        rootHead.append(rootUrl);
     }
 }
 setTheme()
