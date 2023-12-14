@@ -95,3 +95,21 @@ function setOverlay(optionA, optionB) {
     document.getElementById("wrapper-main").append(overlay);
     return overlay;
 }
+
+async function updateUserPreference(id, key, value) {
+    const dataObj = { key: key, value: value }
+    const req = await fetch(`/user/update-preferences/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+    });
+
+    const res = await req.json();
+    const status = req.status;
+
+    // console.log(res);
+    // console.log(status);
+    return res
+}
