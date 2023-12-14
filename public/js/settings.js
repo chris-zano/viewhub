@@ -70,26 +70,18 @@ async function getEmail(id) {
 
 function activateButtonElements() {
 
-    const btntwof_a = document.getElementById("twofa"),
-        btnprivate = document.getElementById("private"),
+    const btnprivate = document.getElementById("private"),
         btnmanage = document.getElementById("manage"),
-        btndownload = document.getElementById("download"),
         btnwatchHistory = document.getElementById("watchHistory"),
         btnsearchHistory = document.getElementById("searchHistory"),
         btndeleteButton = document.getElementById("delete-btn"),
         btndeactivate = document.getElementById("deactivate");
 
 
-    twof_a(btntwof_a); private(btnprivate); manage(btnmanage); download(btndownload); watchHistory(btnwatchHistory); searchHistory(btnsearchHistory); deleteButton(btndeleteButton); deactivate(btndeactivate);
+    private(btnprivate); manage(btnmanage); watchHistory(btnwatchHistory); searchHistory(btnsearchHistory); deleteButton(btndeleteButton); deactivate(btndeactivate);
 
 }
 
-function twof_a(twof_a) {
-    twof_a.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay("optionA", "optionB")
-    })
-}
 function private(private) {
     private.addEventListener("click", (e) => {
         const overlay = setOverlay("Private", "Public");
@@ -123,66 +115,131 @@ function private(private) {
     });
 }
 function manage(manage) {
-    manage.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay("optionA", "optionB")
+    manage.addEventListener("click", () => {
+
+        const overlay = renderListOverlay();
+        const btnsCollection = overlay.querySelectorAll("button");
+
+        const exitBtn = document.getElementById("exit-overlay")
+        exitBtn.addEventListener("click", () => {
+            document.getElementById("wrapper-main").removeChild(overlay)
+        })
+
+        for (let button of btnsCollection) {
+            const btnValue = button.value;
+            const btnState = JSON.parse(localStorage.getItem("userDetails"))[btnValue];
+
+            if (btnState == true) {
+                button.setAttribute("data-state", "set")
+                button.classList.add("data-state-true")
+            }
+        }
+
+        for (let button of btnsCollection) {
+            button.addEventListener("click", (e) => {
+                const btnValue = e.target.value;
+                const btnState = e.target.getAttribute("data-state");
+
+                if (btnState == "unset") {
+                    updateUserPreference(userId, btnValue, true)
+                        .then(res => {
+                            e.target.setAttribute("data-state", "set")
+                            e.target.classList.add("data-state-true")
+                            fetchuserDetails();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+                else {
+                    updateUserPreference(userId, btnValue, false)
+                        .then(res => {
+                            e.target.setAttribute("data-state", "unset")
+                            e.target.classList.remove("data-state-true")
+                            fetchuserDetails();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
+                }
+            })
+        }
     })
 }
-function download(download) {
-    download.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay("optionA", "optionB")
-    })
-}
+
 function watchHistory(watchHistory) {
     watchHistory.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay("optionA", "optionB")
+        const overlay = setOverlay("Enable", "Disable");
+        const yesBtn = overlay.querySelector("#yes-btn")
+        const noBtn = overlay.querySelector("#no-btn")
+
+        yesBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "watch-history", "enabled")
+                .then(res => {
+                    e.target.textContent = "Disable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
+        noBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "watch-history", "disabled")
+                .then(res => {
+                    e.target.textContent = "Enable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
     })
 }
 function searchHistory(searchHistory) {
     searchHistory.addEventListener("click", (e) => {
-        console.log(e.target);
-        setOverlay("optionA", "optionB")
+        const overlay = setOverlay("Enable", "Disable");
+        const yesBtn = overlay.querySelector("#yes-btn")
+        const noBtn = overlay.querySelector("#no-btn")
+
+        yesBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "search-history", "enabled")
+                .then(res => {
+                    e.target.textContent = "Disable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
+        noBtn.addEventListener("click", () => {
+            overlay.style.display = "none";
+            updateUserPreference(userId, "search-history", "disabled")
+                .then(res => {
+                    e.target.textContent = "Enable";
+                    fetchuserDetails();
+
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+        })
     })
 }
 function deleteButton(btndeleteButton) {
     btndeleteButton.addEventListener("click", (e) => {
-        console.log(e.target);
         setOverlay("optionA", "optionB")
     })
 }
 function deactivate(deactivate) {
     deactivate.addEventListener("click", (e) => {
-        console.log(e.target);
         setOverlay("optionA", "optionB")
     })
-}
-
-function setOverlay(optionA, optionB) {
-    const overlay = document.createElement("div");
-    overlay.classList.add("overlay");
-    overlay.innerHTML = `
-        <section id="history" class="history">
-            <h2 class="section-title">Confirm</h2>
-            <div class="privacy_checklist">
-                <ul class="list_container">
-                    <li>
-                        <div class="action-btn">
-                            <button type="button" id="yes-btn">${optionA}</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="action-btn">
-                            <button type="button" id="no-btn">${optionB}</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </section>
-    `
-    document.getElementById("wrapper-main").append(overlay);
-    return overlay;
 }
 
 async function updateUserPreference(id, key, value) {

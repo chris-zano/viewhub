@@ -419,8 +419,6 @@ class Profile {
     }
 
     static setProfileObject(userId, key, value) {
-        console.log(userId);
-        let count = 0;
         return new Promise((resolve, reject) => {
             db.update(
                 { _id: userId },
@@ -432,15 +430,12 @@ class Profile {
                 { multi: false },
                 (error, numChanged) => {
                     if (error) {
-                        console.log(key, value, 3);
                     }
                     else {
                         if (numChanged == 1) {
-                            console.log(key, value, 1);
                             resolve({error: false, message: "property set successfully"});
                         }
                         else {
-                            console.log(key, value, 2);
                             resolve({error: true, message: "Failed to set property"});
                         }
                     }

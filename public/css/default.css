@@ -28,7 +28,7 @@
         justify-content: center;
         align-items: center;
         width: 120px;
-        padding: 1rem;
+        padding: 0.5rem;
     }
 
     div.profile_image_container img {
@@ -46,16 +46,16 @@
     div.user_info_container div.user_info {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 5px;
     }
 
     div.user_info label {
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 500;
     }
 
     div.user_info h3 {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     div.edit_profile_container {
