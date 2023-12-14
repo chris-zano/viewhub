@@ -1,0 +1,81 @@
+@font-face {
+    font-family: robotoRegular;
+    src: url('/font/roboReg.ttf');
+}
+
+:root {
+    --default-font: robotoRegular;
+    --default-font-color-dark: #282727;
+    --dark-grey: #111010e3;
+    --box-shadow-wide: 0px 3px 30px var(--dark-grey);
+    --box-shadow-thin: 0px 3px 3px var(--dark-grey);
+    --box-shadow-extra-thin: 0px 3px 3px #232323d5;
+    --button-width-desktop: 120px;
+    --button-height-desktop: 40px;
+    --button-color-blue: rgba(14, 14, 185, 0.918);
+    --border-radius-default: 7px;
+    --border-radius-image: 50%;
+    --background-light: #1f1e1e;
+    --background-white: #121111;
+    --background-body: #171515;
+    --error-message: rgb(100, 206, 105);
+    --default-dark-font: #f1eded;
+    --default-link-font-color: #f74c4cc3;
+    --color-theme-1: rgba(57, 250, 250, 0.941);
+    --color-theme-1-dark: #2fcdcdf0;
+    --color-theme-2: #038686f0;
+    --color-theme-3: #3e2b7ef0;
+    --transition-default:  all ease-in-out 250ms;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: var(--default-dark-font);
+}
+
+* {
+    outline: none !important;
+    font-family: var(--default-font);
+    color: var(--default-dark-font);
+}
+
+body {
+    background-color: var(--background-body);
+    scroll-behavior: smooth;
+}
+
+*::-webkit-scrollbar {
+    width: 0.4rem;
+    border-radius: 1rem;
+}
+
+/* *::-webkit-scrollbar-track {
+    border-radius: 1rem;
+    background-color: beige;
+} */
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: var(--default-font-color-dark);
+}
+
+.hidden {
+    display: none;
+}

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
 
 
 const adminRoutes = require('./routes/adminRoutes');
@@ -9,6 +10,7 @@ const fileRoutes = require('./routes/fileRoutes');
 const userRoutes = require('./routes/userRoutes');
 const videoRoutes = require('./routes/videoRoutes');
 
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 app.use("public", express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));

@@ -17,10 +17,10 @@ li {
 }
 
 .header_container {
-    background: #fff;
+    background: var(--background-light);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    box-shadow: 0px 1px 2px #d4d4d49c;
+    box-shadow: var(--box-shadow-thin);
     padding: 15px;
     display: flex;
     flex-flow: row;
@@ -29,7 +29,7 @@ li {
     column-gap: 1em;
 }
 
-.header_container .nav_button {
+.header_container button.nav_button {
     height: 40px;
     width: 100px;
     border: 1px solid transparent;
@@ -39,6 +39,7 @@ li {
     margin-right: 10px;
     font-size: 18px;
     transition: all ease-in-out .3s;
+
 }
 
 .header_container .nav_button:hover {
@@ -49,7 +50,6 @@ li {
 
 .main_container {
     padding: 1em 3rem;
-    background-color: #faf8f8;
     height: 100vh;
     overflow-y: scroll;
     width: 100%;
@@ -67,7 +67,7 @@ li {
 }
 
 section.profile_banner {
-    background-color: rgba(233, 242, 242, 0.388);
+    background-color: var(--background-body);
     box-shadow: var(--box-shadow-thin);
     margin: 1rem 1rem 1rem 0;
     padding: 1rem;
@@ -117,7 +117,7 @@ section.profile_banner {
     font-family: var(--default-font);
     font-weight: 500;
     font-size: 16px;
-    color: black;
+    color: var(--default-dark-font);
     outline: none;
     background-color: unset;
     border: 1px solid rgba(25, 82, 180, 0.73);
@@ -125,8 +125,9 @@ section.profile_banner {
 }
 
 .profile_banner .profile_action button:hover {
-    background-color: rgba(25, 82, 180, 0.73);
-    color: white;
+    background-color: var(--button-color-blue);
+    color: var(--default-dark-font);
+    border: transparent;
 
 }
 

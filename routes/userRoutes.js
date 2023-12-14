@@ -125,6 +125,8 @@ router.get("/user/settings/membership", (req, res) => {
     });
 });
 
+router.post('/user/update-preferences/:id', userController.updateUserPrefences);
+
 
 
 
