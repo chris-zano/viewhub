@@ -12,15 +12,32 @@ function main() {
 
     getVideoRecommendations()
         .then(response => {
-            for (let video of response.document) {
+            //spread the array of videos from the response into a new array
+            let videoArray = [...response.document];
+
+            videoArray = videoArray.sort((a, b) => { //sort the new array
+                if (a.title > b.title) return 1; // by title
+                else if (a.title == b.title){
+                    if (a.dateTime > b.dateTime) return 1; // or by dateTime
+                    else if (a.dateTime == b.dateTime)return 0; //if dateTim is equal
+                    else return -1;
+                }
+                else return -1
+            })
+
+            for (let video of videoArray) {
 
                 const tview = new Tview(video);
                 const url = window.location.href.slice(window.location.href.indexOf("/tview"));
+                const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
 
-                if (`/tview/stream/video/${video._id}` == url) {
-                    delete(tview);
+                if (`/tview/stream/video/${video._id}/${userId}` == url) {
+                    delete (tview);
+                    if (videoArray.length == 1) {
+                        getId("refparams_wrapper").style.scale = 0;
+                    }
                 }
-                else{
+                else {
                     getId("usertviewlist").append(tview.renderObjectTemlate());
                 }
             }
@@ -29,7 +46,7 @@ function main() {
             console.log(error);
         })
 
-    
+
     //get buttons
     const previous = document.getElementById("previous");
     const playPause = document.getElementById("play-pause");
@@ -114,15 +131,15 @@ function main() {
     videoPlayerOverlay.addEventListener("dblclick", (e) => {
         if (e.target.parentElement == document.getElementById("player_div")
             || e.target.parentElement == document.getElementById("video_player_overlay")) {
-                if (videoPlayer.requestFullscreen) {
-                    videoPlayer.requestFullscreen();
-                } else if (videoPlayer.mozRequestFullScreen) { // Firefox
-                    videoPlayer.mozRequestFullScreen();
-                } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                    videoPlayer.webkitRequestFullscreen();
-                } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
-                    videoPlayer.msRequestFullscreen();
-                }
+            if (videoPlayer.requestFullscreen) {
+                videoPlayer.requestFullscreen();
+            } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+                videoPlayer.mozRequestFullScreen();
+            } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                videoPlayer.webkitRequestFullscreen();
+            } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+                videoPlayer.msRequestFullscreen();
+            }
         }
     })
 
@@ -156,12 +173,12 @@ function main() {
         const nextVideo = videoArray[0].getAttribute('href');
 
         localStorage.setItem('previous-video', JSON.stringify(currentVideoUrl));
-        
+
         window.location.href = nextVideo;
     });
 
     //previous
-    previous.addEventListener("click", ()=> {
+    previous.addEventListener("click", () => {
         const previousVideoUrl = JSON.parse(localStorage.getItem('previous-video'));
 
         if (previousVideoUrl) {
@@ -170,7 +187,7 @@ function main() {
     });
 
     //replay
-    replay.addEventListener("click", ()=> {
+    replay.addEventListener("click", () => {
         const currentVideoUrl = videoPlayer.getAttribute('src');
         videoPlayer.src = currentVideoUrl;
     })
