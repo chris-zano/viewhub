@@ -93,16 +93,16 @@ exports.fetchForYouByUserId = (req, res) => {
         .then(response => {
             if (response.msg == "User match" && response.id == req.params.userId) {
                 Uploads.fetchUserFeedByLimit()
-                .then(resp => {
+                    .then(resp => {
                         if (resp.error == true && resp.error_Message == "Empty feed") {
-                            res.status(200).json({message: "Empty Feed"});
+                            res.status(200).json({ message: "Empty Feed" });
                         }
                         else {
-                            res.status(200).json({message: "success", document: resp.document});
+                            res.status(200).json({ message: "success", document: resp.document });
                         }
                     })
                     .catch(err => {
-                        res.status(300).json({error_Object: err.error_Object})
+                        res.status(300).json({ error_Object: err.error_Object })
                     })
                 // res.status(200).json({message: 'success'});
             }
@@ -143,4 +143,27 @@ exports.getRecommendedVideos = (req, res) => {
         .catch(error => {
             throw new Error(error)
         })
+}
+
+exports.updateVideoLikes = (req, res) => {
+    Uploads.updateVideoLikes(req.params.videoId, req.params.userId)
+    .then(r => {
+        if (r.message == "User already liked") {
+            res.status(202).json({message: "User already liked"})
+        }
+        else if (r.message == "updated") {
+            res.status(200).json({message: "updated"})
+        }
+        else {
+            res.status(500).json({message: "Internal Server Error"});
+        }
+    })
+    .catch(e => {
+        if (e.message == "Internal server Error") {
+            res.status(500).json({message: "Internal server Error"})
+        }
+        else {
+            res.status(500).json({message: "Internal server Error"})
+        }
+    })
 }

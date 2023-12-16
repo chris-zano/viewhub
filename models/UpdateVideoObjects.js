@@ -12,9 +12,14 @@ class UpdateVideoObject {
     static init(videoId) {
         return new Promise((resolve, reject) => {
             const viewers = new Array();
+            const likes = new Array();
+            const comments = new Array();
+
             const videoObj = {
                 videoId: videoId,
-                viewers: viewers
+                viewers: viewers,
+                likes: likes,
+                comments: comments
             }
 
             db.insert(
@@ -40,22 +45,86 @@ class UpdateVideoObject {
                         if (doc.length == 1) {
                             const vidObj = doc[0];
                             const viewers = vidObj.viewers
-                            if ((viewers.findIndex(viewer => viewer == viewid)) == -1) {
-                                viewers.push(viewid);
-                                db.update(
-                                    {videoId: videoId},
-                                    {
-                                        $set: {
-                                            viewers: viewers
+                            if (viewers) {
+                                if ((viewers.findIndex(viewer => viewer == viewid)) == -1) {
+                                    viewers.push(viewid);
+                                    db.update(
+                                        { videoId: videoId },
+                                        {
+                                            $set: {
+                                                viewers: viewers
+                                            }
+                                        },
+                                        (err, docUpdated) => {
+                                            resolve({ error: false, message: "No match", doc: doc })
                                         }
-                                    },
-                                    (err, docUpdated) => {
-                                        resolve({ error: false, message: "No match", doc: doc })
-                                    }
-                                )
+                                    )
+                                }
+                                else {
+                                    resolve({ error: false, message: "Viewer match", doc: doc });
+                                }
                             }
                             else {
-                                resolve({ error: false, message: "Viewer match", doc: doc });
+                                console.log("don't know what's up");
+
+                                // this.init(videoId)
+                                //     .then(r => {
+                                //         this.updateViewersList(videoId, viewid)
+                                //             .then(res => res)
+                                //             .catch(err => err)
+                                //     })
+                                //     .catch(err => err);
+                            }
+                        }
+                        else {
+                            resolve({ error: false, message: "No video match" });
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static updateLikesList(videoId, userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { videoId: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal Server Error" });
+                    else {
+                        if (doc.length == 1) {
+                            const vidObj = doc[0];
+                            const likes = vidObj.likes
+                            if (likes) {
+                                if ((likes.findIndex(like => like == userId)) == -1) {
+                                    likes.push(userId);
+                                    db.update(
+                                        { videoId: videoId },
+                                        {
+                                            $set: {
+                                                likes: likes
+                                            }
+                                        },
+                                        (err, docUpdated) => {
+                                            resolve({ error: false, message: "No match", doc: doc })
+                                        }
+                                    )
+                                }
+                                else {
+                                    resolve({ error: false, message: "Like match", doc: doc });
+
+                                }
+                            }
+                            else {
+                                console.log("don't know what's up");
+                                // this.init(videoId)
+                                //     .then(r => {
+                                //         this.updateLikesList(videoId, videoId)
+                                //             .then(res => res)
+                                //             .catch(err => err)
+                                //     })
+                                //     .catch(err => err);
                             }
                         }
                         else {

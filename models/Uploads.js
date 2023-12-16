@@ -264,7 +264,61 @@ class Uploads {
                                         UpdateVideoObject.init(videoId)
                                             .then(res => {
                                                 if (res.error == false) {
-                                                    updateVideoViews(videoId, viewerId)
+                                                    Uploads.updateVideoViews(videoId, viewerId)
+                                                        .then(res => {
+                                                            resolve({error: false})
+                                                        })
+                                                        .catch(err => {
+                                                            reject({ error: true, error_Object: err });
+                                                        })
+                                                }
+                                            })
+                                            .catch(err => {
+                                                reject({ error: true, error_Object: err });
+                                            })
+                                    }
+                                })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static updateVideoLikes(videoId, userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal server Error" , error_Object: err});
+                    else {
+                        if (doc.length == 1) {
+                            UpdateVideoObject.updateLikesList(videoId, userId)
+                                .then(res => {
+                                    if (res.message == "Like match") {
+                                        resolve({ message: "User already liked" });
+                                    }
+                                    else if (res.message == "No match") {
+                                        const likesListLength = res.doc[0]["likes"].length;
+                                        console.log(likesListLength);
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    likes: likesListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated" })
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        UpdateVideoObject.init(videoId)
+                                            .then(res => {
+                                                if (res.error == false) {
+                                                    Uploads.updateVideoLikes(videoId, userId)
                                                         .then(res => {
                                                             resolve({error: false})
                                                         })
