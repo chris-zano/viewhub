@@ -338,6 +338,59 @@ class Uploads {
             )
         })
     }
+
+    static updateVideoComments(videoId, commentObj) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal server Error" , error_Object: err});
+                    else {
+                        if (doc.length == 1) {
+                            UpdateVideoObject.updateCommentsList(videoId, commentObj)
+                                .then(res => {
+                                    if (res.message == "Comment match") {
+                                        resolve({ message: "User already commented" });
+                                    }
+                                    else if (res.message == "No match") {
+                                        const commentListLength = res.doc[0]["comments"].length;
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    likes: commentListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated" })
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        UpdateVideoObject.init(videoId)
+                                            .then(res => {
+                                                if (res.error == false) {
+                                                    Uploads.updateVideoComments(videoId, commentObj)
+                                                        .then(res => {
+                                                            resolve({error: false})
+                                                        })
+                                                        .catch(err => {
+                                                            reject({ error: true, error_Object: err });
+                                                        })
+                                                }
+                                            })
+                                            .catch(err => {
+                                                reject({ error: true, error_Object: err });
+                                            })
+                                    }
+                                })
+                        }
+                    }
+                }
+            )
+        })
+    }
 }
 
 
