@@ -48,8 +48,22 @@ router.post("/tview/update-video/likes", (req, res) => {
     })
     .catch(e => {
         res.status(500).json({message: "Internal Server Error", error: e}); 
+    });
+});
+
+router.post("tview/update-video/comments", (req, res) => {
+    const {videoId, commentObject} = req.body;
+
+    Uploads.updateVideoComments(videoId, commentObject)
+    .then(r => {
+        if (r.message == "updated") {
+            res.status(200).json({message: "updated"});
+        }
     })
-})
+    .catch(e => {
+        res.status(500).json({message: "Internal Server Error", error: e});
+    });
+});
 
 
 module.exports = router;
