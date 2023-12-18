@@ -19,10 +19,10 @@ router.get("/tview/stream/video/:videoId/:viewerId", (req, res) => {
                 res.render("tview", { document: response.document });
                 Uploads.updateVideoViews(req.params.videoId, req.params.viewerId)
                     .then(r => {
-                        console.log(r);
+                        // console.log(r);
                     })
                     .catch(e => {
-                        console.log(e);
+                        // console.log(e);
                     })
             }
         })
@@ -30,6 +30,40 @@ router.get("/tview/stream/video/:videoId/:viewerId", (req, res) => {
             res.render("error", { message: error });
         })
 })
+
+router.post("/tview/update-video/likes", (req, res) => {
+    const {videoId, userId} = req.body;
+
+    Uploads.updateVideoLikes(videoId, userId)
+    .then(r => {
+        if (r.message == "User already liked") {
+            res.status(202).json({message: "User already liked"});
+        }
+        else if (r.message == "updated") {
+            res.status(200).json({message: "updated"});
+        }
+        else {
+            res.status(403).json({message: "Forbidden"});
+        }
+    })
+    .catch(e => {
+        res.status(500).json({message: "Internal Server Error", error: e}); 
+    });
+});
+
+router.post("tview/update-video/comments", (req, res) => {
+    const {videoId, commentObject} = req.body;
+
+    Uploads.updateVideoComments(videoId, commentObject)
+    .then(r => {
+        if (r.message == "updated") {
+            res.status(200).json({message: "updated"});
+        }
+    })
+    .catch(e => {
+        res.status(500).json({message: "Internal Server Error", error: e});
+    });
+});
 
 
 module.exports = router;
