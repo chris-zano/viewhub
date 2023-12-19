@@ -140,4 +140,6 @@ router.post("/update/ppic", upload.single("ppic"), userController.userUpdateProf
 router.get("/userLogout/:userId", userController.userLogout);
 
 
+router.post("/update/creator/followers", userController.updateUserFollowingAndFollowers);
+
 module.exports = router

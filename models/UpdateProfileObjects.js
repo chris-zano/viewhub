@@ -1,0 +1,108 @@
+const loadDB = require("../utils/loadDB").loadDB;
+const path = require("path");
+const Profile = require("./Profiles");
+const { subtle } = require("crypto");
+const filepath = path.join(__dirname, "../DB/neDB/profiles-extended.db");
+const db = loadDB(filepath);
+
+
+class UpdateUserProfileInformation {
+
+    static init(creatorId) {
+        return new Promise((resolve, reject) => {
+            const subscribers = new Array();
+            const following = new Array();
+            const subscriberObject = {
+                _id: creatorId,
+                subscribers: subscribers,
+                following: following
+            }
+
+            db.insert(
+                subscriberObject,
+                (err, doc) => {
+                    if (err) reject({error: true, message: "Failed to initialise object", errorObject: err});
+                    else {
+                        resolve({error: false, message: "Object initialised", document: doc});
+                    }
+                }
+            )
+        });
+    }
+
+    static updateSubscriberList(creatorId, subscriberId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: creatorId},
+                {multi: false},
+                (err, doc) => {
+                    if (err) reject({error: err, message: "failed to read from document"});
+                    else {
+                        if (doc.length == 1) {
+                            const subscriberList = [...doc[0].subscribers];
+                            if ((subscriberList.findIndex(subsId => subsId == subscriberId)) == -1) {
+                                subscriberList.push(subscriberId);
+                                db.update(
+                                    {_id: creatorId},
+                                    {
+                                        $set: {
+                                            subscribers: subscriberList
+                                        }
+                                    },
+                                    {multi: false},
+                                    (err, numUpdated) => {
+                                        if (err) reject({error: err, message: "Failed to write to file"});
+                                        else resolve({error: false, message: numUpdated});
+                                    }
+                                )
+                            }
+                            else {
+                                resolve({error: false, message: "User already subscribed"});
+                            }
+                        }
+                        else resolve({error: false, message: "User not found"});
+                    }
+                }
+            )
+        })
+    }
+
+    static updateSubscriptionList(subscriberId, creatorId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: subscriberId},
+                {multi:false},
+                (error, document) => {
+                    if (error) reject({error: error, message: "Failed to read from file"});
+                    else {
+                        if (document.length == 1) {
+                            const subscriptionList = document[0].following;
+                            if ((subscriptionList.findIndex(cId => cId == creatorId)) == -1) {
+                                subscriptionList.push(creatorId);
+                                db.update(
+                                    {_id: subscriberId},
+                                    {
+                                        $set:{
+                                            following: subscriptionList
+                                        }
+                                    },
+                                    {multi: false},
+                                    (error, numUpdated) => {
+                                        if (error) reject({error: error, message: "Failed to update document"});
+                                        else resolve({error: false, message: "file updated successfully"});
+                                    }
+                                )
+                            }
+                            else resolve({error: false, message: "creator already exists"});
+                        }
+                        else resolve({error: false, message: "User not found"});
+                    }
+                }
+            )
+        })
+    }
+
+
+}
+
+module.exports = UpdateUserProfileInformation;
