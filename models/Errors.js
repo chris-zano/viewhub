@@ -11,7 +11,8 @@ class ReportError {
 
     createReport() {
         return new Promise((resolve, reject) => {
-            db.insert(this._errorObject, (error, document) => {
+            const errorObj = {errorObj: this._errorObject}
+            db.insert(errorObj, (error, document) => {
                 if (error) reject({error: true, message: "error creating report"});
                 else {
                     resolve({error: false, message: "report created successfully"});
