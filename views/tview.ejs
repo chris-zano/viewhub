@@ -11,6 +11,7 @@ id="root-css" href="/css/root">
     <link rel="stylesheet" href="/css/global-footer">
     <link rel="stylesheet" href="/css/tviewpc">
     <link rel="stylesheet" href="/css/tview_object">
+    <link rel="stylesheet" href="/css/comments">
     <title>Tview ~ <%= document.title %>
     </title>
 </head>
@@ -115,19 +116,27 @@ id="root-css" href="/css/root">
                     </div>
                 </div>
                 <div class="media_description">
-                    <p class="video_des">
-                        <%= document.description %>
-                    </p>
-                    <div class="views">
-                        <%= document.views %> views
-                    </div>
-                    <div class="likes">
-                        <%= document.likes %> likes
-                    </div>
-                    <div class="comments">
-                        <%= document.comments %> comments
-                    </div>
+                    <p class="video_des"><%= document.description %></p>
+                    <div class="views" id="views-count"><%= document.views %> views</div>
+                    <script>
+                        const views = document.getElementById("views-count").textContent;
+                        const count = views.trim().slice(0, views.indexOf("views"))
+
+                        if (count == 1) {
+                            document.getElementById("views-count").textContent = `${count} view`
+                        }
+                    </script>
+                    <div class="likes" id="likes-count"><%= document.likes %> likes</div>
+                    <script>
+                        const likes = document.getElementById("likes-count").textContent;
+                        const likescount = likes.trim().slice(0, likes.indexOf("likes"))
+                        if (likescount == 1) {
+                            document.getElementById("likes-count").textContent = `${likescount} like`
+                        }
+                    </script>
+                    <div class="comments"><%= document.comments %> comments</div>
                 </div>
+                <div><%- include('./layouts/comments/comments') %></div>
             </div>
             <div class="recommendations">
                 <div class="refparams_wrapper" id="refparams_wrapper">

@@ -3,6 +3,10 @@ const app = express();
 const path = require('path');
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv'); // Add this line
+
+// Load environment variables from .env file
+dotenv.config();
 
 
 const adminRoutes = require('./routes/adminRoutes');
@@ -22,7 +26,7 @@ app.use(fileRoutes);
 app.use(userRoutes);
 app.use(videoRoutes);
 
-const port = process.env.port || 5500
-app.listen(5500, ()=> {
+const port = process.env.PORT || 5500
+app.listen(port, ()=> {
     console.log(`listening on port ${port}`);
 })

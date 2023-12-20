@@ -17,9 +17,9 @@ function main() {
 
             videoArray = videoArray.sort((a, b) => { //sort the new array
                 if (a.title > b.title) return 1; // by title
-                else if (a.title == b.title){
+                else if (a.title == b.title) {
                     if (a.dateTime > b.dateTime) return 1; // or by dateTime
-                    else if (a.dateTime == b.dateTime)return 0; //if dateTim is equal
+                    else if (a.dateTime == b.dateTime) return 0; //if dateTim is equal
                     else return -1;
                 }
                 else return -1
@@ -41,6 +41,9 @@ function main() {
                     getId("usertviewlist").append(tview.renderObjectTemlate());
                 }
             }
+            const url = new URL(window.location.href);
+            const videoId = url.pathname.slice(url.pathname.indexOf("video/") + 6, url.pathname.indexOf("/", url.pathname.indexOf("video/") + 6));
+            fetchCommentsAndrender(videoId);
         })
         .catch(error => {
             console.log(error);
@@ -191,6 +194,8 @@ function main() {
         const currentVideoUrl = videoPlayer.getAttribute('src');
         videoPlayer.src = currentVideoUrl;
     })
+
+    processCommentsInput()
 }
 
 async function getVideoRecommendations() {
@@ -199,3 +204,187 @@ async function getVideoRecommendations() {
     return (res)
 }
 
+function processCommentsInput() {
+    const postBtn = document.getElementById("postBtn");
+
+    postBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const textContent = document.getElementById("comment-message-input").value.trim();
+        const url = new URL(window.location.href)
+        const videoId = url.pathname.slice(url.pathname.indexOf("video/") + 6, url.pathname.indexOf("/", url.pathname.indexOf("video/") + 6));
+        const commentRegex = /^[a-zA-Z0-9.,!?' -+=*/><()]+$/;
+        const creatorId = url.search.slice(url.search.indexOf("=") + 1);
+        console.log(videoId);
+
+        if (textContent && commentRegex.test(textContent)) {
+
+            getUserProfile(creatorId)
+                .then(r => {
+                    if (r.document[0]) {
+                        const comment_id = String(JSON.parse(localStorage.getItem("userDetails"))._id).concat(String(new Date().getTime()));
+                        const parentId = null;
+                        const likes = 0;
+                        const replies = 0;
+                        const parentUsername = r.document[0].username;
+                        const userProfilePicUrl = JSON.parse(localStorage.getItem("userDetails")).profilePicUrl
+                        const username = JSON.parse(localStorage.getItem("userDetails")).username
+
+                        const commentObject = {
+                            id: comment_id,
+                            parentId: parentId,
+                            textContent: textContent,
+                            likes: likes,
+                            replies: replies,
+                            parentUsername: parentUsername,
+                            userProfilePicUrl: userProfilePicUrl,
+                            username: username
+                        }
+
+                        postCommentObject(videoId, commentObject)
+                            .then(r => {
+                                if (r.message == "updated") {
+                                    fetchCommentsAndrender(videoId);
+                                }
+                            })
+                            .catch(e => {
+                                console.error(e)
+                            })
+                    }
+                })
+                .catch(e => {
+                    console.log(e);
+                })
+        } else {
+            // Invalid input
+            console.log("Invalid comment. Please enter a valid comment.");
+        }
+    })
+}
+
+async function postCommentObject(videoId, commentObj) {
+    try {
+        const body = {
+            videoId: videoId,
+            commentObj: commentObj
+        }
+        const url = new URL(window.location.href).origin
+        const req = await fetch(`${url}/tview/update-video/comments`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ body })
+        });
+
+        const res = await req.json();
+        const status = req.status;
+
+        if (status == 200) {
+            return res;
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+function fetchCommentsAndrender(videoId) {
+    getAllComments(videoId)
+    .then(res => {
+        callMain(res.commentsArray);
+    })
+    .catch(e => {
+        console.log(e);
+    })
+
+}
+
+async function getAllComments(videoId) {
+    try {
+        const req = await fetch(`/user-get/comments?videoId=${videoId}`);
+        const res = await req.json();
+        const status = req.status;
+
+        if (status == 200) {
+            return res;
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+
+function callMain(commentArray) {
+    const ulMain = document.getElementById("ul-main");
+    const comArr = [...commentArray];
+    
+    for (let i = 0; i < comArr.length; i++) {
+        const comment = comArr[i];
+        const comElement = createComment(comment);
+    
+        if (comment.parentId === null) {
+            const ol = document.createElement("ol");
+            ol.setAttribute("id", `header-${comment.id}`);
+            ol.append(comElement);
+            ulMain.append(ol);
+        } else {
+            const parent = ulMain.querySelector(`[id="${comment.parentId}"]`);
+    
+            if (parent) {
+                let ol = parent;
+    
+                while (ol && (ol.getAttribute("id") !== `header-${comment.parentId}`)) {
+                    ol = ol.parentElement;
+                }
+    
+                if (ol) {
+                    comElement.classList.add(`child-comment-1`);
+                    ol.append(comElement);
+                }
+            } else {
+                // If the parent is not found, consider delaying the rendering
+                // Alternatively, you can choose to render it immediately or handle it differently
+            }
+        }
+    }
+}
+
+
+function createComment(commentObject) {
+    const comment = document.createElement("li")
+    if (commentObject) {
+        comment.classList.add("ol-list-item");
+        comment.setAttribute("id", commentObject.id);
+        comment.setAttribute("data-parentId", commentObject.parentId);
+    
+        comment.innerHTML = `
+            <div class="username_and_pic" id="username_and_pic">
+                <div class="left-header">
+                    <img src="${commentObject.userProfilePicUrl}" alt="profile" width="30px" height="30px">
+                    <p>@${commentObject.username} replying to ${commentObject.parentUsername}</p>
+                </div>
+                <div class="right-header">
+                    <p>33m ago</p>
+                </div>
+            </div>
+            <div class="comment-textContent" id="comment-textContent">
+                <p>${commentObject.textContent}</p>
+            </div>
+            <div class="comment-action-buttons" id="comment-action-buttons">
+                <div class="like">
+                    <img src="/graphics/like-svgrepo-com" alt="like" id="like" width="20px"
+                        height="20px">
+                    <small>${commentObject.likes}</small>
+                </div>
+                <div class="replies">
+                    <img src="/graphics/comment-svgrepo-com" alt="reply" id="reply" width="20px"
+                        height="20px">
+                    <small>${commentObject.replies}</small>
+                </div>
+            </div>
+        `;
+    }
+    return comment;
+}
