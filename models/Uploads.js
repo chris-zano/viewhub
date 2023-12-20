@@ -266,7 +266,7 @@ class Uploads {
                                                 if (res.error == false) {
                                                     Uploads.updateVideoViews(videoId, viewerId)
                                                         .then(res => {
-                                                            resolve({error: false})
+                                                            resolve({ error: false })
                                                         })
                                                         .catch(err => {
                                                             reject({ error: true, error_Object: err });
@@ -291,7 +291,7 @@ class Uploads {
                 { _id: videoId },
                 { multi: false },
                 (err, doc) => {
-                    if (err) reject({ error: true, message: "Internal server Error" , error_Object: err});
+                    if (err) reject({ error: true, message: "Internal server Error", error_Object: err });
                     else {
                         if (doc.length == 1) {
                             UpdateVideoObject.updateLikesList(videoId, userId)
@@ -320,7 +320,7 @@ class Uploads {
                                                 if (res.error == false) {
                                                     Uploads.updateVideoLikes(videoId, userId)
                                                         .then(res => {
-                                                            resolve({error: false})
+                                                            resolve({ error: false })
                                                         })
                                                         .catch(err => {
                                                             reject({ error: true, error_Object: err });
@@ -341,11 +341,12 @@ class Uploads {
 
     static updateVideoComments(videoId, commentObj) {
         return new Promise((resolve, reject) => {
+            console.log(videoId, commentObj);
             db.find(
                 { _id: videoId },
                 { multi: false },
                 (err, doc) => {
-                    if (err) reject({ error: true, message: "Internal server Error" , error_Object: err});
+                    if (err) reject({ error: true, message: "Internal server Error", error_Object: err });
                     else {
                         if (doc.length == 1) {
                             UpdateVideoObject.updateCommentsList(videoId, commentObj)
@@ -370,15 +371,20 @@ class Uploads {
                                     else {
                                         UpdateVideoObject.init(videoId)
                                             .then(res => {
+                                                var counter = 0
                                                 if (res.error == false) {
-                                                    Uploads.updateVideoComments(videoId, commentObj)
-                                                        .then(res => {
-                                                            resolve({error: false})
-                                                        })
-                                                        .catch(err => {
-                                                            reject({ error: true, error_Object: err });
-                                                        })
+                                                    while (counter <= 2) {
+                                                        Uploads.updateVideoComments(videoId, commentObj)
+                                                            .then(res => {
+                                                                resolve({ error: false })
+                                                            })
+                                                            .catch(err => {
+                                                                reject({ error: true, error_Object: err });
+                                                            })
+                                                        counter += 1;
+                                                    }
                                                 }
+                                                console.log("counter: ", counter);
                                             })
                                             .catch(err => {
                                                 reject({ error: true, error_Object: err });

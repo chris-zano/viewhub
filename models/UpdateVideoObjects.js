@@ -155,6 +155,32 @@ class UpdateVideoObject {
             )
         })
     }
+
+    static getCommentsList(videoId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {videoId: videoId},
+                {multi: false},
+                (err, doc) => {
+                    if (err) reject({error: err, message: "Iternal serverr Error"});
+                    else {
+                        if (doc.length == 1) {
+                            const arr = [...doc[0].comments];
+                            if (arr.length > 100) {
+                                resolve({message: "success", comments: arr.slice(0, 100)});
+                            }
+                            else{
+                                resolve({message: "success", comments: arr});
+                            }
+                        }
+                        else {
+                            resolve({message: "failed"});
+                        }
+                    }
+                }
+            )
+        })
+    }
 }
 
 module.exports = UpdateVideoObject;

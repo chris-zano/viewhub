@@ -60,6 +60,9 @@ exports.uploadVideo = (req, res) => {
                                     res.render("error", { message: error.msg })
                                 })
                         }
+                        else{
+                            res.status(500).json({message: "Internal Server Error"});
+                        }
                     })
                     .catch(error => {
                         if (error.error == true) {
