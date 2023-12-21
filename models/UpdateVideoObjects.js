@@ -128,6 +128,8 @@ class UpdateVideoObject {
                             const comments = vidObj.comments
                             if (comments) {
                                 if ((comments.findIndex(comment => comment == commentObj)) == -1) {
+                                    // const index = comments.findIndex(c => {c.id == commentObj.parentId})
+                                    // console.log(index);
                                     comments.push(commentObj);
                                     db.update(
                                         { videoId: videoId },
@@ -159,22 +161,22 @@ class UpdateVideoObject {
     static getCommentsList(videoId) {
         return new Promise((resolve, reject) => {
             db.find(
-                {videoId: videoId},
-                {multi: false},
+                { videoId: videoId },
+                { multi: false },
                 (err, doc) => {
-                    if (err) reject({error: err, message: "Iternal serverr Error"});
+                    if (err) reject({ error: err, message: "Iternal serverr Error" });
                     else {
                         if (doc.length == 1) {
                             const arr = [...doc[0].comments];
                             if (arr.length > 100) {
-                                resolve({message: "success", comments: arr.slice(0, 100)});
+                                resolve({ message: "success", comments: arr.slice(0, 100) });
                             }
-                            else{
-                                resolve({message: "success", comments: arr});
+                            else {
+                                resolve({ message: "success", comments: arr });
                             }
                         }
                         else {
-                            resolve({message: "failed"});
+                            resolve({ message: "failed" });
                         }
                     }
                 }
