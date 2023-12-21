@@ -242,7 +242,8 @@ function processCommentsInput() {
                         const replies = 0;
                         const parentUsername = textArea.hasAttribute("data-parentUsername") ? textArea.getAttribute("data-parentUsername") : r.document[0].username;
                         const userProfilePicUrl = JSON.parse(localStorage.getItem("userDetails")).profilePicUrl
-                        const username = JSON.parse(localStorage.getItem("userDetails")).username
+                        const username = JSON.parse(localStorage.getItem("userDetails")).username;
+                        const postTime = new Date().getTime();
 
                         const commentObject = {
                             id: comment_id,
@@ -252,7 +253,8 @@ function processCommentsInput() {
                             replies: replies,
                             parentUsername: parentUsername,
                             userProfilePicUrl: userProfilePicUrl,
-                            username: username
+                            username: username,
+                            postTime: postTime
                         }
                         console.log(commentObject);
 
@@ -398,7 +400,7 @@ function createComment(commentObject) {
                     <p>@${commentObject.username} replying to ${commentObject.parentUsername}</p>
                 </div>
                 <div class="right-header">
-                    <p></p>
+                    <p class="time-elapsed" ></p>
                 </div>
             </div>
             <div class="comment-textContent" id="comment-textContent">
@@ -417,6 +419,10 @@ function createComment(commentObject) {
         `;
 
     }
+
+    const timeSection = comment.getElementsByClassName("time-elapsed")[0];
+    const pastTime = getPastTime(commentObject.postTime);
+    timeSection.textContent = pastTime
     return comment;
     // <small>${commentObject.replies}</small>
     // <small>${commentObject.likes}</small>
