@@ -53,7 +53,6 @@ router.post("/tview/update-video/likes", (req, res) => {
 });
 
 router.post("/tview/update-video/comments", (req, res) => {
-    // console.log(req.body);
     const videoId = req.body.body.videoId;
     const commentObj = req.body.body.commentObj;
 

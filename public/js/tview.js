@@ -261,7 +261,7 @@ function processCommentsInput() {
                         postCommentObject(videoId, commentObject)
                             .then(r => {
                                 if (r.message == "updated") {
-                                    fetchCommentsAndrender(videoId);
+                                    // do nothing;
                                 }
                             })
                             .catch(e => {

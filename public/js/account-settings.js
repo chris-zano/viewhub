@@ -13,7 +13,8 @@ function main() {
         const name = `${userData.firstname} ${userData.lastname}`,
             dob = new Date(userData.dob).toDateString(),
             username = `${userData.username}`,
-            userId = userData._id;
+            userId = userData._id,
+            imgUrl = userData.profilePicUrl;
 
         getEmail(userId)
             .then(res => {
@@ -27,6 +28,7 @@ function main() {
             document.getElementById("name").innerText = name;
             document.getElementById("username").innerText = username;
             document.getElementById("dob").innerText = dob;
+            document.getElementById("profilePicUrl").setAttribute("src", imgUrl)
 
             const editButton = document.getElementById("edit_profile_button")
             editButton.setAttribute("href", `/user/profile/${userId}`)
