@@ -49,6 +49,19 @@ function main() {
             console.log(error);
         })
 
+    const textArea = document.getElementById("comment-message-input");
+    textArea.addEventListener("click", (e) => {
+        if (textArea.getAttribute("data-parentId") != "null") {
+            textArea.style.borderTop = "1px solid transparent";
+            textArea.style.borderBottom = "1px solid var(--dark-grey)";
+            textArea.style.borderLeft = "1px solid var(--background-body)";
+            textArea.style.borderRight = "1px solid var(--background-body)";
+            textArea.setAttribute("data-parentId", "null");
+            if (textArea.hasAttribute("data-parentUsername")) {
+                textArea.removeAttribute("data-parentUsername");
+            }
+        }
+    });
 
     //get buttons
     const previous = document.getElementById("previous");
@@ -222,13 +235,15 @@ function processCommentsInput() {
             getUserProfile(creatorId)
                 .then(r => {
                     if (r.document[0]) {
+                        const textArea = document.getElementById("comment-message-input");
                         const comment_id = String(JSON.parse(localStorage.getItem("userDetails"))._id).concat(String(new Date().getTime()));
-                        const parentId = null;
+                        const parentId = textArea.getAttribute("data-parentId") == "null" ? null : textArea.getAttribute("data-parentId");
                         const likes = 0;
                         const replies = 0;
-                        const parentUsername = r.document[0].username;
+                        const parentUsername = textArea.hasAttribute("data-parentUsername") ? textArea.getAttribute("data-parentUsername") : r.document[0].username;
                         const userProfilePicUrl = JSON.parse(localStorage.getItem("userDetails")).profilePicUrl
-                        const username = JSON.parse(localStorage.getItem("userDetails")).username
+                        const username = JSON.parse(localStorage.getItem("userDetails")).username;
+                        const postTime = new Date().getTime();
 
                         const commentObject = {
                             id: comment_id,
@@ -238,13 +253,15 @@ function processCommentsInput() {
                             replies: replies,
                             parentUsername: parentUsername,
                             userProfilePicUrl: userProfilePicUrl,
-                            username: username
+                            username: username,
+                            postTime: postTime
                         }
+                        console.log(commentObject);
 
                         postCommentObject(videoId, commentObject)
                             .then(r => {
                                 if (r.message == "updated") {
-                                    fetchCommentsAndrender(videoId);
+                                    // do nothing;
                                 }
                             })
                             .catch(e => {
@@ -291,12 +308,12 @@ async function postCommentObject(videoId, commentObj) {
 
 function fetchCommentsAndrender(videoId) {
     getAllComments(videoId)
-    .then(res => {
-        callMain(res.commentsArray);
-    })
-    .catch(e => {
-        console.log(e);
-    })
+        .then(res => {
+            callMain(res.commentsArray);
+        })
+        .catch(e => {
+            console.log(e);
+        })
 
 }
 
@@ -319,11 +336,11 @@ async function getAllComments(videoId) {
 function callMain(commentArray) {
     const ulMain = document.getElementById("ul-main");
     const comArr = [...commentArray];
-    
+
     for (let i = 0; i < comArr.length; i++) {
         const comment = comArr[i];
         const comElement = createComment(comment);
-    
+
         if (comment.parentId === null) {
             const ol = document.createElement("ol");
             ol.setAttribute("id", `header-${comment.id}`);
@@ -331,24 +348,40 @@ function callMain(commentArray) {
             ulMain.append(ol);
         } else {
             const parent = ulMain.querySelector(`[id="${comment.parentId}"]`);
-    
+
             if (parent) {
                 let ol = parent;
-    
+
                 while (ol && (ol.getAttribute("id") !== `header-${comment.parentId}`)) {
                     ol = ol.parentElement;
                 }
-    
+
                 if (ol) {
                     comElement.classList.add(`child-comment-1`);
                     ol.append(comElement);
                 }
             } else {
-                // If the parent is not found, consider delaying the rendering
+                //TODO: If the parent is not found, consider delaying the rendering
                 // Alternatively, you can choose to render it immediately or handle it differently
             }
         }
     }
+
+
+    const replyBtn = document.getElementsByClassName("reply-btn");
+    for (let btn of replyBtn) {
+        btn.addEventListener("click", (e) => {
+            const replyparent = e.target.parentElement.parentElement.parentElement
+            const parentId = replyparent.getAttribute("id");
+            const textArea = document.getElementById("comment-message-input");
+            textArea.focus()
+            textArea.style.border = "2px solid black";
+            textArea.setAttribute("data-parentId", parentId);
+            textArea.setAttribute("data-parentUsername", replyparent.getAttribute("data-username"));
+
+        })
+    }
+
 }
 
 
@@ -358,7 +391,8 @@ function createComment(commentObject) {
         comment.classList.add("ol-list-item");
         comment.setAttribute("id", commentObject.id);
         comment.setAttribute("data-parentId", commentObject.parentId);
-    
+        comment.setAttribute("data-username", commentObject.username);
+
         comment.innerHTML = `
             <div class="username_and_pic" id="username_and_pic">
                 <div class="left-header">
@@ -366,7 +400,7 @@ function createComment(commentObject) {
                     <p>@${commentObject.username} replying to ${commentObject.parentUsername}</p>
                 </div>
                 <div class="right-header">
-                    <p>33m ago</p>
+                    <p class="time-elapsed" ></p>
                 </div>
             </div>
             <div class="comment-textContent" id="comment-textContent">
@@ -376,15 +410,20 @@ function createComment(commentObject) {
                 <div class="like">
                     <img src="/graphics/like-svgrepo-com" alt="like" id="like" width="20px"
                         height="20px">
-                    <small>${commentObject.likes}</small>
                 </div>
                 <div class="replies">
-                    <img src="/graphics/comment-svgrepo-com" alt="reply" id="reply" width="20px"
+                    <img src="/graphics/comment-svgrepo-com" alt="reply" class="reply-btn" width="20px"
                         height="20px">
-                    <small>${commentObject.replies}</small>
                 </div>
             </div>
         `;
+
     }
+
+    const timeSection = comment.getElementsByClassName("time-elapsed")[0];
+    const pastTime = getPastTime(commentObject.postTime);
+    timeSection.textContent = pastTime
     return comment;
+    // <small>${commentObject.replies}</small>
+    // <small>${commentObject.likes}</small>
 }

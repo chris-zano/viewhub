@@ -131,3 +131,42 @@ function setTheme() {
     }
 }
 setTheme()
+
+
+function getPastTime(time) {
+    try {
+        const now = new Date();
+
+        const timestamp = Math.floor((now - time) / 1000);
+
+        if (timestamp < 60) {
+            return Math.floor(timestamp) + " seconds";
+        }
+        else if (timestamp < 3600) {
+            return Math.floor(timestamp / 60) + " minutes";
+        }
+        else if (timestamp < 86400) {
+            return Math.floor(timestamp / 3600) + " hours";
+        }
+        else if (timestamp < 604800) {
+            return Math.floor(timestamp / 86400) + " days";
+        }
+        else if (timestamp < 2419200) {
+            let weeks = Math.floor(timestamp / 604800)
+            return `${weeks}  ${weeks == 1 ? " week" : " weeks"}`
+        }
+        else if (timestamp < 29030400) {
+            if (Math.floor(timestamp / 2419200) == 1) {
+                return Math.floor(timestamp / 2419200) + " month";
+            }
+            else {
+                return Math.floor(timestamp / 2419200) + " months";
+            }
+        }
+        else {
+            return Math.floor(timestamp / 29030400) + " years";
+        }
+    } catch (error) {
+        location.href = `/error/${error}`;
+    }
+}

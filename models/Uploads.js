@@ -341,7 +341,6 @@ class Uploads {
 
     static updateVideoComments(videoId, commentObj) {
         return new Promise((resolve, reject) => {
-            console.log(videoId, commentObj);
             db.find(
                 { _id: videoId },
                 { multi: false },
