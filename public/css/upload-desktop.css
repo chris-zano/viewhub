@@ -39,7 +39,7 @@
         height: 35px;
         border-radius: 0.3rem;
         border: 1px solid var(--dark-grey);
-        background-color: var(--default-font-color-dark);
+        background-color: var(--background-light);
         color: var(--default-dark-font)
     }
 
@@ -47,7 +47,7 @@
         height: 35px;
         border-radius: 0.3rem;
         border: 1px solid var(--dark-grey);
-        background-color: var(--default-font-color-dark);
+        background-color: var(--background-light);
         color: var(--default-dark-font)
     }
 

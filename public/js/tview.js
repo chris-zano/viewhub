@@ -351,8 +351,8 @@ function processCommentsInput() {
         const commentRegex = /^[a-zA-Z0-9.,!?' -+=*/><()]+$/;
         const creatorId = url.search.slice(url.search.indexOf("=") + 1);
         console.log(videoId);
-
-        if (textContent && commentRegex.test(textContent)) {
+//  && commentRegex.test(textContent)
+        if (textContent) {
 
             getUserProfile(creatorId)
                 .then(r => {
@@ -383,7 +383,9 @@ function processCommentsInput() {
                         postCommentObject(videoId, commentObject)
                             .then(r => {
                                 if (r.message == "updated") {
-                                    // do nothing;
+                                    document.getElementById("comment-message-input").value = ""
+                                    window.alert("comment posted");
+                                    
                                 }
                             })
                             .catch(e => {
