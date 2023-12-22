@@ -28,8 +28,9 @@ function main() {
             for (let video of videoArray) {
 
                 const tview = new Tview(video);
-                const url = window.location.href.slice(window.location.href.indexOf("/tview"));
+                const url = new URL(window.location.href).pathname;
                 const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
+                console.log();
 
                 if (`/tview/stream/video/${video._id}/${userId}` == url) {
                     delete (tview);
