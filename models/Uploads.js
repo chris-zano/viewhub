@@ -297,11 +297,7 @@ class Uploads {
                             UpdateVideoObject.updateLikesList(videoId, userId)
                                 .then(res => {
                                     if (res.message == "Like match") {
-                                        resolve({ message: "User already liked" });
-                                    }
-                                    else if (res.message == "No match") {
                                         const likesListLength = res.doc[0]["likes"].length;
-                                        console.log(likesListLength);
                                         db.update(
                                             { _id: videoId },
                                             {
@@ -310,7 +306,21 @@ class Uploads {
                                                 }
                                             },
                                             (err, docUpdated) => {
-                                                resolve({ error: false, message: "updated" })
+                                                resolve({ message: "User already liked",likes: likesListLength });
+                                            }
+                                        )
+                                    }
+                                    else if (res.message == "No match") {
+                                        const likesListLength = res.doc[0]["likes"].length;
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    likes: likesListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated", likes: likesListLength })
                                             }
                                         )
                                     }

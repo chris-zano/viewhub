@@ -38,10 +38,10 @@ router.post("/tview/update-video/likes", (req, res) => {
     Uploads.updateVideoLikes(videoId, userId)
         .then(r => {
             if (r.message == "User already liked") {
-                res.status(202).json({ message: "User already liked" });
+                res.status(202).json({ message: "User already liked", likes: r.likes });
             }
             else if (r.message == "updated") {
-                res.status(200).json({ message: "updated" });
+                res.status(200).json({ message: "updated", likes: r.likes });
             }
             else {
                 res.status(403).json({ message: "Forbidden" });

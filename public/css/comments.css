@@ -18,28 +18,30 @@ section.comments_container {
     flex-direction: column;
 }
 
+section.comments_container::-webkit-scrollbar {
+    display: none;
+}
+
 section.comments_container ul.ul-main {
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
+    row-gap: 0.2rem;
 }
 
 section.comments_container ul.ul-main ol {
     display: flex;
     flex-flow: column;
-    row-gap: 0.5rem;
+    row-gap: 0.1rem;
 }
 
 section.comments_container ul.ul-main li {
     padding-inline: 1rem;
     padding-block: 0.3rem;
-    border-radius: 1rem;
+    border-radius: 0.3rem;
     display: flex;
     flex-flow: column;
-    /* min-width: 100%; */
-    /* max-width: 400px; */
-    background-color: var(--background-light);
-    box-shadow: var(--box-shadow-extra-thin);
+    background-color: var(--background-white);
+    color: var(--default-dark-font);
 }
 
 ul li div.username_and_pic {
@@ -126,7 +128,7 @@ form#input-comment-form textarea {
     border-left: 1px solid var(--background-body);
     border-right: 1px solid var(--background-body);
     border-radius: 1rem;
-    background-color: var(--background-light);
+    background-color: var(--background-white);
     columns: var(--default-dark-font);
 }
 
@@ -146,7 +148,7 @@ form#input-comment-form button {
 }
 
 form#input-comment-form button:hover {
-    background-color: rgb(230, 234, 234);
+    background-color: var(--background-white);
     border: 1px solid transparent;
 }
 

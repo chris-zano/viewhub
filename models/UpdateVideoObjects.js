@@ -86,7 +86,8 @@ class UpdateVideoObject {
                             const vidObj = doc[0];
                             const likes = vidObj.likes
                             if (likes) {
-                                if ((likes.findIndex(like => like == userId)) == -1) {
+                                const indexOfLike = likes.findIndex(like => like == userId)
+                                if (indexOfLike == -1) {
                                     likes.push(userId);
                                     db.update(
                                         { videoId: videoId },
@@ -101,8 +102,18 @@ class UpdateVideoObject {
                                     )
                                 }
                                 else {
-                                    resolve({ error: false, message: "Like match", doc: doc });
-
+                                    likes.splice(indexOfLike, 1);
+                                    db.update(
+                                        { videoId: videoId },
+                                        {
+                                            $set: {
+                                                likes: likes
+                                            }
+                                        },
+                                        (err, docUpdated) => {
+                                            resolve({ error: false, message: "Like match", doc: doc });
+                                        }
+                                    )
                                 }
                             }
                         }

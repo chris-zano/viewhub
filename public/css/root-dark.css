@@ -9,7 +9,7 @@
     --dark-grey: #111010e3;
     --box-shadow-wide: 0px 3px 30px var(--dark-grey);
     --box-shadow-thin: 0px 3px 3px var(--dark-grey);
-    --box-shadow-extra-thin: 0px 3px 3px #232323d5;
+    --box-shadow-extra-thin: 0px 3px 3px #141414d5;
     --button-width-desktop: 120px;
     --button-height-desktop: 40px;
     --button-color-blue: rgba(14, 14, 185, 0.918);

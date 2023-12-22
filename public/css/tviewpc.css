@@ -50,12 +50,13 @@ img {
         margin-top: 11px;
         display: flex;
     }
-
+    
     .media_details .creator_url {
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
+        width: fit-content;
     }
 
     .media_details .img_prof img.profile_image {
@@ -65,13 +66,95 @@ img {
     }
 
     .media_details .creator_details span {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .video_title {
+        font-size: 13px;
     }
 
     .media_details .title_des {
         margin: 0px 3px;
-        width: calc(100% - 15%);
+        width: calc(100% - 35%);
+        display: flex;
+        flex-flow: column;
     }
+
+    .title_des .like-sub {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .title_des .subscribe-btn {
+        width: 120px;
+        height: 40px;
+        border-radius: 50px;
+        display: grid;
+        place-items: center;
+    }
+
+    .title_des .subscribe-btn button#subscribe-btn {
+        width: 100%;
+        height: 100%;
+        border: 1px solid transparent;
+        border-radius: inherit;
+        background-color: var(--background-light);
+        font-weight: 400;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition-default);
+    }
+    .title_des .subscribe-btn button#subscribe-btn:hover {
+        background-color: var(--dark-grey);
+        box-shadow: var(--box-shadow-extra-thin);
+        /* color: var(--background-white); */
+    }
+
+    div.likes#likes-count {
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 2%;
+        font-size: 13px;
+    }
+
+    .like-sub button#like-btn {
+        cursor: pointer;
+        height: 17px;
+        width: 17px;
+        display: grid;
+        place-items: center;
+        background-color: none;
+        background: none;
+        outline: none;
+        border: none;
+        margin-bottom: 7px;
+    }
+
+    .like-sub button#like-btn img {
+        width: inherit;
+        height: inherit;
+    }
+
+    /* media description */
+    div.media_description {
+        background-color: var(--background-light);
+        box-shadow: var(--box-shadow-extra-thin);
+        border-radius: 1rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    div.media_description div.top-shelf {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    
 
     main.main_container div.recommendations {
         margin-left: 2rem;

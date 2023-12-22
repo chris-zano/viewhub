@@ -209,7 +209,51 @@ function main() {
         videoPlayer.src = currentVideoUrl;
     })
 
-    processCommentsInput()
+    const likeBtn = document.getElementById("like-btn");
+    let likesCount = likeBtn.parentElement.getElementsByTagName("p")[0].textContent;
+    likesCount = formatLikesCount(likesCount.slice(0, likesCount.indexOf("likes")).trim());
+    likeBtn.parentElement.getElementsByTagName("p")[0].textContent = `${likesCount} likes`
+
+    likeBtn.addEventListener("click", async () => {
+        const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
+        const url = new URL(window.location.href)
+        const videoId = url.pathname.slice(url.pathname.indexOf("video/") + 6, url.pathname.indexOf("/", url.pathname.indexOf("video/") + 6));
+        const body = {
+            videoId: videoId,
+            userId: userId
+        }
+
+        const req = await fetch("/tview/update-video/likes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+
+        const status = req.status;
+        const res = await req.json();
+        let likesCount = res.likes;
+
+        if (Number(likesCount) > 1000) {
+            likesCount = formatLikesCount(likesCount);
+        }
+
+        console.log(likesCount);
+        likeBtn.parentElement.getElementsByTagName("p")[0].textContent = `${likesCount} likes`;
+    })
+
+    processCommentsInput();
+}
+
+function formatLikesCount(likesCount) {
+    if (likesCount >= 1e6) {
+        return (likesCount / 1e6).toFixed(1) + 'M';
+    } else if (likesCount >= 1e3) {
+        return (likesCount / 1e3).toFixed(1) + 'K';
+    } else {
+        return likesCount.toString();
+    }
 }
 
 async function getVideoRecommendations() {
