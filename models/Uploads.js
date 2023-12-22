@@ -369,7 +369,7 @@ class Uploads {
                                             { _id: videoId },
                                             {
                                                 $set: {
-                                                    likes: commentListLength
+                                                    comments: commentListLength
                                                 }
                                             },
                                             (err, docUpdated) => {

@@ -137,10 +137,9 @@ class UpdateVideoObject {
                         if (doc.length == 1) {
                             const vidObj = doc[0];
                             const comments = vidObj.comments
+                            const indexOfComments = comments.findIndex(comment => comment == commentObj)
                             if (comments) {
-                                if ((comments.findIndex(comment => comment == commentObj)) == -1) {
-                                    // const index = comments.findIndex(c => {c.id == commentObj.parentId})
-                                    // console.log(index);
+                                if ( indexOfComments == -1) {
                                     comments.push(commentObj);
                                     db.update(
                                         { videoId: videoId },
@@ -155,7 +154,18 @@ class UpdateVideoObject {
                                     )
                                 }
                                 else {
-                                    resolve({ error: false, message: "Like match", doc: doc });
+                                    comments.splice(indexOfComments, 1)
+                                    db.update(
+                                        { videoId: videoId },
+                                        {
+                                            $set: {
+                                                comments: comments
+                                            }
+                                        },
+                                        (err, docUpdated) => {
+                                            resolve({ error: false, message: "Comment match", doc: doc });
+                                        }
+                                    )
 
                                 }
                             }
