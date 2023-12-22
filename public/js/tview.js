@@ -64,6 +64,13 @@ function main() {
         }
     });
 
+    const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
+    const creatorId = document.getElementById("input-creatorId").getAttribute("data-creatorId");
+
+    if (userId.trim() == creatorId.trim()) {
+        document.getElementById("subscribe-btn").style.display = "none";
+    }
+
     //get buttons
     const previous = document.getElementById("previous");
     const playPause = document.getElementById("play-pause");
@@ -241,18 +248,88 @@ function main() {
 
         console.log(likesCount);
         likeBtn.parentElement.getElementsByTagName("p")[0].textContent = `${likesCount} likes`;
+    });
+
+    const subsBtn = document.getElementById("subscribe-btn");
+    const subState = JSON.parse(localStorage.getItem("subscribedList"));
+
+    if (subState) {
+        if (subState[creatorId] == "unsubscribed") {
+            subsBtn.textContent = "Subscribe";
+        }
+        else {
+            subsBtn.textContent = "Unsubscribe";
+        }
+    }
+
+
+
+    let subsCount = document.getElementById("subscribers-count")
+    subsCount = String(formatLikesCount(Number(subsCount.innerText)))
+    document.getElementById("subscribers-count").textContent = `${subsCount}`;
+
+
+    subsBtn.addEventListener("click", async () => {
+        const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
+        const creatorId = document.getElementById("input-creatorId").getAttribute("data-creatorId");
+
+        const body = {
+            creatorId: creatorId,
+            followerId: userId
+        }
+        if (userId != creatorId) {
+            const req = await fetch("/update/creator/followers", {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            const status = req.status;
+            const res = await req.json();
+
+            const subState = JSON.parse(localStorage.getItem("subscribedList"));
+            const subStateNew = {}
+
+            if (res.message == "unsubscribed") {
+                subsBtn.textContent = "Subscribe";
+                if (subState) {
+                    subState[creatorId] = "unsubscribed"
+                    localStorage.setItem("subscribedList", JSON.stringify(subState));
+                }
+                else {
+                    subStateNew[creatorId] = "unsubscribed";
+                    localStorage.setItem("subscribedList", JSON.stringify(subStateNew));
+
+                }
+            }
+            else {
+                subsBtn.textContent = "Unsubscribe";
+                if (subState) {
+                    subState[creatorId] = "subscribed"
+                    localStorage.setItem("subscribedList", JSON.stringify(subState));
+                }
+                else {
+                    subStateNew[creatorId] = "subscribed";
+                    localStorage.setItem("subscribedList", JSON.stringify(subStateNew));
+
+                }
+            }
+            document.getElementById("subscribers-count").textContent = `${res.subs} ${res.subs == 1 ? "subscriber": "subcribers"}`;
+        }
     })
+
 
     processCommentsInput();
 }
 
-function formatLikesCount(likesCount) {
-    if (likesCount >= 1e6) {
-        return (likesCount / 1e6).toFixed(1) + 'M';
-    } else if (likesCount >= 1e3) {
-        return (likesCount / 1e3).toFixed(1) + 'K';
+function formatLikesCount(number) {
+    if (number >= 1e6) {
+        return (number / 1e6).toFixed(1) + 'M';
+    } else if (number >= 1e3) {
+        return (number / 1e3).toFixed(1) + 'K';
     } else {
-        return likesCount.toString();
+        return number.toString();
     }
 }
 

@@ -100,12 +100,14 @@
                 </div>
                 <div class="media_details">
                     <a href="/user/profile/<%= document.creatorId %>" class="creator_url" id="creator_url">
+                        <input type="hidden" name="creatorId" id="input-creatorId" data-creatorId="<%= document.creatorId %>">
                         <div class="img_prof">
                             <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
                         </div>
                         <div class="creator_details">
                             <span id="creator_name"></span>
                         </div>
+                        <span id="subscribers-count" style="font-size: 13px;"></span>
                     </a>
                     <div class="title_des">
                         <div class="like-sub">
@@ -178,8 +180,6 @@
         <!-- <%- include("./layouts/global/footer") %> -->
 
         <script src="/js/utils"></script>
-        <script src="/js/class_tview"></script>
-        <script src="/js/tview"></script>
         <script>
             const elementdd = document.getElementById("creator_url").getAttribute("href");
             const creatorId = elementdd.slice(elementdd.indexOf("profile/") + 8);
@@ -187,8 +187,11 @@
             getUserProfile(creatorId)
                 .then(res => {
                     document.getElementById("creator_name").textContent = `${res.document[0].firstname} ${res.document[0].lastname}`;
+                    document.getElementById("subscribers-count").textContent = `${res.document[0].followers} ${res.document[0].followers == 1 ? "subscriber": "subcribers"}`;
                 })
         </script>
+        <script src="/js/class_tview"></script>
+        <script src="/js/tview"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-const Profile = require("./Profiles");
-const { subtle } = require("crypto");
+
+const Profile = require("./Profiles")
 const filepath = path.join(__dirname, "../DB/neDB/profiles-extended.db");
 const db = loadDB(filepath);
 
@@ -40,7 +40,8 @@ class UpdateUserProfileInformation {
                     else {
                         if (doc.length == 1) {
                             const subscriberList = [...doc[0].subscribers];
-                            if ((subscriberList.findIndex(subsId => subsId == subscriberId)) == -1) {
+                            const indexOfSubs = subscriberList.findIndex(subsId => subsId == subscriberId)
+                            if (indexOfSubs == -1) {
                                 subscriberList.push(subscriberId);
                                 db.update(
                                     {_id: creatorId},
@@ -52,12 +53,50 @@ class UpdateUserProfileInformation {
                                     {multi: false},
                                     (err, numUpdated) => {
                                         if (err) reject({error: err, message: "Failed to write to file"});
-                                        else resolve({error: false, message: numUpdated});
+                                        else {
+
+                                            Profile.setProfileObject(creatorId, "followers", subscriberList.length)
+                                            .then(r => {
+                                                if (r.message == "property set successfully") {
+                                                    resolve({error: false, message: "updated", subs: subscriberList.length})
+                                                }
+                                            })
+                                            .catch(e => {
+                                                reject({error: "user not found"})
+                                            })
+
+                                        };
                                     }
                                 )
                             }
                             else {
-                                resolve({error: false, message: "User already subscribed"});
+                                subscriberList.splice(indexOfSubs, 1);
+                                db.update(
+                                    {_id: creatorId},
+                                    {
+                                        $set: {
+                                            subscribers: subscriberList
+                                        }
+                                    },
+                                    {multi: false},
+                                    (err, numUpdated) => {
+                                        if (err) reject({error: err, message: "Failed to write to file"});
+                                        else {
+
+                                            Profile.setProfileObject(creatorId, "followers", subscriberList.length)
+                                            .then(r => {
+                                                if (r.message == "property set successfully") {
+                                                    resolve({error: false, message: "unsubscribed", subs: subscriberList.length});
+                                                }
+                                            })
+                                            .catch(e => {
+                                                reject({error: "user not found"})
+                                            })
+
+                                        };
+                                    }
+                                )
+                                
                             }
                         }
                         else resolve({error: false, message: "User not found"});
@@ -77,7 +116,8 @@ class UpdateUserProfileInformation {
                     else {
                         if (document.length == 1) {
                             const subscriptionList = document[0].following;
-                            if ((subscriptionList.findIndex(cId => cId == creatorId)) == -1) {
+                            const indexOfSubs = subscriptionList.findIndex(cId => cId == creatorId)
+                            if (indexOfSubs == -1) {
                                 subscriptionList.push(creatorId);
                                 db.update(
                                     {_id: subscriberId},
@@ -89,11 +129,51 @@ class UpdateUserProfileInformation {
                                     {multi: false},
                                     (error, numUpdated) => {
                                         if (error) reject({error: error, message: "Failed to update document"});
-                                        else resolve({error: false, message: "file updated successfully"});
+                                        else {
+
+                                            Profile.setProfileObject(subscriberId, "following", subscriptionList.length)
+                                            .then(r => {
+                                                if (r.message == "property set successfully") {
+                                                    resolve({error: false, message: numUpdated})
+                                                }
+                                            })
+                                            .catch(e => {
+                                                reject({error: "user not found"})
+                                            })
+
+                                        };
                                     }
                                 )
                             }
-                            else resolve({error: false, message: "creator already exists"});
+                            else {
+                                subscriptionList.splice(indexOfSubs);
+                                db.update(
+                                    {_id: subscriberId},
+                                    {
+                                        $set:{
+                                            following: subscriptionList
+                                        }
+                                    },
+                                    {multi: false},
+                                    (error, numUpdated) => {
+                                        if (error) reject({error: error, message: "Failed to update document"});
+                                        else {
+    
+                                            Profile.setProfileObject(subscriberId, "following", subscriptionList.length)
+                                            .then(r => {
+                                                if (r.message == "property set successfully") {
+                                                    resolve({error: false, message: "creator already exists"})
+                                                }
+                                            })
+                                            .catch(e => {
+                                                reject({error: "user not found"})
+                                            })
+    
+                                        };
+                                    }
+                                )
+
+                            }
                         }
                         else resolve({error: false, message: "User not found"});
                     }

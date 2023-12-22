@@ -178,41 +178,46 @@ exports.updateUserFollowingAndFollowers = (req, res) => {
     UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
         .then(r => {
             if (r.message == "User not found") {
-                return UpdateUserProfileInformation.init(creatorId);
-            }
-            else {
-                UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
-                    .then(u => {
-                        if (u.error == false && u.message == 1) {
-                            res.status(200).json({ message: "success" });
+                UpdateUserProfileInformation.init(creatorId)
+                    .then(initResult => {
+                        console.log(initResult);
+                        if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
+                            UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
+                                .then(u => {
+                                    if (u.message == "updated") {
+                                        res.status(200).json({ message: "success", subs: r.subs });
+                                    }
+                                    else if (u.message == "unsubscribed") {
+                                        res.status(200).json({ message: "unsubscribed", subs: r.subs });
+                                    }
+                                    else {
+                                        res.status(404).json({ message: "user not found" });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+
                         }
-                        else if (u.message == "User already subscribed") {
-                            res.status(200).json({ message: "success" });
+                        else {
+                            res.status(500).json({ message: "Internal Server Error" });
                         }
-                        else res.status(404).json({ message: "user not found" });
+                    })
+                    .catch(error => {
+                        console.log(error);
                     })
             }
-        })
-        .then(initResult => {
-            if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
-                return exports.updateUserFollowingAndFollowers(req, res);
+            else if (r.message == "updated") {
+                res.status(200).json({ message: "success", subs: r.subs });
+            }
+            else if (r.message == "unsubscribed") {
+                res.status(200).json({ message: "unsubscribed", subs: r.subs });
             }
             else {
-                res.status(500).json({ message: "Internal Server Error" });
+                res.status(404).json({ message: "user not found" });
             }
         })
         .catch(error => {
-            const report = new ReportError(error);
-            report.createReport()
-                .then(r => {
-                    if (r.message == "report created successfully") res.status(200).json({ message: "Error while fetching" });
-                    else {
-                        return Promise.reject();
-                    }
-                })
-                .catch (e => {
-                    res.status(500).json({ message: "Internal Server Error" })
-                    return report.createReport();
-                })
+            console.log(error);
         })
 }
