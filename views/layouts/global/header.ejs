@@ -2,8 +2,6 @@
     <nav class="main-header-nav" id="main-header-nav">
         <ul id="ul-li-a">
             <li><a href="/">Home</a></li>
-            <li><a href="/nav/upload_video">Upload</a></li>
-            <li><a href="/user/settings">Settings</a></li>
         </ul>
 
         <!-- dynamicaly render this section based on loginState -->
@@ -17,6 +15,8 @@
         <div class="profile-action-buttons hidden" id="profile-action-buttons">
             <button type="submit" class="hidden" id="profileBtn">Profile</button>
             <button type="submit" class="hidden" id="logoutBtn">Logout</button>
+            <a href="/nav/upload_video"><button type="submit" class="hidden" id="uploadBtn">Upload</button></a>
+            <a href="/user/settings"><button type="submit" class="hidden" id="settingBtn">Settings</button></a>
         </div>
     </div>
     
@@ -26,7 +26,7 @@
             e.preventDefault();
 
             //remove hidden if it is hidden
-            toggleDisplay(["profile-action-buttons", "profileBtn", "logoutBtn"]);
+            toggleDisplay(["profile-action-buttons", "profileBtn", "logoutBtn", "uploadBtn", "settingBtn"]);
             
         })
 

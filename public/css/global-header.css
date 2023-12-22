@@ -72,26 +72,14 @@
         color: var(--default-dark-font);
     }
 
-    header div.profile-nav div.profile-action-buttons button#profileBtn {
+    header div.profile-nav div.profile-action-buttons button{
         border-top-right-radius: 0.5rem;
         border-top-left-radius: 0.5rem;
     }
 
-    header div.profile-nav div.profile-action-buttons button#logoutBtn {
+    header div.profile-nav div.profile-action-buttons button:hover {
         border-bottom-right-radius: 0.5rem;
         border-bottom-left-radius: 0.5rem;
-    }
-
-    header div.profile-nav div.profile-action-buttons button#profileBtn:hover {
-        border-bottom-right-radius: 0.5rem;
-        border-bottom-left-radius: 0.5rem;
-        background-color: var(--dark-grey);
-
-    }
-
-    header div.profile-nav div.profile-action-buttons button#logoutBtn:hover {
-        border-top-right-radius: 0.5rem;
-        border-top-left-radius: 0.5rem;
         background-color: var(--dark-grey);
 
     }
