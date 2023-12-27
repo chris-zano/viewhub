@@ -48,6 +48,15 @@
         }
     })
  });
+
+ var lines = document.querySelectorAll("#line")
+ lines.forEach(lin=>{
+   lin.addEventListener('mouseover',function(){
+      if (lin.id ==="line"){
+         
+      }
+   })
+ })
 //})
 // var ytb = document.getElementById('ytb')
 // ytb.onmouseover=function(){
