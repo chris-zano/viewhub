@@ -12,11 +12,12 @@
     --box-shadow-extra-thin: 0px 3px 3px rgba(223, 221, 221, 0.834);
     --button-width-desktop: 120px;
     --button-height-desktop: 40px;
-    --button-color-blue: rgba(14, 14, 185, 0.918);
+    --button-color-blue: rgb(1, 103, 255);
     --border-radius-default: 7px;
     --border-radius-image: 50%;
     --background-light: rgb(241, 237, 237);
     --background-white: #ffffff;
+    --background-body: #fffbfb;
     --error-message: rgb(100, 206, 105);
     --default-dark-font: rgb(21, 21, 21);
     --default-link-font-color: rgba(248, 35, 35, 0.764);
@@ -56,7 +57,7 @@ li {
 }
 
 body {
-    background-color: #fffbfb;
+    background-color: var(--background-body);
     scroll-behavior: smooth;
 }
 

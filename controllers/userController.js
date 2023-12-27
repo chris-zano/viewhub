@@ -1,4 +1,6 @@
+const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
+const UpdateUserProfileInformation = require("../models/UpdateProfileObjects");
 const User = require("../models/Users");
 const mailer = require("../utils/mail")
 
@@ -47,14 +49,14 @@ exports.userSignup = (req, res) => {
                     <p>If this was not you, click the button below to reset you account password; Otherwise, no further action is required</p>
                     <p><a href="https://viewhub.io/admin/password/reset/u=?asjjuerbvnrio-10cc4lddi">Reset Password</a></p>
                 `;
-                
+
                 mailer.sendMail(recipient, subject, message)
-                .then(mail => {
-                    console.log(mail);
-                })
-                .catch(mailerror => {
-                    console.log(mailerror);
-                })
+                    .then(mail => {
+                        console.log(mail);
+                    })
+                    .catch(mailerror => {
+                        console.log(mailerror);
+                    })
                 res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "Email already registered" });
             }
         })
@@ -157,5 +159,65 @@ exports.userUpdateProfilePic = (req, res) => {
         })
         .catch(error => {
             throw new Error(error);
+        })
+}
+
+exports.updateUserPrefences = (req, res) => {
+    const { key, value } = req.body;
+    Profile.setProfileObject(req.params.id, key, value)
+        .then(response => {
+            res.json("Hello")
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
+
+exports.updateUserFollowingAndFollowers = (req, res) => {
+    const { creatorId, followerId } = req.body;
+    UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
+        .then(r => {
+            if (r.message == "User not found") {
+                UpdateUserProfileInformation.init(creatorId)
+                    .then(initResult => {
+                        console.log(initResult);
+                        if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
+                            UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
+                                .then(u => {
+                                    if (u.message == "updated") {
+                                        res.status(200).json({ message: "success", subs: r.subs });
+                                    }
+                                    else if (u.message == "unsubscribed") {
+                                        res.status(200).json({ message: "unsubscribed", subs: r.subs });
+                                    }
+                                    else {
+                                        res.status(404).json({ message: "user not found" });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+
+                        }
+                        else {
+                            res.status(500).json({ message: "Internal Server Error" });
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+            else if (r.message == "updated") {
+                res.status(200).json({ message: "success", subs: r.subs });
+            }
+            else if (r.message == "unsubscribed") {
+                res.status(200).json({ message: "unsubscribed", subs: r.subs });
+            }
+            else {
+                res.status(404).json({ message: "user not found" });
+            }
+        })
+        .catch(error => {
+            console.log(error);
         })
 }

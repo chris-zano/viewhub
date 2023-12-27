@@ -68,14 +68,7 @@ function checkLoginState() {
 
             }
 
-            getUserProfile(JSON.parse(loginState).userId)
-            .then(res => {
-                localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
-                const username = res.document[0].username;
-                const ppURL = res.document[0].profilePicUrl;
-                document.getElementById("current-user-name").textContent = username.trim();
-                document.getElementById("big_img").setAttribute("src", ppURL.trim())
-            })
+            fetchuserDetails();
         }
     }
 

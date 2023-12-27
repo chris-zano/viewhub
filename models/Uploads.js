@@ -3,6 +3,7 @@ const path = require("path");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
 const Profile = require("./Profiles");
+const UpdateVideoObject = require("./UpdateVideoObjects");
 const filepath = path.join(__dirname, "../DB/neDB/video_uploads.db");
 const db = loadDB(filepath);
 
@@ -72,7 +73,15 @@ class Uploads {
                             if (err) {
                                 reject({ error: true, msg: err });
                             }
-                            resolve({ error: false, msg: "init successful", videoId: doc._id });
+                            else {
+                                UpdateVideoObject.init(doc._id)
+                                    .then(res => {
+                                        resolve({ error: false, msg: "init successful", videoId: doc._id });
+                                    })
+                                    .catch(err => {
+                                        reject({ error: err });
+                                    })
+                            }
                         })
                     }
                 }).catch(err => {
@@ -214,7 +223,183 @@ class Uploads {
                             )
                         }
                         else {
-                            resolve({doc: null})
+                            resolve({ doc: null })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static updateVideoViews(videoId, viewerId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal server Error" });
+                    else {
+                        if (doc.length == 1) {
+                            UpdateVideoObject.updateViewersList(videoId, viewerId)
+                                .then(res => {
+                                    if (res.message == "Viewer match") {
+                                        resolve({ message: "User already watched" });
+                                    }
+                                    else if (res.message == "No match") {
+                                        const viewListLength = res.doc[0]["viewers"].length;
+                                        console.log(viewListLength);
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    views: viewListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated" })
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        UpdateVideoObject.init(videoId)
+                                            .then(res => {
+                                                if (res.error == false) {
+                                                    Uploads.updateVideoViews(videoId, viewerId)
+                                                        .then(res => {
+                                                            resolve({ error: false })
+                                                        })
+                                                        .catch(err => {
+                                                            reject({ error: true, error_Object: err });
+                                                        })
+                                                }
+                                            })
+                                            .catch(err => {
+                                                reject({ error: true, error_Object: err });
+                                            })
+                                    }
+                                })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static updateVideoLikes(videoId, userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal server Error", error_Object: err });
+                    else {
+                        if (doc.length == 1) {
+                            UpdateVideoObject.updateLikesList(videoId, userId)
+                                .then(res => {
+                                    if (res.message == "Like match") {
+                                        const likesListLength = res.doc[0]["likes"].length;
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    likes: likesListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ message: "User already liked",likes: likesListLength });
+                                            }
+                                        )
+                                    }
+                                    else if (res.message == "No match") {
+                                        const likesListLength = res.doc[0]["likes"].length;
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    likes: likesListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated", likes: likesListLength })
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        UpdateVideoObject.init(videoId)
+                                            .then(res => {
+                                                if (res.error == false) {
+                                                    Uploads.updateVideoLikes(videoId, userId)
+                                                        .then(res => {
+                                                            resolve({ error: false })
+                                                        })
+                                                        .catch(err => {
+                                                            reject({ error: true, error_Object: err });
+                                                        })
+                                                }
+                                            })
+                                            .catch(err => {
+                                                reject({ error: true, error_Object: err });
+                                            })
+                                    }
+                                })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static updateVideoComments(videoId, commentObj) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, message: "Internal server Error", error_Object: err });
+                    else {
+                        if (doc.length == 1) {
+                            UpdateVideoObject.updateCommentsList(videoId, commentObj)
+                                .then(res => {
+                                    if (res.message == "Comment match") {
+                                        resolve({ message: "User already commented" });
+                                    }
+                                    else if (res.message == "No match") {
+                                        const commentListLength = res.doc[0]["comments"].length;
+                                        db.update(
+                                            { _id: videoId },
+                                            {
+                                                $set: {
+                                                    comments: commentListLength
+                                                }
+                                            },
+                                            (err, docUpdated) => {
+                                                resolve({ error: false, message: "updated" })
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        UpdateVideoObject.init(videoId)
+                                            .then(res => {
+                                                var counter = 0
+                                                if (res.error == false) {
+                                                    while (counter <= 2) {
+                                                        Uploads.updateVideoComments(videoId, commentObj)
+                                                            .then(res => {
+                                                                resolve({ error: false })
+                                                            })
+                                                            .catch(err => {
+                                                                reject({ error: true, error_Object: err });
+                                                            })
+                                                        counter += 1;
+                                                    }
+                                                }
+                                                console.log("counter: ", counter);
+                                            })
+                                            .catch(err => {
+                                                reject({ error: true, error_Object: err });
+                                            })
+                                    }
+                                })
                         }
                     }
                 }

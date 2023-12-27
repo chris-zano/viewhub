@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/recordsymbol.svg" type="image/x-icon">
-    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" id="root-css" href="/css/root">
     <link rel="stylesheet" href="/css/global-header">
     <link rel="stylesheet" href="/css/global-footer">
     <link rel="stylesheet" href="/css/main">
@@ -31,24 +31,25 @@
             </section>
             <section class="wrapper-main" id="wrapper-main">
                 <!-- this is where the videos will be -->
-                <% if (page == "default") { %>
-                 <%- include('./layouts/settings/account') %>
-                <% } %>
-                <% if (page == "dashboard") { %>
-                    <%- include('./layouts/settings/dashboard') %>
-                <% } %>
-                <% if (page == "display") { %>
-                    <%- include('./layouts/settings/display') %>
-                <% } %>
-                <% if (page == "membership") { %>
-                    <%- include('./layouts/settings/membership') %>
-                <% } %>
+                <% if (page=="default" ) { %>
+                    <%- include('./layouts/settings/account') %>
+                        <% } %>
+                            <% if (page=="dashboard" ) { %>
+                                <%- include('./layouts/settings/dashboard') %>
+                                    <% } %>
+                                        <% if (page=="display" ) { %>
+                                            <%- include('./layouts/settings/display') %>
+                                                <% } %>
+                                                    <% if (page=="membership" ) { %>
+                                                        <%- include('./layouts/settings/membership') %>
+                                                            <% } %>
             </section>
         </main>
 
         <!-- <%- include('layouts/global/footer') %> -->
-            <script src="/js/utils"></script>
-            <script src="/js/settings"></script>
+        <script src="/js/utils"></script>
+        <script src="/js/settings-utils"></script>
+        <script src="/js/settings"></script>
 </body>
 
 </html>

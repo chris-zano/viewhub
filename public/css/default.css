@@ -28,7 +28,7 @@
         justify-content: center;
         align-items: center;
         width: 120px;
-        padding: 1rem;
+        padding: 0.5rem;
     }
 
     div.profile_image_container img {
@@ -46,16 +46,16 @@
     div.user_info_container div.user_info {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 5px;
     }
 
-    div.user_info label {
-        font-size: 18px;
+    div.user_info h3.label {
+        font-size: 14px;
         font-weight: 500;
     }
 
-    div.user_info h3 {
-        font-size: 16px;
+    div.user_info h3.fieldname {
+        font-size: 14px;
     }
 
     div.edit_profile_container {
@@ -88,12 +88,13 @@
         align-items: center;
         font-size: 14px;
         cursor: pointer;
+        color: var(--default-font-color-dark);
     }
 
     div.edit_profile_container ul li a:hover {
         border: 1px solid transparent;
         box-shadow: var(--box-shadow-thin);
-        background-color: rgb(1, 103, 255);
+        background-color: var(--button-color-blue);
         color: #fff;
     }
 
@@ -149,7 +150,7 @@
     }
 
     ul.list_container li div.action-btn button:hover {
-        background-color: rgb(1, 103, 255);
+        background-color: var(--button-color-blue);
         box-shadow: var(--box-shadow-thin);
         color: #fff;
     }
@@ -160,5 +161,11 @@
 
     section.danger ul.list_container li div.action-btn button:hover {
         background-color: rgb(202, 10, 10);
+    }
+
+    ul.list_container li div.action-btn button#twofa:hover {
+        background-color: #f0f0f0;
+        color: var(--default-font-color-dark);
+        box-shadow: none;
     }
 }

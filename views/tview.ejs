@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/images/recordsymbol.svg" type="image/x-icon">
-    <link rel="stylesheet" href="/css/root">
+    <link rel="stylesheet" id="root-css" href="/css/root">
     <link rel="stylesheet" href="/css/global-header">
     <link rel="stylesheet" href="/css/global-footer">
     <link rel="stylesheet" href="/css/tviewpc">
     <link rel="stylesheet" href="/css/tview_object">
+    <link rel="stylesheet" href="/css/comments">
     <title>Tview ~ <%= document.title %>
     </title>
 </head>
@@ -22,7 +23,6 @@
             <div class="media_div">
                 <div class="player_div" id="player_div">
                     <video src="<%= document.streamUrl %>" autoplay="fasle" id="video_player"></video>
-                    <!-- TODO: add className "Hidden" to video-overlay -->
                     <div class="video-overlay hidden" id="video_player_overlay">
                         <div class="overlay-title">
                             <h2 id="video_h2">
@@ -100,37 +100,66 @@
                 </div>
                 <div class="media_details">
                     <a href="/user/profile/<%= document.creatorId %>" class="creator_url" id="creator_url">
+                        <input type="hidden" name="creatorId" id="input-creatorId" data-creatorId="<%= document.creatorId %>">
                         <div class="img_prof">
                             <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
                         </div>
                         <div class="creator_details">
-                            <span class="creator_firstname" id="creator_firstname">Creator</span>
-                            <span class="creator_lastname" id="creator_lastname">Name</span>
+                            <span id="creator_name"></span>
                         </div>
+                        <span id="subscribers-count" style="font-size: 13px;"></span>
                     </a>
                     <div class="title_des">
-                        <p class="video_title">
-                            <%= document.title %>
-                        </p>
+                        <div class="like-sub">
+                            <p class="video_title">
+                                <%= document.title %>
+                            </p>
+                            <div class="likes" id="likes-count">
+                                <button type="button" id="like-btn">
+                                    <img src="/graphics/like-svgrepo-com" alt="like-btn">
+                                </button>
+                                <p>
+                                    <%= document.likes %> likes
+                                </p>
+                            </div>
+                            <script>
+                                const likes = document.getElementById("likes-count").textContent;
+                                const likescount = likes.trim().slice(0, likes.indexOf("likes"))
+                                if (likescount == 1) {
+                                    document.getElementById("likes-count").textContent = `${likescount} like`
+                                }
+                            </script>
+                        </div>
+                        <div class="subscribe-btn">
+                            <button type="button" id="subscribe-btn">Subscribe</button>
+                        </div>
                     </div>
                 </div>
                 <div class="media_description">
-                    <p class="video_des">
-                        <%= document.description %>
-                    </p>
-                    <div class="views">
-                        <%= document.views %> views
+                    <div class="top-shelf">
+                        <p class="video_des">
+                            <%= document.description %>
+                        </p>
+                        <div class="views" id="views-count">
+                            <%= document.views %> views
+                        </div>
+                        <script>
+                            const views = document.getElementById("views-count").textContent;
+                            const count = views.trim().slice(0, views.indexOf("views"))
+
+                            if (count == 1) {
+                                document.getElementById("views-count").textContent = `${count} view`
+                            }
+                        </script>
+                        <div class="comments">
+                            <%= document.comments %> comments
+                        </div>
                     </div>
-                    <div class="likes">
-                        <%= document.likes %> likes
-                    </div>
-                    <div class="comments">
-                        <%= document.comments %> comments
-                    </div>
+                    <div><%- include('./layouts/comments/comments') %></div>
                 </div>
             </div>
             <div class="recommendations">
-                <div class="refparams_wrapper">
+                <div class="refparams_wrapper" id="refparams_wrapper">
                     <div class="refparams" id="license">
                         <%= document.license %>
                     </div>
@@ -151,18 +180,18 @@
         <!-- <%- include("./layouts/global/footer") %> -->
 
         <script src="/js/utils"></script>
-        <script src="/js/class_tview"></script>
-        <script src="/js/tview"></script>
         <script>
             const elementdd = document.getElementById("creator_url").getAttribute("href");
             const creatorId = elementdd.slice(elementdd.indexOf("profile/") + 8);
 
             getUserProfile(creatorId)
                 .then(res => {
-                    const firstname = document.getElementById("creator_firstname").textContent = res.document[0].firstname;
-                    const lastname = document.getElementById("creator_lastname").textContent = res.document[0].lastname;
+                    document.getElementById("creator_name").textContent = `${res.document[0].firstname} ${res.document[0].lastname}`;
+                    document.getElementById("subscribers-count").textContent = `${res.document[0].followers} ${res.document[0].followers == 1 ? "subscriber": "subcribers"}`;
                 })
         </script>
+        <script src="/js/class_tview"></script>
+        <script src="/js/tview"></script>
 </body>
 
 </html>

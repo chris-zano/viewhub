@@ -1,0 +1,128 @@
+<div id="account_section" class="central_main">
+    <section id="profile" class="profile">
+        <h2 class="section-title">Account Information</h2>
+        <div class="section-body">
+            <div class="profile_image_container">
+                <img src="/images/orangeb.jpg" id="profilePicUrl" alt="user profile image" width="100px" height="100px">
+            </div>
+            <div class="user_info_container">
+                <div class="user_info">
+                    <h3 class="label">Name: </h3>
+                    <h3 class="fieldname" id="name">John Doe</h3>
+                </div>
+                <div class="user_info">
+                    <h3 class="label">Username: </h3>
+                    <h3 class="fieldname" id="username">JDoe</h3>
+                </div>
+                <div class="user_info">
+                    <h3 class="label">Email: </h3>
+                    <h3 class="fieldname" id="email">jdoe@email.com</h3>
+                </div>
+                <div class="user_info">
+                    <h3 class="label">DOB: </h3>
+                    <h3 class="fieldname" id="dob">11-05-1998</h3>
+                </div>
+            </div>
+            <div class="edit_profile_container">
+                <ul>
+                    <li><a href="#" id="edit_profile_button">Edit Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section id="privacy" class="privacy">
+        <h2 class="section-title">Privacy and Security</h2>
+        <div class="privacy_checklist">
+            <ul class="list_container">
+                <!-- <li>
+                    <div class="list-des">
+                        <p>Two factor Authentication (<bold>2FA</bold>)</p>
+                        <small>Enable two factor authentication with a third party application</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="twofa" disabled>Enable</button>
+                    </div>
+                </li> -->
+                <li>
+                    <div class="list-des">
+                        <p>Make account private</p>
+                        <small>Choose who can see your profile</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="private">Enable</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="list-des">
+                        <p>Content preferences</p>
+                        <small>Choose what you want to see on your feed</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="manage">Manage</button>
+                    </div>
+                </li>
+                <!-- <li>
+                    <div class="list-des">
+                        <p>Data Download</p>
+                        <small>Download your viewhub data</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="download">Download</button>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    </section>
+    <section id="history" class="history">
+        <h2 class="section-title">ViewHub History</h2>
+        <div class="privacy_checklist">
+            <ul class="list_container">
+                <li>
+                    <div class="list-des">
+                        <p>Watch History</p>
+                        <small>Watch history is currently on - want to turn it off?</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="watchHistory">Disable</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="list-des">
+                        <p>Search History</p>
+                        <small>Search history is currently on - want to turn it off?</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="searchHistory">Disable</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <section id="history" class="history danger">
+        <h2 class="section-title">Danger Zone</h2>
+        <div class="privacy_checklist">
+            <ul class="list_container">
+                <li>
+                    <div class="list-des">
+                        <p>Delete Account</p>
+                        <small>Permanently delete account</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="delete-btn">Delete</button>
+                    </div>
+                </li>
+                <li>
+                    <div class="list-des">
+                        <p>Deactive Account</p>
+                        <small>Temporarily deactivate account for 30 - 90 days</small>
+                    </div>
+                    <div class="action-btn">
+                        <button type="button" id="deactivate">Deactivate</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+<script src="/js/account-settings" defer></script>

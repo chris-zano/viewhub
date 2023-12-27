@@ -15,6 +15,21 @@ async function getUserProfile(id) {
     }
 }
 
+function fetchuserDetails() {
+    const loginState = localStorage.getItem("loginState");
+    getUserProfile(JSON.parse(loginState).userId)
+        .then(res => {
+            localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
+            const username = res.document[0].username;
+            const ppURL = res.document[0].profilePicUrl;
+            document.getElementById("current-user-name").textContent = username.trim();
+            document.getElementById("big_img").setAttribute("src", ppURL.trim())
+        })
+        .catch(error => {
+            console.log(error);
+        })
+}
+
 /**
  * reports an error that was encountered at runtime to be logged.
  * so a fix can be made.
@@ -32,7 +47,7 @@ async function reportError(reportObject) {
     const status = await req.status;
     const res = await req.json()
 
-    return ({status: status, json: res})
+    return ({ status: status, json: res })
 }
 
 /**
@@ -89,4 +104,69 @@ function getLocalStorage(key) {
  */
 function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
+}
+
+function setTheme() {
+    const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
+    const rootHead = document.querySelector("head")
+
+    if (themeStatus == "enabled") {
+        rootHead.removeChild(rootHead.querySelector("#root-css"));
+        const rootUrl = document.createElement("link")
+        rootUrl.setAttribute("rel", "stylesheet");
+        rootUrl.setAttribute("id", "root-css");
+        rootUrl.setAttribute("href", "/css/root-dark");
+
+        rootHead.append(rootUrl);
+    }
+    else if( themeStatus == "disabled") {
+        rootHead.removeChild(rootHead.querySelector("#root-css"));
+
+        const rootUrl = document.createElement("link")
+        rootUrl.setAttribute("rel", "stylesheet");
+        rootUrl.setAttribute("id", "root-css");
+        rootUrl.setAttribute("href", "/css/root");
+
+        rootHead.append(rootUrl);
+    }
+}
+setTheme()
+
+
+function getPastTime(time) {
+    try {
+        const now = new Date();
+
+        const timestamp = Math.floor((now - time) / 1000);
+
+        if (timestamp < 60) {
+            return Math.floor(timestamp) + " seconds";
+        }
+        else if (timestamp < 3600) {
+            return Math.floor(timestamp / 60) + " minutes";
+        }
+        else if (timestamp < 86400) {
+            return Math.floor(timestamp / 3600) + " hours";
+        }
+        else if (timestamp < 604800) {
+            return Math.floor(timestamp / 86400) + " days";
+        }
+        else if (timestamp < 2419200) {
+            let weeks = Math.floor(timestamp / 604800)
+            return `${weeks}  ${weeks == 1 ? " week" : " weeks"}`
+        }
+        else if (timestamp < 29030400) {
+            if (Math.floor(timestamp / 2419200) == 1) {
+                return Math.floor(timestamp / 2419200) + " month";
+            }
+            else {
+                return Math.floor(timestamp / 2419200) + " months";
+            }
+        }
+        else {
+            return Math.floor(timestamp / 29030400) + " years";
+        }
+    } catch (error) {
+        location.href = `/error/${error}`;
+    }
 }

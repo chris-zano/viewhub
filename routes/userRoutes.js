@@ -125,6 +125,8 @@ router.get("/user/settings/membership", (req, res) => {
     });
 });
 
+router.post('/user/update-preferences/:id', userController.updateUserPrefences);
+
 
 
 
@@ -137,5 +139,7 @@ router.post("/update/ppic", upload.single("ppic"), userController.userUpdateProf
 
 router.get("/userLogout/:userId", userController.userLogout);
 
+
+router.post("/update/creator/followers", userController.updateUserFollowingAndFollowers);
 
 module.exports = router

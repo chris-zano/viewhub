@@ -6,7 +6,7 @@
         grid-auto-flow: column;
         gap: 10px;
         padding: 5px;
-        border-bottom: 1px solid rgb(235, 233, 233);
+        border-bottom: 1px solid var(--background-light);
     }
 
     header div.profile-nav {
@@ -36,8 +36,8 @@
     }
 
     header div.profile-nav .current-user:hover {
-        background-color: rgb(251, 252, 252);
-        border: 1px solid rgb(199, 192, 192);
+        background-color: var(--background-light);
+        border: 1px solid var(--background-light);
     }
 
     h2#current-user-name {
@@ -55,7 +55,7 @@
         flex-direction: column;
         border-radius: 0.5rem;
         cursor: pointer;
-        background-color: rgb(238, 241, 243);
+        background-color: var(--background-light);
         box-shadow: var(--box-shadow-thin);
         z-index: 9999;
 
@@ -69,29 +69,19 @@
         cursor: pointer;
         transition: var(--transition-default);
         background-color: transparent;
-        /* color: var(--color-theme-1); */
+        color: var(--default-dark-font);
     }
 
-    header div.profile-nav div.profile-action-buttons button#profileBtn {
+    header div.profile-nav div.profile-action-buttons button{
         border-top-right-radius: 0.5rem;
         border-top-left-radius: 0.5rem;
     }
 
-    header div.profile-nav div.profile-action-buttons button#logoutBtn {
+    header div.profile-nav div.profile-action-buttons button:hover {
         border-bottom-right-radius: 0.5rem;
         border-bottom-left-radius: 0.5rem;
-    }
+        background-color: var(--dark-grey);
 
-    header div.profile-nav div.profile-action-buttons button#profileBtn:hover {
-        border-bottom-right-radius: 0.5rem;
-        border-bottom-left-radius: 0.5rem;
-        background-color: var(--color-theme-1);
-    }
-
-    header div.profile-nav div.profile-action-buttons button#logoutBtn:hover {
-        border-top-right-radius: 0.5rem;
-        border-top-left-radius: 0.5rem;
-        background-color: var(--color-theme-1);
     }
 
     header nav.main-header-nav ul {

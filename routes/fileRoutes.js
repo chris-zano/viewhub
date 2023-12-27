@@ -41,6 +41,7 @@ router.get("/video/thumbnail/:filename", (req, res) => {
 //video files will be served through this route
 router.get("/video/stream/:filename", (req, res) => {
     fs.createReadStream(path.join(__dirname, "../DB/video_thumbnails", `${req.params.filename}`)).pipe(res);
+    
 })
 
 module.exports = router;
