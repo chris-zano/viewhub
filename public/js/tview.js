@@ -1,10 +1,5 @@
-if (document.readyState == "loading") {
-    document.addEventListener("DOMContentLoaded", main())
-}
-
-else {
-    main();
-}
+if (document.readyState == "loading") document.addEventListener("DOMContentLoaded", main());
+else main();
 
 function main() {
     const videoPlayer = document.getElementById("video_player");
@@ -19,14 +14,13 @@ function main() {
 
     getVideoRecommendations()
         .then(response => {
-            //spread the array of videos from the response into a new array
             let videoArray = [...response.document];
 
-            videoArray = videoArray.sort((a, b) => { //sort the new array
-                if (a.title > b.title) return 1; // by title
+            videoArray = videoArray.sort((a, b) => { 
+                if (a.title > b.title) return 1; 
                 else if (a.title == b.title) {
-                    if (a.dateTime > b.dateTime) return 1; // or by dateTime
-                    else if (a.dateTime == b.dateTime) return 0; //if dateTim is equal
+                    if (a.dateTime > b.dateTime) return 1; 
+                    else if (a.dateTime == b.dateTime) return 0; 
                     else return -1;
                 }
                 else return -1
