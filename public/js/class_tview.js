@@ -73,6 +73,9 @@ class Tview {
                             <p>${this.videoObject.views} views ~ ${date} ago</p>
                         </div>
                     </div>
+                    <div>
+                        <small style="transform: rotate(90deg);" class="more-settings">...</small>
+                    </div>
                 </div>
             </div>
         </a>
