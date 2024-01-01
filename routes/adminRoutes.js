@@ -14,7 +14,7 @@ const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/', (req, res) => {
-    res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
+    res.render("index", { pageTitle: "Tview", error: false, userId: null, msg: "no error" })
 })
 
 router.get('/user/get/email/:id', (req, res) => {
@@ -145,6 +145,8 @@ router.get("/user/edit/profile/:userId", (req, res) => {
         res.render(`error/${error}`)
     }
 })
+
+router.get("/admin/delete/deleteVideoByCreator/:videoId",adminController.deleteVideo)
 
 router.post("/edit/update/name", adminController.userUpdateName);
 router.post("/edit/update/username", adminController.userUpdateUsername);

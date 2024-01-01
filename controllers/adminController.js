@@ -1,5 +1,6 @@
 const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
+const Uploads = require("../models/Uploads");
 const User = require("../models/Users");
 
 exports.userUpdateName = (req, res) => {
@@ -88,4 +89,20 @@ exports.reportError = (req, res) => {
     else {
         res.status(500).json({error: err, message: "Internal Server Error !!!"});
     }
+}
+
+exports.deleteVideo =  (req, res) => {
+    const videoId = req.params.videoId;
+    Uploads.deleteVideo(videoId)
+    .then(r => {
+        if (r.message == 1) {
+            res.status(200).json({message: "delete success"})
+        }
+        else {
+            res.status(201).json({message: "delete pending"});
+        }
+    })
+    .catch(err => {
+        res.status(500).json({error: err, message: "An error occured"})
+    })
 }

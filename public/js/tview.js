@@ -10,6 +10,13 @@ function main() {
     const videoPlayer = document.getElementById("video_player");
     const videoPlayerOverlay = document.getElementById("video_player_overlay");
 
+    videoPlayer.addEventListener("timeupdate", ()=> {
+        const {currentTime, duration} = videoPlayer;
+
+        console.log(convertTime(duration));
+        console.log("Current Time => ", convertTime(currentTime));
+    })
+
     getVideoRecommendations()
         .then(response => {
             //spread the array of videos from the response into a new array
@@ -30,7 +37,6 @@ function main() {
                 const tview = new Tview(video);
                 const url = new URL(window.location.href).pathname;
                 const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
-                console.log();
 
                 if (`/tview/stream/video/${video._id}/${userId}` == url) {
                     delete (tview);
@@ -265,7 +271,7 @@ function main() {
 
 
     let subsCount = document.getElementById("subscribers-count")
-    subsCount = String(formatLikesCount(Number(subsCount.innerText)))
+    subsCount = String(formatLikesCount(Number(subsCount.innerText.slice(0, subsCount.innerText.indexOf("subscriber")))));
     document.getElementById("subscribers-count").textContent = `${subsCount}`;
 
 
