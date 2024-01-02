@@ -306,7 +306,7 @@ class Uploads {
                                                 }
                                             },
                                             (err, docUpdated) => {
-                                                resolve({ message: "User already liked",likes: likesListLength });
+                                                resolve({ message: "User already liked", likes: likesListLength });
                                             }
                                         )
                                     }
@@ -400,6 +400,37 @@ class Uploads {
                                             })
                                     }
                                 })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static deleteVideo(videoId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: videoId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({error: err, message: "Internal Server Error"});
+                    else {
+                        if (doc.length == 1) {
+                            db.remove(
+                                {_id: videoId},
+                                {multi: false},
+                                (err, n) => {
+                                    if (err)reject({error: err, message: "Failed to Delete"});
+                                    else {
+                                        if (n == 1) {
+                                            resolve({error: false, message: n})
+                                        }
+                                        else {
+                                            reject({error: true, message: "Something went wrong"})
+                                        }
+                                    }
+                                }
+                            )
                         }
                     }
                 }

@@ -1,25 +1,26 @@
-if (document.readyState == "loading") {
-    document.addEventListener("DOMContentLoaded", main())
-}
-
-else {
-    main();
-}
+if (document.readyState == "loading") document.addEventListener("DOMContentLoaded", main());
+else main();
 
 function main() {
     const videoPlayer = document.getElementById("video_player");
     const videoPlayerOverlay = document.getElementById("video_player_overlay");
 
+    videoPlayer.addEventListener("timeupdate", ()=> {
+        const {currentTime, duration} = videoPlayer;
+
+        console.log(convertTime(duration));
+        console.log("Current Time => ", convertTime(currentTime));
+    })
+
     getVideoRecommendations()
         .then(response => {
-            //spread the array of videos from the response into a new array
             let videoArray = [...response.document];
 
-            videoArray = videoArray.sort((a, b) => { //sort the new array
-                if (a.title > b.title) return 1; // by title
+            videoArray = videoArray.sort((a, b) => { 
+                if (a.title > b.title) return 1; 
                 else if (a.title == b.title) {
-                    if (a.dateTime > b.dateTime) return 1; // or by dateTime
-                    else if (a.dateTime == b.dateTime) return 0; //if dateTim is equal
+                    if (a.dateTime > b.dateTime) return 1; 
+                    else if (a.dateTime == b.dateTime) return 0; 
                     else return -1;
                 }
                 else return -1
@@ -30,7 +31,6 @@ function main() {
                 const tview = new Tview(video);
                 const url = new URL(window.location.href).pathname;
                 const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
-                console.log();
 
                 if (`/tview/stream/video/${video._id}/${userId}` == url) {
                     delete (tview);
@@ -265,7 +265,7 @@ function main() {
 
 
     let subsCount = document.getElementById("subscribers-count")
-    subsCount = String(formatLikesCount(Number(subsCount.innerText)))
+    subsCount = String(formatLikesCount(Number(subsCount.innerText.slice(0, subsCount.innerText.indexOf("subscriber")))));
     document.getElementById("subscribers-count").textContent = `${subsCount}`;
 
 

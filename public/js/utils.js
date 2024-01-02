@@ -107,27 +107,31 @@ function setLocalStorage(key, value) {
 }
 
 function setTheme() {
-    const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
-    const rootHead = document.querySelector("head")
+    try {
+        const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
+        const rootHead = document.querySelector("head")
 
-    if (themeStatus == "enabled") {
-        rootHead.removeChild(rootHead.querySelector("#root-css"));
-        const rootUrl = document.createElement("link")
-        rootUrl.setAttribute("rel", "stylesheet");
-        rootUrl.setAttribute("id", "root-css");
-        rootUrl.setAttribute("href", "/css/root-dark");
+        if (themeStatus == "enabled") {
+            rootHead.removeChild(rootHead.querySelector("#root-css"));
+            const rootUrl = document.createElement("link")
+            rootUrl.setAttribute("rel", "stylesheet");
+            rootUrl.setAttribute("id", "root-css");
+            rootUrl.setAttribute("href", "/css/root-dark");
 
-        rootHead.append(rootUrl);
-    }
-    else if( themeStatus == "disabled") {
-        rootHead.removeChild(rootHead.querySelector("#root-css"));
+            rootHead.append(rootUrl);
+        }
+        else if (themeStatus == "disabled") {
+            rootHead.removeChild(rootHead.querySelector("#root-css"));
 
-        const rootUrl = document.createElement("link")
-        rootUrl.setAttribute("rel", "stylesheet");
-        rootUrl.setAttribute("id", "root-css");
-        rootUrl.setAttribute("href", "/css/root");
+            const rootUrl = document.createElement("link")
+            rootUrl.setAttribute("rel", "stylesheet");
+            rootUrl.setAttribute("id", "root-css");
+            rootUrl.setAttribute("href", "/css/root");
 
-        rootHead.append(rootUrl);
+            rootHead.append(rootUrl);
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 setTheme()
@@ -169,4 +173,13 @@ function getPastTime(time) {
     } catch (error) {
         location.href = `/error/${error}`;
     }
+}
+
+function convertTime(timeInSeconds) {
+    var wholeHours = Math.floor(timeInSeconds / 3600);
+    var remainingSeconds = timeInSeconds % 3600;
+    var wholeMinutes = Math.floor(remainingSeconds / 60);
+    var wholeSeconds = Math.round(remainingSeconds % 60);
+
+    return `${wholeHours}:${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
 }
