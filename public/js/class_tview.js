@@ -105,7 +105,7 @@ class Tview {
             <div class="username_and_pic" id="username_and_pic">
                 <div class="left-header">
                     <img src="./images/user.png" alt="profile" width="30px" height="30px">
-                    <p>@${commentObject.username} replying to ${commentObject.parentUsername}</p>
+                    <p>@${commentObject.username} replying to @${commentObject.parentUsername}</p>
                 </div>
                 <div class="right-header">
                     <p>33m ago</p>
