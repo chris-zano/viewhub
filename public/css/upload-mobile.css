@@ -1,5 +1,8 @@
 @media (max-width: 768px) {
 
+    main.container-main {
+        height: unset;
+    }
     h1.page-title-upload {
         text-align: center;
         font-size: 16px;
@@ -9,18 +12,18 @@
         display: grid;
         justify-content: center;
         align-items: top;
-        height: 100%;
+        height:fit-content;
         width: 100%;
         margin: 3px 0 0 0;
     }
 
     section.upload-form-section form#upload_form {
         /* box-shadow: var(--box-shadow-thin); */
-        min-width: 90vw;
+        width: 90vw;
         margin-inline: auto;
         height: 90%;
         display: grid;
-        row-gap: 5px;
+        row-gap: 15px;
     }
 
     form#upload_form fieldset {
@@ -33,6 +36,7 @@
         flex-wrap: wrap;
         column-gap: 0.5rem;
         align-items: center;
+        width: 100%;
     }
 
     form#upload_form fieldset label {
@@ -44,6 +48,16 @@
         height: 35px;
         border-radius: 0.3rem;
         border: 1px solid var(--dark-grey);
+        background-color: var(--background-light);
+        color: var(--default-dark-font)
+    }
+
+    form#upload_form fieldset input[type="text"]:focus, form#upload_form fieldset input[type="text"]:focus-within, form#upload_form fieldset input[type="text"]:focus-visible, form#upload_form fieldset input[type="text"]::-moz-focus-inner {
+        height: 35px;
+        border-radius: 0.3rem;
+        border: 1px solid var(--dark-grey);
+        background-color: var(--background-light);
+        color: var(--default-dark-font)
     }
 
     form#upload_form fieldset input[type="file"] {
@@ -62,7 +76,8 @@
         box-shadow: var(--box-shadow-thin);
         cursor: pointer;
         font-weight: 500;
-        transition: all ease-in-out 250ms;
+        transition: var(--transition-default);
+        color: var(--default-font-color-dark);
     }
 
 

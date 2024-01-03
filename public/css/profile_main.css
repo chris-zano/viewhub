@@ -16,126 +16,190 @@ li {
     list-style: none;
 }
 
-.header_container {
-    background: var(--background-light);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    box-shadow: var(--box-shadow-thin);
-    padding: 15px;
-    display: flex;
-    flex-flow: row;
-    justify-content: end;
-    align-items: center;
-    column-gap: 1em;
+@media (min-width: 768px) {
+    .main_container {
+        padding: 1em 3rem;
+        height: 100vh;
+        overflow-y: scroll;
+        width: 100%;
+        overflow-x: wrap;
+    }
+
+    .main_container::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    #usertviewlist {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    section.profile_banner {
+        background-color: var(--background-body);
+        box-shadow: var(--box-shadow-thin);
+        margin: 1rem 1rem 1rem 0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 140px;
+    }
+
+    .profile_banner .profile_view {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 10px;
+    }
+
+    .profile_banner .profile_view img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+        pointer-events: none;
+    }
+
+    .profile_banner .profile_view .name-scribers {
+        display: grid;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile_banner .profile_action {
+        width: 200px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile_banner .profile_action button {
+        height: 50px;
+        width: 150px;
+        border: none;
+        border-radius: 0.5rem;
+        font-family: var(--default-font);
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--default-dark-font);
+        outline: none;
+        background-color: unset;
+        border: 1px solid rgba(25, 82, 180, 0.73);
+        cursor: pointer;
+    }
+
+    .profile_banner .profile_action button:hover {
+        background-color: var(--button-color-blue);
+        color: var(--default-dark-font);
+        border: transparent;
+
+    }
+
+    .profile_banner .profile_view h2 {
+        font-weight: 400;
+    }
+
+    .profile_banner .profile_view h3 {
+        font-weight: 100;
+        font-size: 16px;
+    }
 }
 
-.header_container button.nav_button {
-    height: 40px;
-    width: 100px;
-    border: 1px solid transparent;
-    background: transparent;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-right: 10px;
-    font-size: 18px;
-    transition: all ease-in-out .3s;
-
-}
-
-.header_container .nav_button:hover {
-    box-shadow: 0px 3px 3px #f547479c;
-    background: #f54747d5;
-    color: #ffffff;
-}
-
-.main_container {
-    padding: 1em 3rem;
-    height: 100vh;
-    overflow-y: scroll;
-    width: 100%;
-    overflow-x: wrap;
-}
-
-.main_container::-webkit-scrollbar {
-    display: none;
-}
-
-
-#usertviewlist {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-section.profile_banner {
-    background-color: var(--background-body);
-    box-shadow: var(--box-shadow-thin);
-    margin: 1rem 1rem 1rem 0;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 140px;
-}
-
-.profile_banner .profile_view {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 10px;
-}
-
-.profile_banner .profile_view img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: none;
-}
-
-.profile_banner .profile_view .name-scribers {
-    display: grid;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile_banner .profile_action {
-    width: 200px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile_banner .profile_action button {
-    height: 50px;
-    width: 150px;
-    border: none;
-    border-radius: 0.5rem;
-    font-family: var(--default-font);
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--default-dark-font);
-    outline: none;
-    background-color: unset;
-    border: 1px solid rgba(25, 82, 180, 0.73);
-    cursor: pointer;
-}
-
-.profile_banner .profile_action button:hover {
-    background-color: var(--button-color-blue);
-    color: var(--default-dark-font);
-    border: transparent;
-
-}
-
-.profile_banner .profile_view h2 {
-    font-weight: 400;
-}
-
-.profile_banner .profile_view h3 {
-    font-weight: 100;
-    font-size: 16px;
+@media (max-width: 768px) {
+    
+    .main_container {
+        padding: 5px;
+        height: 100vh;
+        overflow-y: scroll;
+        width: 100%;
+        overflow-x: wrap;
+    }
+    
+    .main_container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    
+    #usertviewlist {
+        display: grid;
+        place-items: center;
+    }
+    
+    section.profile_banner {
+        background-color: var(--background-body);
+        box-shadow: var(--box-shadow-thin);
+        min-width: 90vw;
+        margin: 1rem 1rem 1rem 0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: grid;
+    }
+    
+    .profile_banner .profile_view {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 10px;
+    }
+    
+    .profile_banner .profile_view img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+        pointer-events: none;
+    }
+    
+    .profile_banner .profile_view .name-scribers {
+        font-size: 12px;
+        display: grid;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .profile_banner .profile_action {
+        width: 200px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .profile_banner .profile_action button {
+        height: 50px;
+        width: 150px;
+        border: none;
+        border-radius: 0.5rem;
+        font-family: var(--default-font);
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--default-dark-font);
+        outline: none;
+        background-color: unset;
+        border: 1px solid rgba(25, 82, 180, 0.73);
+        cursor: pointer;
+    }
+    
+    .profile_banner .profile_action button:hover {
+        background-color: var(--button-color-blue);
+        color: var(--default-dark-font);
+        border: transparent;
+    
+    }
+    
+    .profile_banner .profile_view h2 {
+        font-weight: 400;
+    }
+    
+    .profile_banner .profile_view h3 {
+        font-weight: 100;
+        font-size: 16px;
+    }
 }
