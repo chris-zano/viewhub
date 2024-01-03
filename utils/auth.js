@@ -70,6 +70,11 @@ class AuthFactor {
         return this.lowLevelEncryption(password);
     }
 
+    /**
+     * 
+     * @param {String} password 
+     * @returns null if password check fails, else a hashed password
+     */
     static highLevelEncryption(password) {
         if (!this.checkPasswordValidity(password)) {
             return null;
