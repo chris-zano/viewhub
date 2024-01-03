@@ -25,11 +25,27 @@ const characterArray = [
     "W", "X", "Y", "Z", "#", "!", "@", "_", ".", "?", "$", "0", "1", "2", "3", "4",
     "5", "6", "7", "8", "9"
 ]
+
+/**
+ * AuthFactor Class 
+ * 
+ * Performs password validity checks and encryption
+ * 
+ * @param {String} password - the password to be provided to the function
+ * 
+ * Calling function can choose to call the static method checkPasswordValidity() or hashWithKey() or highLevelEncryption
+ */
+
 class AuthFactor {
     constructor(password) {
         this.password = password;
     }
 
+    /**
+     * checks if input password passes the system requirements for a password.
+     * @param {String} password 
+     * @returns true if password is a valid password, else false
+     */
     static checkPasswordValidity(password) {
         return password.split("").every(p => characterArray.includes(p));
     }
@@ -46,6 +62,22 @@ class AuthFactor {
         return this.lowLevelEncryption(password);
     }
 
+    static highLevelEncryption(password) {
+        if (!this.checkPasswordValidity(password)) {
+            return null;
+        }
+
+        const charArr = [...password];
+        const constantKey = Math.PI;
+        let charStringCode = [];
+        
+        charArr.forEach(char => {
+            charStringCode.push(new String(String(Math.round((Number(String(char).codePointAt(String(char).indexOf(char))) * (constantKey)))) + char).replaceAll(".",""));
+        })
+
+        return (charStringCode.reverse().toLocaleString().replace(/,/g,"").split("").map(c => mapCharacters[c] || "").join("").replace(/-/g, "").replace(/z/g, Math.round(Math.PI)));
+    }
+
 }
 
-module.exports = AuthFactor
+module.exports = AuthFactor;
