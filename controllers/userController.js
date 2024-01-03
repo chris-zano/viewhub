@@ -2,10 +2,15 @@ const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
 const UpdateUserProfileInformation = require("../models/UpdateProfileObjects");
 const User = require("../models/Users");
+const AuthFactor = require("../utils/auth");
 const mailer = require("../utils/mail")
 
 
 exports.userSignup = (req, res) => {
+    if(!AuthFactor.checkPasswordValidity(req.body.password)) {
+        res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "Invalid password pattern" });
+        res.end();
+    }
     const user = new User(req.body.email, req.body.password);
     user.createUser()
         .then(response => {
