@@ -37,6 +37,7 @@ const characterArray = [
  */
 
 class AuthFactor {
+
     constructor(password) {
         this.password = password;
     }
@@ -50,6 +51,13 @@ class AuthFactor {
         return password.split("").every(p => characterArray.includes(p));
     }
 
+    /**
+     * executes low level encryption on password. 
+     * 
+     * This method is not secure. Should be used for temporary encryption of data.
+     * @param {String} password 
+     * @returns null if password check fails, else the encrypted password.
+     */
     static lowLevelEncryption(password) {
         if (!this.checkPasswordValidity(password)) {
             return null;
