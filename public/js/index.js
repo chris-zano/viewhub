@@ -32,6 +32,27 @@ function indexMain() {
     } catch (error) {
         console.log(error);
     }
+
+    try{
+        getSubs(JSON.parse(getLocalStorage("loginState")).userId)
+        .then(r => {
+            if (!r.subs) return;
+            
+            const subs = [...r.subs]
+            subs.forEach(sub => {
+                getUserProfile(sub)
+                .then(u => {
+                    console.log(u.document[0]);
+                })
+            })
+        })
+        .catch(e => {
+            console.error(e);
+        })
+    }
+    catch(error) {
+
+    }
 }
 
 async function fetchVideos(userId) {
@@ -49,5 +70,20 @@ async function fetchVideos(userId) {
         reportError(error)
             .then(res => console.log(res))
             .catch(err => console.log(err))
+    }
+}
+
+async function getSubs(userId) {
+    try {
+        const req = await fetch(`/user/get-following/${userId}?count=10`);
+        const res = await req.json();
+        const status = req.status;
+
+        if (status !== 200) return null;
+
+        return res
+    }
+    catch (err) {
+        return null
     }
 }

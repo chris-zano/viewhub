@@ -116,7 +116,7 @@ function setTheme() {
             const rootUrl = document.createElement("link")
             rootUrl.setAttribute("rel", "stylesheet");
             rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root-dark");
+            rootUrl.setAttribute("href", "/css/root-dark.css");
 
             rootHead.append(rootUrl);
         }
@@ -126,7 +126,7 @@ function setTheme() {
             const rootUrl = document.createElement("link")
             rootUrl.setAttribute("rel", "stylesheet");
             rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root");
+            rootUrl.setAttribute("href", "/css/root.css");
 
             rootHead.append(rootUrl);
         }
