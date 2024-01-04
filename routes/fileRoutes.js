@@ -5,12 +5,14 @@ const router = express.Router();
 
 // javascript files will be serves through this route
 router.get("/js/:filename", (req, res) => {
+    res.type("text/javascript")
     fs.createReadStream(path.join(__dirname, `../public/js/${req.params.filename}.js`)).pipe(res);
 })
 
 // css files will be served through this route
 router.get("/css/:filename", (req, res) => {
-    fs.createReadStream(path.join(__dirname, "../public/css", `${req.params.filename}.css`)).pipe(res);
+    res.type("text/css")
+    fs.createReadStream(path.join(__dirname, "../public/css", `${req.params.filename}`)).pipe(res);
 })
 
 // fonts will be served through this route

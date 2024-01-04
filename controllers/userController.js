@@ -185,7 +185,7 @@ exports.updateUserFollowingAndFollowers = (req, res) => {
             if (r.message == "User not found") {
                 UpdateUserProfileInformation.init(creatorId)
                     .then(initResult => {
-                        console.log(initResult);
+                        
                         if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
                             UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
                                 .then(u => {
@@ -225,4 +225,25 @@ exports.updateUserFollowingAndFollowers = (req, res) => {
         .catch(error => {
             console.log(error);
         })
+}
+
+exports.getSubs = (req, res) => {
+    const userId  = req.params.userId;
+    console.log(userId, req.query);
+
+    UpdateUserProfileInformation.getSubscriptionList(userId)
+    .then(r => {
+        const subs = [...r.document];
+        if (subs.length < Number(req.query.count)) {
+            res.status(200).json({subs: subs});
+        }
+        else {
+            res.status(200).json({subs: subs.slice(0, Number(req.query.count))})
+        }
+        
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({subs: new Array()});
+    })
 }

@@ -141,5 +141,6 @@ router.get("/userLogout/:userId", userController.userLogout);
 
 
 router.post("/update/creator/followers", userController.updateUserFollowingAndFollowers);
+router.get("/user/get-following/:userId", userController.getSubs)
 
 module.exports = router
