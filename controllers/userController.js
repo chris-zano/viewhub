@@ -229,7 +229,6 @@ exports.updateUserFollowingAndFollowers = (req, res) => {
 
 exports.getSubs = (req, res) => {
     const userId  = req.params.userId;
-    console.log(userId, req.query);
 
     UpdateUserProfileInformation.getSubscriptionList(userId)
     .then(r => {

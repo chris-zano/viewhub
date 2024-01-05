@@ -1,7 +1,7 @@
 @media (min-width: 768px) {
     :root {
-        --object-width: 395px;
-        --object-height: 340px;
+        --object-width: 355px;
+        --object-height: 320px;
     }
 
     section#usertviewlist::-webkit-scrollbar {
@@ -10,7 +10,7 @@
 
     section#usertviewlist {
         overflow-y: scroll;
-        padding-inline: 1rem;
+        padding-inline: 0.4rem;
         width: 100%;
         height: 100%;
         display: flex;

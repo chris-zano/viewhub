@@ -33,24 +33,27 @@ function indexMain() {
         console.log(error);
     }
 
-    try{
+    try {
         getSubs(JSON.parse(getLocalStorage("loginState")).userId)
-        .then(r => {
-            if (!r.subs) return;
-            
-            const subs = [...r.subs]
-            subs.forEach(sub => {
-                getUserProfile(sub)
-                .then(u => {
-                    console.log(u.document[0]);
+            .then(r => {
+                if (!r.subs || r.subs.length == 0) {
+                    document.getElementById("subsListUL").append(document.createElement("li").innerText = "No subscriptions");
+                    return
+                };
+
+                const subs = [...r.subs]
+                subs.forEach(sub => {
+                    getUserProfile(sub)
+                        .then(u => {
+                            document.getElementById("subsListUL").append(createSubListItem(u.document[0]));
+                        })
                 })
             })
-        })
-        .catch(e => {
-            console.error(e);
-        })
+            .catch(e => {
+                console.error(e);
+            })
     }
-    catch(error) {
+    catch (error) {
 
     }
 }
@@ -85,5 +88,26 @@ async function getSubs(userId) {
     }
     catch (err) {
         return null
+    }
+}
+
+function createSubListItem(sub) {
+    try {
+        const li = document.createElement("li");
+        li.innerHTML = `
+        <a href="/user/profile/${sub._id}">
+            <div class="subs-profileImage">
+                <img src="${sub.profilePicUrl}" alt="logo" width="20px" height="20px">
+            </div>
+            <div class="subs-name">
+                <p>${sub.firstname} ${sub.lastname}</p>
+            </div>
+        </a>
+    `;
+
+        return li;
+    }
+    catch(err) {
+        return null;
     }
 }
