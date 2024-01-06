@@ -185,7 +185,7 @@ exports.updateUserFollowingAndFollowers = (req, res) => {
             if (r.message == "User not found") {
                 UpdateUserProfileInformation.init(creatorId)
                     .then(initResult => {
-                        
+                        console.log(initResult);
                         if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
                             UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
                                 .then(u => {

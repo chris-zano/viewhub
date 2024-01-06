@@ -23,6 +23,7 @@ class UpdateUserProfileInformation {
                 (err, doc) => {
                     if (err) reject({ error: true, message: "Failed to initialise object", errorObject: err });
                     else {
+                        console.log(doc);
                         resolve({ error: false, message: "Object initialised", document: doc });
                     }
                 }

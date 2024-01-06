@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/images/recordsymbol.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="/images/recordsymbol.png" type="image/x-icon">
     <link rel="stylesheet" id="root-css" href="/css/root.css">
     <link rel="stylesheet" href="/css/global-header.css">
     <link rel="stylesheet" href="/css/global-footer.css">
@@ -22,12 +22,21 @@
         <main class="main_container">
             <div class="media_div">
                 <div class="player_div" id="player_div">
-                    <video src="<%= document.streamUrl %>" autoplay="fasle" id="video_player"></video>
+                    <video src="<%= document.streamUrl %>" id="video_player"></video>
                     <div class="video-overlay hidden" id="video_player_overlay">
                         <div class="overlay-title">
                             <h2 id="video_h2">
                                 <%= document.title %>
                             </h2>
+                            <div class="timestamp-progress-bar">
+                                <div class="timestamps">
+                                    <div class="currentTime-placeholder" id="currentTime-placeholder">00:00:00</div>
+                                    <div class="duration-placeholder" id="duration-placeholder">00:00:00</div>
+                                </div>
+                                <div class="animated-placeholder">
+                                    <div class="animated-currentTime" id="animated-currentTime"></div>
+                                </div>
+                            </div>
                             <div class="bottom-overlay-navigation">
                                 <div class="left-bottom-overlay-navigation">
                                     <ul>
@@ -35,9 +44,9 @@
                                                 <img src="/graphics/previous" alt="tview_graphics" />
                                             </button></li>
                                         <li><button id="play-pause">
-                                                <img src="/graphics/play" id="play" class="hidden"
+                                                <img src="/graphics/play" id="play"
                                                     alt="tview_graphics" />
-                                                <img src="/graphics/pause" id="pause" alt="tview_graphics" />
+                                                <img src="/graphics/pause" id="pause" class="hidden" alt="tview_graphics" />
                                             </button></li>
                                         <li><button id="next">
                                                 <img src="/graphics/next" alt="tview_graphics" />
@@ -100,7 +109,8 @@
                 </div>
                 <div class="media_details">
                     <a href="/user/profile/<%= document.creatorId %>" class="creator_url" id="creator_url">
-                        <input type="hidden" name="creatorId" id="input-creatorId" data-creatorId="<%= document.creatorId %>">
+                        <input type="hidden" name="creatorId" id="input-creatorId"
+                            data-creatorId="<%= document.creatorId %>">
                         <div class="img_prof">
                             <img class="profile_image" src="<%= document.creatorProfilePic %>" alt="profile_image">
                         </div>
@@ -187,7 +197,7 @@
             getUserProfile(creatorId)
                 .then(res => {
                     document.getElementById("creator_name").textContent = `${res.document[0].firstname} ${res.document[0].lastname}`;
-                    document.getElementById("subscribers-count").textContent = `${res.document[0].followers} ${res.document[0].followers == 1 ? "subscriber": "subcribers"}`;
+                    document.getElementById("subscribers-count").textContent = `${res.document[0].followers} ${res.document[0].followers == 1 ? "subscriber" : "subcribers"}`;
                 })
         </script>
         <script src="/js/class_tview"></script>

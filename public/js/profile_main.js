@@ -45,6 +45,7 @@ function main() {
 
                         // Apply styles for normal state
                         contextMenu.style.backgroundColor = "var(--background-white)";
+                        contextMenu.style.boxShadow = "var(--box-shadow-thin)";
                         contextMenu.style.color = "var(--default-dark-font)";
                         contextMenu.style.padding = "1rem";
                         contextMenu.style.transition = "var(--transition-default)";
