@@ -1,5 +1,6 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
+const fs = require("fs");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
 const Profile = require("./Profiles");
@@ -413,24 +414,61 @@ class Uploads {
                 { _id: videoId },
                 { multi: false },
                 (err, doc) => {
-                    if (err) reject({error: err, message: "Internal Server Error"});
+                    if (err) reject({ error: err, message: "Internal Server Error" });
                     else {
                         if (doc.length == 1) {
+                            const vidFilePath = doc[0].streamUrl.slice(doc[0].streamUrl.indexOf("/video/stream/") + 1)
+                            fs.rm(path.join(__dirname, `../DB/video_thumbnails/${vidFilePath}`))
                             db.remove(
-                                {_id: videoId},
-                                {multi: false},
+                                { _id: videoId },
+                                { multi: false },
                                 (err, n) => {
-                                    if (err)reject({error: err, message: "Failed to Delete"});
+                                    if (err) reject({ error: err, message: "Failed to Delete" });
                                     else {
                                         if (n == 1) {
-                                            resolve({error: false, message: n})
+                                            resolve({ error: false, message: n })
                                         }
                                         else {
-                                            reject({error: true, message: "Something went wrong"})
+                                            reject({ error: true, message: "Something went wrong" })
                                         }
                                     }
                                 }
                             )
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static deleteCreatorVideos(creatorId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { creatorId: creatorId },
+                { multi: true },
+                (err, doc) => {
+                    if (err) {
+                        reject({ error: true, errorObjecct: err, message: "Failed to find" })
+                    }
+                    else {
+                        if (doc.length == 0) {
+                            resolve({error: false, message: "No matches"})
+                        }
+                        else {
+                            doc.forEach(video => {
+                                UpdateVideoObject.deleteVideoObject(video._id)
+                                .then((r) => {
+                                    if (r.message == "delete Success" ) {
+                                        resolve({error: false, message: "delete Success"});
+                                    }
+                                    else {
+                                        resolve({error: true, message: "No usermatch found"});
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+                            })
                         }
                     }
                 }

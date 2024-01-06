@@ -11,6 +11,7 @@ function indexMain() {
     // fetch the videos from the server.
 
     try {
+        if (!getLocalStorage("loginState")) return
         fetchVideos(JSON.parse(getLocalStorage("loginState")).userId)
             .then(res => {
                 if (res.res.message == "Empty Feed") {
@@ -34,6 +35,7 @@ function indexMain() {
     }
 
     try {
+        if (!getLocalStorage("loginState")) return
         getSubs(JSON.parse(getLocalStorage("loginState")).userId)
             .then(r => {
                 if (!r.subs || r.subs.length == 0) {

@@ -11,6 +11,10 @@ const Profile = require('../models/Profiles');
 const VerifyCode = require('../models/Verifycode');
 
 const multer = require('multer');
+const Uploads = require('../models/Uploads');
+const UpdateUserProfileInformation = require('../models/UpdateProfileObjects');
+const UpdateVideoObject = require('../models/UpdateVideoObjects');
+const Log = require('../models/Log');
 const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/', (req, res) => {
@@ -23,7 +27,7 @@ router.get('/user/get/email/:id', (req, res) => {
     User.getEmail(id)
         .then(response => {
             if (response.msg == "No user with such email") {
-                res.status(500).end("a major error occured. contact the developer");
+                res.status(404).json("No email found");
             }
         })
         .catch(error => {
@@ -144,6 +148,26 @@ router.get("/user/edit/profile/:userId", (req, res) => {
     } catch (error) {
         res.render(`error/${error}`)
     }
+});
+
+router.get('/admin/delete-user-account', (req, res) => {
+    const userId = req.query.userId;
+
+    User.deleteUser(userId)
+    .then(r => {
+        if (r.message == "delete Success") {
+            Log.createLogOfUserId(userId, "delete");
+            res.status(200).json(r.message);
+        }
+        else {
+            res.status(404).json({message: "404 Not Found"})
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({message: "Internal Server Error"})
+    })
+    
 })
 
 router.get("/admin/delete/deleteVideoByCreator/:videoId",adminController.deleteVideo)

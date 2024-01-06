@@ -1,7 +1,10 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
+const fs = require("fs");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
+const UpdateUserProfileInformation = require("./UpdateProfileObjects");
+const Uploads = require("./Uploads");
 const filepath = path.join(__dirname, "../DB/neDB/profiles.db");
 const db = loadDB(filepath);
 
@@ -442,6 +445,38 @@ class Profile {
                 }
             )
         });
+    }
+
+    static deleteProfile(userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {_id: userId},
+                {multi: false},
+                (err, doc) => {
+                    if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    if (doc.length == 1) {
+                        console.log(doc[0]);
+                        const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
+                        fs.rm(path.join(__dirname, `../DB/profile_images/${ppUrl}`))
+                    }
+                }
+            )
+            db.remove(
+                { _id: userId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            resolve({ error: false, message: "delete Success" })
+                        }
+                        else {
+                            resolve({error: true, message: "No usermatch found"});
+                        }
+                    }
+                }
+            )
+        })
     }
 
 }

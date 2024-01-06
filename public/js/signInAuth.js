@@ -74,6 +74,7 @@ function checkLoginState() {
 
     //add listener to the logout button
     try {
+        if(!JSON.parse(loginState)) return
         logoutBtn = document.getElementById("logoutBtn");
         logoutBtn.addEventListener("click", () => {
             listenOnLogout(JSON.parse(loginState).userId)
@@ -118,6 +119,7 @@ function checkLoginState() {
 
     //add listener to the profile button
     try {
+        if (!JSON.parse(loginState)) return
         const profileBtn = document.getElementById("profileBtn");
         profileBtn.addEventListener("click", () => {
             getUserProfile(JSON.parse(loginState).userId)

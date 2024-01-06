@@ -31,6 +31,27 @@ class UpdateUserProfileInformation {
         });
     }
 
+    static deleteUser(userId) {
+        return new Promise((resolve, reject) => {
+            db.remove(
+                { _id: userId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            Profile
+                            resolve({error: false, message: "delete Success"});
+                        }
+                        else {
+                            resolve({error: true, message: "No usermatch found"});
+                        }
+                    }
+                }
+            )
+        })
+    }
+
     static updateSubscriberList(creatorId, subscriberId) {
         return new Promise((resolve, reject) => {
             db.find(

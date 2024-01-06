@@ -34,6 +34,26 @@ class UpdateVideoObject {
         })
     }
 
+    static deleteVideoObject(videoId) {
+        return new Promise((resolve, reject) => {
+            db.remove(
+                { videoId: videoId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            resolve({error: false, message: "delete Success"});
+                        }
+                        else {
+                            resolve({error: true, message: "No usermatch found"});
+                        }
+                    }
+                }
+            )
+        })
+    }
+
     static updateViewersList(videoId, viewid) {
         return new Promise((resolve, reject) => {
             db.find(

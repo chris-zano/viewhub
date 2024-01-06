@@ -2,6 +2,7 @@ const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
 const AuthFactor = require("../utils/auth");
 const strictTypeCheck = require("../utils/Type");
+const Profile = require("./Profiles");
 const filepath = path.join(__dirname, "../DB/neDB/users.db");
 const db = loadDB(filepath);
 
@@ -45,24 +46,44 @@ class User {
 
         return new Promise((resolve, reject) => {
             User.checkEmail(this._email)
-                    .then(res => {
-                        if (res.msg == "No user with such email") {
-                            db.insert(
-                                userObject,
-                                (err, doc) => {
-                                    if (err) {
-                                        reject({ error: true, msg: err });
-                                    }
-                                    else {
-                                        resolve({ error: false, msg: "No error! User created successfuly", userId: doc["_id"] })
-                                    }
+                .then(res => {
+                    if (res.msg == "No user with such email") {
+                        db.insert(
+                            userObject,
+                            (err, doc) => {
+                                if (err) {
+                                    reject({ error: true, msg: err });
                                 }
-                            )
+                                else {
+                                    resolve({ error: false, msg: "No error! User created successfuly", userId: doc["_id"] })
+                                }
+                            }
+                        )
+                    }
+                })
+                .catch(err => {
+                    reject({ error: true, msg: err });
+                })
+        })
+    }
+
+    static deleteUser(userId) {
+        return new Promise((resolve, reject) => {
+            db.remove(
+                { _id: userId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            resolve({ error: false, message: "delete Success" });
                         }
-                    })
-                    .catch(err => {
-                        reject({ error: true, msg: err });
-                    })
+                        else {
+                            resolve({ error: true, message: "No usermatch found" });
+                        }
+                    }
+                }
+            )
         })
     }
 
@@ -117,7 +138,7 @@ class User {
                         resolve({ msg: "No user with such email", email: email, userId: null });
                     }
                     else if (doc.length == 1) {
-                        reject({error:true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
+                        reject({ error: true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
                     }
                 }
             )
@@ -134,10 +155,10 @@ class User {
                         reject(err);
                     }
                     if (doc.length == 0) {
-                        resolve({ msg: "No user with such email", email: email, userId: null });
+                        resolve({ msg: "No user with such email", email: null, userId: null });
                     }
                     else if (doc.length == 1) {
-                        reject({error:true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
+                        reject({ error: true, msg: "User match", email: doc[0].email, userId: doc[0]["_id"] })
                     }
                 }
             )
@@ -153,18 +174,18 @@ class User {
     static authWithPassword(id, password) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: id, password:AuthFactor.hashWithKey(password)},
-                {multi: false},
+                { _id: id, password: AuthFactor.hashWithKey(password) },
+                { multi: false },
                 (err, doc) => {
                     if (err) {
-                        reject({error: true, msg: err});
+                        reject({ error: true, msg: err });
                     }
                     else {
-                        if(doc.length == 0) {
-                            reject({error: true, msg: "Wrong Password"});
+                        if (doc.length == 0) {
+                            reject({ error: true, msg: "Wrong Password" });
                         }
                         else {
-                            resolve({error: false, msg: "Username and Password match", userID: doc[0]["_id"]});
+                            resolve({ error: false, msg: "Username and Password match", userID: doc[0]["_id"] });
                         }
                     }
                 }
@@ -183,28 +204,27 @@ class User {
     static updateUserPassword(userId, current_password, new_password) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: userId},
-                {multi: false},
+                { _id: userId },
+                { multi: false },
                 (error, document) => {
-                    if(error) reject({error: true, message: error});
+                    if (error) reject({ error: true, message: error });
                     else {
-                        if(document[0].password == AuthFactor.hashWithKey(current_password))
-                        {
+                        if (document[0].password == AuthFactor.hashWithKey(current_password)) {
                             db.update(
-                                {_id: userId},
+                                { _id: userId },
                                 {
                                     $set: {
                                         password: AuthFactor.hashWithKey(new_password)
                                     }
                                 },
                                 (error, numReplaced) => {
-                                    if (error) reject({error: true, message: error});
+                                    if (error) reject({ error: true, message: error });
                                     else {
-                                        if(numReplaced == 1) {
-                                            resolve({error: false, message: "password updated"});
+                                        if (numReplaced == 1) {
+                                            resolve({ error: false, message: "password updated" });
                                         }
                                         else {
-                                            reject({error: true, message: "an unknown error occured!!!"});
+                                            reject({ error: true, message: "an unknown error occured!!!" });
                                         }
                                     }
                                 }

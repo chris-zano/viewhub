@@ -19,11 +19,16 @@ function fetchuserDetails() {
     const loginState = localStorage.getItem("loginState");
     getUserProfile(JSON.parse(loginState).userId)
         .then(res => {
-            localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
-            const username = res.document[0].username;
-            const ppURL = res.document[0].profilePicUrl;
-            document.getElementById("current-user-name").textContent = username.trim();
-            document.getElementById("big_img").setAttribute("src", ppURL.trim())
+            if (res.document) {
+                localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
+                const username = res.document[0].username;
+                const ppURL = res.document[0].profilePicUrl;
+                document.getElementById("current-user-name").textContent = username.trim();
+                document.getElementById("big_img").setAttribute("src", ppURL.trim())
+            }
+            else {
+                console.debug(res)
+            }
         })
         .catch(error => {
             console.log(error);
@@ -108,6 +113,7 @@ function setLocalStorage(key, value) {
 
 function setTheme() {
     try {
+        if (!localStorage.getItem("userDetails")) return
         const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
         const rootHead = document.querySelector("head")
 
@@ -131,7 +137,7 @@ function setTheme() {
             rootHead.append(rootUrl);
         }
     } catch (error) {
-        console.log(error);
+        console.debug(error);
     }
 }
 setTheme()
