@@ -8,8 +8,9 @@ function main() {
     videoPlayer.addEventListener("timeupdate", ()=> {
         const {currentTime, duration} = videoPlayer;
 
-        console.log(convertTime(duration));
-        console.log("Current Time => ", convertTime(currentTime));
+        document.getElementById("animated-currentTime").style.width = `${(currentTime / duration) * 100}%`;
+        document.getElementById("currentTime-placeholder").innerText = `${convertTime(currentTime)}`;
+        document.getElementById("duration-placeholder").innerText = `${convertTime(duration-currentTime)}`;
     })
 
     getVideoRecommendations()
@@ -142,13 +143,14 @@ function main() {
     fullScreen.addEventListener("click", () => {
         if (videoPlayer.requestFullscreen) {
             videoPlayer.requestFullscreen();
-        } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+        } else if (videoPlayer.mozRequestFullScreen) {
             videoPlayer.mozRequestFullScreen();
-        } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        } else if (videoPlayer.webkitRequestFullscreen) {
             videoPlayer.webkitRequestFullscreen();
-        } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+        } else if (videoPlayer.msRequestFullscreen) {
             videoPlayer.msRequestFullscreen();
         }
+        videoPlayer.setAttribute("controls", "true")
     });
 
     //double-click full-screen
@@ -157,14 +159,15 @@ function main() {
             || e.target.parentElement == document.getElementById("video_player_overlay")) {
             if (videoPlayer.requestFullscreen) {
                 videoPlayer.requestFullscreen();
-            } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+            } else if (videoPlayer.mozRequestFullScreen) {
                 videoPlayer.mozRequestFullScreen();
-            } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            } else if (videoPlayer.webkitRequestFullscreen) {
                 videoPlayer.webkitRequestFullscreen();
-            } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+            } else if (videoPlayer.msRequestFullscreen) {
                 videoPlayer.msRequestFullscreen();
             }
         }
+        videoPlayer.setAttribute("controls", "true")
     })
 
     //settings
@@ -546,8 +549,6 @@ function createComment(commentObject) {
 
     const timeSection = comment.getElementsByClassName("time-elapsed")[0];
     const pastTime = getPastTime(commentObject.postTime);
-    timeSection.textContent = pastTime
+    timeSection.textContent = pastTime.includes("1 days") ? pastTime.replace("days", "day") : pastTime;
     return comment;
-    // <small>${commentObject.replies}</small>
-    // <small>${commentObject.likes}</small>
 }
