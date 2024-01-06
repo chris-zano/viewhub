@@ -58,6 +58,9 @@
         padding: 0.3rem;
         background-color: var(--background-light);
         margin: auto;
+    }
+
+    .container_main {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
     }
@@ -104,12 +107,12 @@
         min-height: 35px;
         padding-inline: 5px;
         display: flex;
-        /* justify-content: center; */
+        justify-content: center;
         align-items: center;
         color: var(--default-dark-font);
     }
 
-    
+
     .actionsbar ul li:hover {
         background-color: var(--background-white);
     }
@@ -129,8 +132,8 @@
         font-size: 14px;
 
     }
-    
-    hr{
+
+    hr {
         background-color: var(--background-white);
         color: var(--background-white);
         background: var(--background-white);
