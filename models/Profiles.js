@@ -453,7 +453,6 @@ class Profile {
                 (err, doc) => {
                     if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     if (doc.length == 1) {
-                        console.log(doc[0]);
                         const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
 
                         db.remove(

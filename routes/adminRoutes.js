@@ -32,7 +32,7 @@ router.get('/user/get/email/:id', (req, res) => {
         })
         .catch(error => {
             if (error.msg == "User match" && error.userId == id) {
-                res.status(200).json({email: error.email})
+                res.status(200).json({ email: error.email })
             }
         })
 })
@@ -150,27 +150,31 @@ router.get("/user/edit/profile/:userId", (req, res) => {
     }
 });
 
-router.get('/admin/delete-user-account', (req, res) => {
+router.get('/admin/delete-user-account', async (req, res) => {
     const userId = req.query.userId;
 
-    User.deleteUser(userId)
-    .then(r => {
-        if (r.message == "delete Success") {
-            Log.createLogOfUserId(userId, "delete");
-            res.status(200).json(r.message);
-        }
-        else {
-            res.status(404).json({message: "404 Not Found"})
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({message: "Internal Server Error"})
-    })
-    
-})
+    try {
+        await UpdateUserProfileInformation.deleteUser(userId);
+        await Uploads.deleteCreatorVideos(userId);
+        await Profile.deleteProfile(userId);
+        const result = await User.deleteUser(userId);
 
-router.get("/admin/delete/deleteVideoByCreator/:videoId",adminController.deleteVideo)
+        if (result.message === "delete Success") {
+            Log.createLogOfUserId(userId, "delete")
+            res.status(200).json({ message: "delete Success" });
+        } else {
+            Log.createLogOfUserId(userId, "attempted delete")
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    } catch (e) {
+        console.error(e);
+        Log.createLogOfUserId(userId, "attempted delete")
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo)
 
 router.post("/edit/update/name", adminController.userUpdateName);
 router.post("/edit/update/username", adminController.userUpdateUsername);

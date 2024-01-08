@@ -59,7 +59,6 @@ async function getEmail(id) {
             return res;
         }
         else {
-            console.log(res, status);
             // getEmail(id);
         }
     }
@@ -249,14 +248,8 @@ function deleteButton(btndeleteButton) {
 
                 localStorage.clear()
 
-                localStorage.setItem("loginNotification", JSON.stringify({ count: 1 }));
                 alert("Session Expired. Please Login again to continue");
-                window.location.href = "";
-                if (status == 200) {
-                }
-                else {
-                    window.location.href = "";
-                }
+                window.location.href = "/";
             }
             catch (error) {
                 console.debug(error);
