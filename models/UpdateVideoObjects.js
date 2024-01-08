@@ -1,8 +1,5 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-const AuthFactor = require("../utils/auth");
-const User = require("./Users");
-const Profile = require("./Profiles");
 const filepath = path.join(__dirname, "../DB/neDB/update_video_object.db");
 const db = loadDB(filepath);
 
@@ -28,6 +25,26 @@ class UpdateVideoObject {
                     if (error) reject({ error: true, message: error });
                     else {
                         resolve({ error: false, message: doc });
+                    }
+                }
+            )
+        })
+    }
+
+    static deleteVideoObject(videoId) {
+        return new Promise((resolve, reject) => {
+            db.remove(
+                { videoId: videoId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            resolve({error: false, message: "delete Success"});
+                        }
+                        else {
+                            resolve({error: true, message: "No usermatch found"});
+                        }
                     }
                 }
             )

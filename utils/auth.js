@@ -67,7 +67,7 @@ class AuthFactor {
     }
 
     static hashWithKey(password) {
-        return this.lowLevelEncryption(password);
+        return this.highLevelEncryption(password)
     }
 
     /**

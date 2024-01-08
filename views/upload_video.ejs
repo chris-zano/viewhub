@@ -109,6 +109,7 @@ id="root-css" href="/css/root.css">
                 else main()
 
                 function main() {
+                    if (!getLocalStorage("loginState")) return;
                     document.getElementById("upload_form").setAttribute("action", `/upload/video/${JSON.parse(getLocalStorage("loginState")).userId}`)
                 }
             </script>
