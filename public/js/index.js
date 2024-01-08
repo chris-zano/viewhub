@@ -15,8 +15,56 @@ function indexMain() {
         fetchVideos(JSON.parse(getLocalStorage("loginState")).userId)
             .then(res => {
                 if (res.res.message == "Empty Feed") {
-                    alert("Upload a video to get started");
-                    window.location.href = "/nav/upload_video";
+                    // alert("Upload a video to get started");
+                    // window.location.href = "/nav/upload_video";
+                    const UpV = document.createElement("div");
+                    const UpVO = document.createElement("div");
+                    UpV.innerHTML = `
+                        <p>No videos available.</p>
+                        <p>Upload a video to start watching.</p>
+                        <button type="button" style="
+                            min-width: 120px;
+                            padding: 3px 1rem;
+                            height: 35px;
+                            border: 1px solid transparent;
+                            background-color: var(--color-theme-2);
+                            border-radius: 0.6rem;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            font-family: inherit;
+                            cursor: pointer;
+                            box-shadow: var(--box-shadow-thin);
+                        ">
+                            <a href="/nav/upload_video" style="
+                                font-size: 14px;
+                                color: white;
+                            ">Click here to get Started</a>
+                        </button>
+                    `;
+
+                    UpVO.style.position = "fixed";
+                    UpVO.style.left = "0";
+                    UpVO.style.right = "0";
+                    UpVO.style.bottom = "0";
+                    UpVO.style.top = "0";
+                    UpVO.style.display = "grid";
+                    UpVO.style.justifyContent = "center";
+                    UpVO.style.alignItems = "center";
+                    UpVO.style.backgroundColor = "#14141492";
+                    UpV.style.backgroundColor = "var(--background-white)";
+                    UpV.style.borderRadius = "1rem";
+                    UpV.style.padding = "1rem";
+                    UpV.style.display = "grid";
+                    UpV.style.justifyContent = "center";
+                    UpV.style.alignItems = "center";
+                    UpV.querySelectorAll("p").forEach(p=> p.style.color = "var(--default-dark-font)")
+                    UpV.querySelectorAll("button").forEach(p=> p.addEventListener("mouseenter", ()=> p.style.backgroundColor = "var(--color-theme-3)"))
+                    UpV.querySelectorAll("button").forEach(p=> p.addEventListener("mouseleave", ()=> p.style.backgroundColor = "var(--color-theme-2)"))
+
+                    UpVO.append(UpV);
+                    document.getElementById("usertviewlist").append(UpVO);
+
                 }
                 else {
                     const videoObjectArray = res.res.document;

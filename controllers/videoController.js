@@ -29,7 +29,6 @@ function extractObj(stream) {
  * @return {object} 
  */
 exports.uploadVideo = (req, res) => {
-    // res.end("Video Uploaded Successfully")
     User.checkId(req.params.userId)
         .then(response => {
             if ((response.msg == "User match") && (response.id.trim() == req.params.userId.trim())) {
@@ -52,6 +51,7 @@ exports.uploadVideo = (req, res) => {
 
                             upload.init()
                                 .then(init_response => {
+
                                     if (init_response.error == false && init_response.msg == "init successful") {
                                         res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
                                     }
@@ -60,8 +60,8 @@ exports.uploadVideo = (req, res) => {
                                     res.render("error", { message: error.msg })
                                 })
                         }
-                        else{
-                            res.status(500).json({message: "Internal Server Error"});
+                        else {
+                            res.status(500).json({ message: "Internal Server Error" });
                         }
                     })
                     .catch(error => {
@@ -150,23 +150,23 @@ exports.getRecommendedVideos = (req, res) => {
 
 exports.updateVideoLikes = (req, res) => {
     Uploads.updateVideoLikes(req.params.videoId, req.params.userId)
-    .then(r => {
-        if (r.message == "User already liked") {
-            res.status(202).json({message: "User already liked"})
-        }
-        else if (r.message == "updated") {
-            res.status(200).json({message: "updated"})
-        }
-        else {
-            res.status(500).json({message: "Internal Server Error"});
-        }
-    })
-    .catch(e => {
-        if (e.message == "Internal server Error") {
-            res.status(500).json({message: "Internal server Error"})
-        }
-        else {
-            res.status(500).json({message: "Internal server Error"})
-        }
-    })
+        .then(r => {
+            if (r.message == "User already liked") {
+                res.status(202).json({ message: "User already liked" })
+            }
+            else if (r.message == "updated") {
+                res.status(200).json({ message: "updated" })
+            }
+            else {
+                res.status(500).json({ message: "Internal Server Error" });
+            }
+        })
+        .catch(e => {
+            if (e.message == "Internal server Error") {
+                res.status(500).json({ message: "Internal server Error" })
+            }
+            else {
+                res.status(500).json({ message: "Internal server Error" })
+            }
+        })
 }

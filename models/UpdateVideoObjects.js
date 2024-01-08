@@ -1,8 +1,5 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-const AuthFactor = require("../utils/auth");
-const User = require("./Users");
-const Profile = require("./Profiles");
 const filepath = path.join(__dirname, "../DB/neDB/update_video_object.db");
 const db = loadDB(filepath);
 

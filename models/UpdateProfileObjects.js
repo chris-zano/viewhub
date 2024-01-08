@@ -1,6 +1,5 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
-
 const Profile = require("./Profiles")
 const filepath = path.join(__dirname, "../DB/neDB/profiles-extended.db");
 const db = loadDB(filepath);
@@ -40,7 +39,6 @@ class UpdateUserProfileInformation {
                     if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     else {
                         if (numRemoved == 1) {
-                            Profile
                             resolve({error: false, message: "delete Success"});
                         }
                         else {
