@@ -22,6 +22,7 @@ router.get("/font/:fontname", (req, res) => {
 
 //images will be served though this route
 router.get("/images/:filename", (req, res) => {
+    res.type("png");
     fs.createReadStream(path.join(__dirname, "../public/assets/images", `${req.params.filename}`)).pipe(res);
 })
 
