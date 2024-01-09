@@ -53,7 +53,7 @@ class Tview {
         <a href="/tview/stream/video/${this.videoObject._id}/${userid}?creatorId=${this.videoObject.creatorId}" class="object_route">
             <div class="first_child_link">
                 <div class="video_thumbnail">
-                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" loading="lazy">
+                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl">
                     <span class="video_duration">${this.videoObject.duration}</span>
                 </div>
                 <div class="video_details">
