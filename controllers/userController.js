@@ -7,7 +7,7 @@ const mailer = require("../utils/mail")
 
 
 exports.userSignup = (req, res) => {
-    if(!AuthFactor.checkPasswordValidity(req.body.password)) {
+    if (!AuthFactor.checkPasswordValidity(req.body.password)) {
         res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "Invalid password pattern" });
         res.end();
     }
@@ -17,8 +17,10 @@ exports.userSignup = (req, res) => {
             if (response.error == false) {
                 const newprofile = new Profile(response.userId);
                 newprofile.init()
-                    .then(onexec => {
+                    .then(async onexec => {
                         if (onexec.error == false && onexec.msg == "No error! Profile initialized successfuly") {
+                            await UpdateUserProfileInformation.init(onexec.userId)
+
                             res.render("signin", { pageTitle: "Create-Profile ~ name", userId: response.userId, message: "profile initialised" })
                         }
                         else {
@@ -178,70 +180,40 @@ exports.updateUserPrefences = (req, res) => {
         })
 }
 
-exports.updateUserFollowingAndFollowers = (req, res) => {
+exports.updateUserFollowingAndFollowers = async (req, res) => {
     const { creatorId, followerId } = req.body;
-    UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
-        .then(r => {
-            if (r.message == "User not found") {
-                UpdateUserProfileInformation.init(creatorId)
-                    .then(initResult => {
-                        if (initResult.message == "Object initialised" && initResult.document[0]._id == creatorId) {
-                            UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId)
-                                .then(u => {
-                                    if (u.message == "updated") {
-                                        res.status(200).json({ message: "success", subs: r.subs });
-                                    }
-                                    else if (u.message == "unsubscribed") {
-                                        res.status(200).json({ message: "unsubscribed", subs: r.subs });
-                                    }
-                                    else {
-                                        res.status(404).json({ message: "user not found" });
-                                    }
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
 
-                        }
-                        else {
-                            res.status(500).json({ message: "Internal Server Error" });
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
-            else if (r.message == "updated") {
-                res.status(200).json({ message: "success", subs: r.subs });
-            }
-            else if (r.message == "unsubscribed") {
-                res.status(200).json({ message: "unsubscribed", subs: r.subs });
-            }
-            else {
-                res.status(404).json({ message: "user not found" });
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        })
+    const follow = await UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId);
+    await UpdateUserProfileInformation.updateSubscriptionList(followerId, creatorId);
+    
+
+    if (follow.message == "updated") {
+        res.status(200).json({ message: "success", subs: follow.subs });
+    }
+    else if (follow.message == "unsubscribed") {
+        res.status(200).json({ message: "unsubscribed", subs: follow.subs });
+    }
+    else {
+        res.status(404).json({ message: "user not found" });
+    }
 }
 
 exports.getSubs = (req, res) => {
-    const userId  = req.params.userId;
+    const userId = req.params.userId;
 
     UpdateUserProfileInformation.getSubscriptionList(userId)
-    .then(r => {
-        const subs = [...r.document];
-        if (subs.length < Number(req.query.count)) {
-            res.status(200).json({subs: subs});
-        }
-        else {
-            res.status(200).json({subs: subs.slice(0, Number(req.query.count))})
-        }
-        
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({subs: new Array()});
-    })
+        .then(r => {
+            const subs = [...r.document];
+            if (subs.length < Number(req.query.count)) {
+                res.status(200).json({ subs: subs });
+            }
+            else {
+                res.status(200).json({ subs: subs.slice(0, Number(req.query.count)) })
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ subs: new Array() });
+        })
 }
