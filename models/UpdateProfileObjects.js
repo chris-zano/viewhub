@@ -38,10 +38,10 @@ class UpdateUserProfileInformation {
                     if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     else {
                         if (numRemoved == 1) {
-                            resolve({error: false, message: "delete Success"});
+                            resolve({ error: false, message: "delete Success" });
                         }
                         else {
-                            resolve({error: true, message: "No usermatch found"});
+                            resolve({ error: true, message: "No usermatch found" });
                         }
                     }
                 }
@@ -105,13 +105,7 @@ class UpdateUserProfileInformation {
                                             Profile.setProfileObject(creatorId, "followers", subscriberList.length)
                                                 .then(r => {
                                                     if (r.message == "property set successfully") {
-                                                        UpdateUserProfileInformation.updateSubscriptionList(subscriberId, creatorId)
-                                                            .then(rs => {
-                                                                resolve({ error: false, message: "unsubscribed", subs: subscriberList.length });
-                                                            })
-                                                            .catch(error => {
-                                                                reject({ error: "user not found" })
-                                                            })
+                                                        resolve({ error: false, message: "unsubscribed", subs: subscriberList.length });
                                                     }
                                                 })
                                                 .catch(e => {

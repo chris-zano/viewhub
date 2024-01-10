@@ -60,12 +60,16 @@ class Profile {
                                 else if (resp.msg == "No user with such id") {
                                     db.insert(
                                         profileObject,
-                                        (err, doc) => {
+                                        async (err, doc) => {
                                             if (err) {
                                                 reject({ error: true, msg: err });
                                             }
                                             else {
-                                                resolve({ error: false, msg: "No error! Profile initialized successfuly", userId: doc["_id"] })
+                                                try {
+                                                    resolve({ error: false, msg: "No error! Profile initialized successfuly", userId: doc["_id"] })
+
+                                                }
+                                                catch (error) { reject({ error: true, msg: "Failed to init UpdateObject" }) }
                                             }
                                         }
                                     )
@@ -434,10 +438,10 @@ class Profile {
                     }
                     else {
                         if (numChanged == 1) {
-                            resolve({error: false, message: "property set successfully"});
+                            resolve({ error: false, message: "property set successfully" });
                         }
                         else {
-                            resolve({error: true, message: "Failed to set property"});
+                            resolve({ error: true, message: "Failed to set property" });
                         }
                     }
                 }
@@ -448,8 +452,8 @@ class Profile {
     static deleteProfile(userId) {
         return new Promise((resolve, reject) => {
             db.find(
-                {_id: userId},
-                {multi: false},
+                { _id: userId },
+                { multi: false },
                 (err, doc) => {
                     if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     if (doc.length == 1) {
@@ -465,7 +469,7 @@ class Profile {
                                         resolve({ error: false, message: "delete Success", ppUrl: ppUrl })
                                     }
                                     else {
-                                        resolve({error: true, message: "No usermatch found"});
+                                        resolve({ error: true, message: "No usermatch found" });
                                     }
                                 }
                             }

@@ -18,7 +18,7 @@ const Log = require('../models/Log');
 const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/', (req, res) => {
-    console.log(res);
+    // console.log(res);
     res.render("index", { pageTitle: "Tview", error: false, userId: null, msg: "no error" })
 })
 
