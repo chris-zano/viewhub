@@ -50,7 +50,7 @@ img {
         margin-top: 11px;
         display: flex;
     }
-    
+
     .media_details .creator_url {
         display: flex;
         flex-flow: column;
@@ -106,6 +106,7 @@ img {
         cursor: pointer;
         transition: var(--transition-default);
     }
+
     .title_des .subscribe-btn button#subscribe-btn:hover {
         background-color: var(--dark-grey);
         box-shadow: var(--box-shadow-extra-thin);
@@ -154,7 +155,10 @@ img {
         justify-content: space-between;
     }
 
-    
+    video {
+        border-radius: 0.7rem;
+    }
+
 
     main.main_container div.recommendations {
         margin-left: 2rem;
@@ -258,12 +262,12 @@ img {
         max-width: 20px;
         max-height: 20px;
     }
-    
+
     button#volume img {
         max-width: 25px;
         max-height: 25px;
     }
-    
+
     button#settings img {
         max-width: 25px;
         max-height: 25px;
@@ -290,21 +294,21 @@ img {
         align-items: center;
         cursor: pointer;
     }
-    
+
     button#settings .settings_overlay .quality-radio {
         display: flex;
         column-gap: 5px;
         justify-content: start;
         cursor: pointer;
     }
-    
-    button#settings .settings_overlay .quality-radio label{
+
+    button#settings .settings_overlay .quality-radio label {
         text-align: left;
         font-size: 16px;
         cursor: pointer;
     }
-    
-    
+
+
     button#settings .settings_overlay .quality-radio input[type="radio"] {
         float: right;
         cursor: pointer;
@@ -319,15 +323,15 @@ img {
         margin-inline: auto;
         left: 0;
         right: 0;
-        bottom: 8.4%;
+        bottom: 35px;
     }
-    
+
     .timestamp-progress-bar .timestamps {
         width: 100%;
         display: flex;
         justify-content: space-between;
     }
-    
+
     .timestamp-progress-bar .animated-placeholder {
         border-radius: 0.7rem;
         width: 100%;
@@ -358,6 +362,353 @@ img {
         padding: 0 10px;
         display: grid;
         place-items: end;
+    }
+}
+
+@media (max-width: 768px) {
+    .main_container {
+        width: 97vw;
+        margin-inline: auto;
+        padding-top: 1rem;
+        position: relative;
+    }
+
+    .main_container .media_div {
+        width: 100%;
+    }
+
+    .media_div .player_div {
+        width: 100%;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .player_div #video_player {
+        width: 100%;
+    }
+
+    .media_div .player_div .video-overlay {
+        position: absolute;
+        background-color: rgba(15, 15, 15, 0.5);
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        border-radius: 1rem;
+        padding: 10px 20px;
+    }
+
+
+    video {
+        border-radius: 0.7rem;
+    }
+
+    .media_div .player_div .video-overlay .overlay-title h2 {
+        font-size: 16px;
+    }
+
+    .media_details {
+        margin-top: 11px;
+        margin-left: 3px;
+        display: flex;
+    }
+
+    .media_details .creator_url {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        min-width: 90px;
+    }
+
+    .media_details .img_prof img.profile_image {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+    }
+
+    .media_details .creator_details span {
+        font-size: 14px;
+    }
+
+    .video_title {
+        font-size: 14px;
+    }
+
+    .media_details .title_des {
+        margin: 0px 3px;
+        width: calc(100% - 19%);
+        display: flex;
+        flex-flow: column;
+    }
+
+    .title_des .like-sub {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .title_des .subscribe-btn {
+        width: 120px;
+        height: 40px;
+        border-radius: 50px;
+        display: grid;
+        place-items: center;
+    }
+
+    .title_des .subscribe-btn button#subscribe-btn {
+        width: 100%;
+        height: 100%;
+        border: 1px solid transparent;
+        border-radius: inherit;
+        background-color: var(--background-light);
+        font-weight: 400;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition-default);
+    }
+
+    .title_des .subscribe-btn button#subscribe-btn:hover {
+        background-color: var(--dark-grey);
+        box-shadow: var(--box-shadow-extra-thin);
+        /* color: var(--background-white); */
+    }
+
+    div.likes#likes-count {
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 2%;
+        font-size: 13px;
+    }
+
+    .like-sub button#like-btn {
+        cursor: pointer;
+        height: 17px;
+        width: 17px;
+        display: grid;
+        place-items: center;
+        background-color: none;
+        background: none;
+        outline: none;
+        border: none;
+        margin-bottom: 7px;
+    }
+
+    .like-sub button#like-btn img {
+        width: inherit;
+        height: inherit;
+    }
+
+    .video-overlay h2#video_h2 {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .video-overlay .bottom-overlay-navigation {
+        background-color: rgba(243, 240, 240, 0.186);
+        width: 100%;
+        height: 32px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .bottom-overlay-navigation .left-bottom-overlay-navigation ul,
+    .bottom-overlay-navigation .right-bottom-overlay-navigation ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bottom-overlay-navigation ul li button {
+        width: 20px;
+        height: 20px;
+        margin-inline: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        border-radius: 0.5rem;
+        border: 1px solid transparent;
+        background-color: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    .bottom-overlay-navigation ul li button:hover {
+        background-color: rgba(198, 194, 194, 0.441);
+    }
+
+    .bottom-overlay-navigation ul li button img {
+        max-width: 20px;
+        max-height: 20px;
+    }
+
+    button#replay img {
+        max-width: 15px;
+        max-height: 15px;
+    }
+
+    button#volume img {
+        max-width: 18px;
+        max-height: 18px;
+    }
+
+    button#settings img {
+        max-width: 18px;
+        max-height: 18px;
+    }
+
+    button#settings {
+        position: relative;
+    }
+
+    button#settings .settings_overlay {
+        position: absolute;
+        width: 100px;
+        height: 160px;
+        background-color: rgba(198, 194, 194, 0.441);
+        border-radius: 0.5rem;
+        backdrop-filter: blur(5px);
+        bottom: 0;
+        transform: translateY(-29.5%);
+        display: flex;
+        flex-flow: column;
+        column-gap: 3px;
+        row-gap: 3px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    button#settings .settings_overlay .quality-radio {
+        display: flex;
+        column-gap: 5px;
+        justify-content: start;
+        cursor: pointer;
+    }
+
+    button#settings .settings_overlay .quality-radio label {
+        text-align: left;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+
+    button#settings .settings_overlay .quality-radio input[type="radio"] {
+        float: right;
+        cursor: pointer;
+    }
+
+    .timestamp-progress-bar {
+        width: 100%;
+        height: 20px;
+        display: grid;
+        grid-template-rows: 20px 2px;
+        position: absolute;
+        margin-inline: auto;
+        left: 0;
+        right: 0;
+        bottom: 32px;
+    }
+
+    .timestamp-progress-bar .timestamps {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .timestamp-progress-bar .animated-placeholder {
+        border-radius: 0.7rem;
+        width: 100%;
+        height: 2px;
+        background-color: var(--dark-grey);
+        display: grid;
+    }
+
+    .timestamp-progress-bar .currentTime-placeholder {
+        font-size: 13px;
+        color: rgba(240, 248, 255, 0.409);
+        height: 100%;
+        width: 15%;
+        padding: 0 10px;
+        display: grid;
+        place-items: start;
+    }
+
+    .timestamp-progress-bar .animated-currentTime {
+        background-color: red;
+    }
+
+    .timestamp-progress-bar .duration-placeholder {
+        font-size: 13px;
+        color: rgba(240, 248, 255, 0.409);
+        height: 100%;
+        width: 15%;
+        padding: 0 10px;
+        display: grid;
+        place-items: end;
+    }
+
+    div.media_description {
+        display: none;
+    }
+
+    main.main_container div.recommendations {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
+
+    .recommendations .refparams_wrapper {
+        padding: 10px;
+        display: flex;
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .recommendations .refparams_wrapper::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .recommendations .refparams_wrapper::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .recommendations .refparams_wrapper::-webkit-scrollbar-thumb {
+        background-color: transparent !important;
+    }
+
+    .recommendations .refparams {
+        background-color: rgba(200, 202, 202, 0.663);
+        color: rgb(32, 32, 34);
+        display: flex;
+        min-width: fit-content;
+        max-width: 170px;
+        margin-inline: 5px;
+        padding: 5px 20px;
+        margin-top: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: var(--transition-default);
+    }
+
+    .recommendations .refparams:hover {
+        background-color: rgba(71, 74, 74, 0.441);
+        color: rgb(0, 0, 0);
+    }
+
+    #usertviewlist {
+        margin-top: 10px;
     }
 }
 
