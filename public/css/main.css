@@ -26,6 +26,15 @@
         padding: 2rem 1rem;
         background-color: var(--background-light);
         margin: auto;
+        display: block;
+    }
+
+    section.left-sidenav {
+      display: none;
+    }
+
+    section.wrapper-main {
+        grid-column: 3 / 13;
     }
 
 }
