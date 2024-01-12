@@ -14,7 +14,7 @@ function main() {
         const currDuration = videoPlayer.currentDuration
         console.log('Current time:' +  currTime )
 
-        }
+        })
         //const {currentTime, duration} = videoPlayer;
         //console.log(convertTime(duration));
         //console.log("Current Time => ", convertTime(currentTime));
@@ -25,7 +25,7 @@ function main() {
             let videoArray = [...response.document];
 
             videoArray = videoArray.sort((a, b) => { 
-                i f (a.title > b.title) return 1; 
+                if (a.title > b.title) return 1; 
                 else if (a.title == b.title) {
                     if (a.dateTime > b.dateTime) return 1; 
                     else if (a.dateTime == b.dateTime) return 0; 
