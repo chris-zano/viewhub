@@ -7,11 +7,7 @@ function convertTime(timeInSeconds) {
     var wholeMinutes = Math.floor(remainingSeconds / 60);
     var wholeSeconds = Math.round(remainingSeconds % 60);
 
-    console.log("Whole Hours:", wholeHours);
-    console.log("Whole Minutes:", wholeMinutes);
-    console.log("Whole Seconds:", wholeSeconds);
-
-    return `${wholeHours}:${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
+    return `${wholeHours > 0 ? wholeHours + ":": "" }${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
 }
 
 exports.getVideoInformation = (videoPath) => {

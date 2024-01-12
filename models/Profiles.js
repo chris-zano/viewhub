@@ -1,5 +1,6 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
+const fs = require("fs");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
 const filepath = path.join(__dirname, "../DB/neDB/profiles.db");
@@ -59,12 +60,16 @@ class Profile {
                                 else if (resp.msg == "No user with such id") {
                                     db.insert(
                                         profileObject,
-                                        (err, doc) => {
+                                        async (err, doc) => {
                                             if (err) {
                                                 reject({ error: true, msg: err });
                                             }
                                             else {
-                                                resolve({ error: false, msg: "No error! Profile initialized successfuly", userId: doc["_id"] })
+                                                try {
+                                                    resolve({ error: false, msg: "No error! Profile initialized successfuly", userId: doc["_id"] })
+
+                                                }
+                                                catch (error) { reject({ error: true, msg: "Failed to init UpdateObject" }) }
                                             }
                                         }
                                     )
@@ -405,7 +410,7 @@ class Profile {
         })
     }
 
-    static getUserProfilePicture(id) {
+    static fetchProfilePicture(id) {
         return new Promise((resolve, reject) => {
             db.find(
                 { _id: id },
@@ -433,15 +438,46 @@ class Profile {
                     }
                     else {
                         if (numChanged == 1) {
-                            resolve({error: false, message: "property set successfully"});
+                            resolve({ error: false, message: "property set successfully" });
                         }
                         else {
-                            resolve({error: true, message: "Failed to set property"});
+                            resolve({ error: true, message: "Failed to set property" });
                         }
                     }
                 }
             )
         });
+    }
+
+    static deleteProfile(userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: userId },
+                { multi: false },
+                (err, doc) => {
+                    if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    if (doc.length == 1) {
+                        const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
+
+                        db.remove(
+                            { _id: userId },
+                            { multi: false },
+                            (error, numRemoved) => {
+                                if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                                else {
+                                    if (numRemoved == 1) {
+                                        resolve({ error: false, message: "delete Success", ppUrl: ppUrl })
+                                    }
+                                    else {
+                                        resolve({ error: true, message: "No usermatch found" });
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        })
     }
 
 }

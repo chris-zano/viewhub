@@ -72,7 +72,7 @@
         color: var(--default-dark-font);
     }
 
-    header div.profile-nav div.profile-action-buttons button{
+    header div.profile-nav div.profile-action-buttons button {
         border-top-right-radius: 0.5rem;
         border-top-left-radius: 0.5rem;
     }
@@ -94,16 +94,18 @@
         padding-left: 2rem;
     }
 
-    header nav.main-header-nav ul li,
-    a {
-        cursor: pointer;
-        font-size: 18px;
-        transition: var(--transition-default);
+    header nav.main-header-nav ul li
+    a img {
+        width: 100px;
+        height: 40px;
+        border-radius: 0.5rem;
+        background-color: transparent;
     }
 
-    header nav.main-header-nav ul li a:hover {
-        text-decoration: underline;
-        color: var(--default-link-font-color);
+    header nav.main-header-nav ul li
+    a img:hover {
+        box-shadow: var(--box-shadow-extra-thin);
+
     }
 
     header nav div.login-btn {
@@ -124,12 +126,12 @@
         background-color: var(--color-theme-1-dark);
     }
 
-    header nav div.login-btn li  a{
+    header nav div.login-btn li a {
         font-weight: 600;
         color: var(--default-dark-font);
-        transition: all ease-in-out 200ms;
+        transition: var(--transition-default);
     }
-    
+
     header nav div.login-btn:hover li a {
         color: var(--background-light);
     }
@@ -157,7 +159,7 @@
         grid-auto-flow: column;
         gap: 10px;
         padding: 2px;
-        border-bottom: 1px solid rgb(235, 233, 233);
+        border-bottom: 1px solid var(--background-light);
     }
 
     header div.profile-nav {
@@ -171,7 +173,6 @@
         border: 1px solid transparent;
         border-radius: 0.7rem;
         padding: 5px 0;
-        /* margin-left: 5px; */
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -186,6 +187,12 @@
         z-index: 9999;
     }
 
+    header div.profile-nav .current-user:hover,
+    header div.profile-nav .current-user:focus {
+        background-color: var(--background-light);
+        border: 1px solid var(--background-light);
+    }
+
     h2#current-user-name {
         display: none;
     }
@@ -193,15 +200,16 @@
     header div.profile-nav div.profile-action-buttons {
         position: absolute;
         top: 50px;
-        left: 1px;
+        right: 50%;
         height: fit-content;
         width: fit-content;
         display: flex;
         flex-direction: column;
         border-radius: 1rem;
         cursor: pointer;
-        background-color: rgb(250, 251, 252);
+        background-color: var(--background-light);
         box-shadow: var(--box-shadow-thin);
+        z-index: 9999;
     }
 
     header div.profile-nav div.profile-action-buttons button {
@@ -212,11 +220,12 @@
         cursor: pointer;
         transition: var(--transition-default);
         background-color: transparent;
+        color: var(--default-dark-font);
     }
 
     header div.profile-nav div.profile-action-buttons button#profileBtn {
-        border-top-right-radius: 1rem;
-        border-top-left-radius: 1rem;
+        border-top-right-radius: 0.3rem;
+        border-top-left-radius: 0.3rem;
     }
 
     header div.profile-nav div.profile-action-buttons button#logoutBtn {
@@ -240,15 +249,14 @@
         width: 100%;
         height: 100%;
         display: flex;
-        justify-content: right;
+        justify-content: left;
         align-items: center;
-        column-gap: 1rem;
-        padding-right: 2rem;
+        column-gap: 0.5rem;
+        padding-left: 1.4rem;
+
     }
 
-    header nav.main-header-nav ul li
-    a {
-        font-family: var(--default-font);
+    header nav.main-header-nav ul li a {
         cursor: pointer;
         font-size: 14px;
         transition: var(--transition-default);
@@ -257,6 +265,20 @@
     header nav.main-header-nav ul li a:hover {
         text-decoration: underline;
         color: var(--default-link-font-color);
+    }
+
+    header nav.main-header-nav ul li
+    a img {
+        width: 70px;
+        height: 30px;
+        border-radius: 0.5rem;
+        background-color: transparent;
+    }
+
+    header nav.main-header-nav ul li
+    a img:hover {
+        box-shadow: var(--box-shadow-extra-thin);
+
     }
 
     header nav div.login-btn {
@@ -277,13 +299,13 @@
         background-color: var(--color-theme-1-dark);
     }
 
-    header nav div.login-btn li  a{
+    header nav div.login-btn li a {
         font-family: var(--default-font);
         font-weight: 500;
         color: var(--default-dark-font);
-        transition: all ease-in-out 200ms;
+        transition: var(--transition-default);
     }
-    
+
     header nav div.login-btn:hover li a {
         color: var(--background-light);
     }

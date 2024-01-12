@@ -1,5 +1,6 @@
 const loadDB = require("../utils/loadDB").loadDB;
 const path = require("path");
+const fs = require("fs");
 const AuthFactor = require("../utils/auth");
 const User = require("./Users");
 const Profile = require("./Profiles");
@@ -42,51 +43,56 @@ class Uploads {
      * @returns {object}
      */
     init() {
-        const dateTime = new Date();
-
-        const videoObject =
-        {
-            creatorId: this._creatorId,
-            title: this._title,
-            description: this._description,
-            category: this._category,
-            thumbnailUrl: this._thumbnailUrl,
-            streamUrl: this._streamUrl,
-            tags: this._tags,
-            privacy: this._privacy,
-            locale: this._locale,
-            license: this._license,
-            duration: this._duration,
-            dateTime: dateTime.getTime(),
-            views: 0,
-            likes: 0,
-            comments: 0
-        }
-
         return new Promise((resolve, reject) => {
+
             //authenticate the upload from the calling function
-            Profile.getUserProfilePicture(this._creatorId)
-                .then(res => {
-                    if (res.error == false && res.imgUrl != null) {
-                        videoObject.creatorProfilePic = res.imgUrl
-                        db.insert(videoObject, (err, doc) => {
-                            if (err) {
-                                reject({ error: true, msg: err });
-                            }
-                            else {
-                                UpdateVideoObject.init(doc._id)
-                                    .then(res => {
-                                        resolve({ error: false, msg: "init successful", videoId: doc._id });
-                                    })
-                                    .catch(err => {
-                                        reject({ error: err });
-                                    })
-                            }
-                        })
-                    }
-                }).catch(err => {
-                    reject({ error: err })
-                })
+            try {
+                const dateTime = new Date();
+
+                const videoObject =
+                {
+                    creatorId: this._creatorId,
+                    title: this._title,
+                    description: this._description,
+                    category: this._category,
+                    thumbnailUrl: this._thumbnailUrl,
+                    streamUrl: this._streamUrl,
+                    tags: this._tags,
+                    privacy: this._privacy,
+                    locale: this._locale,
+                    license: this._license,
+                    duration: this._duration,
+                    dateTime: dateTime.getTime(),
+                    views: 0,
+                    likes: 0,
+                    comments: 0
+                }
+                // Profile.getUserProfilePicture(this._creatorId)
+                Profile.fetchProfilePicture(videoObject.creatorId)
+                    .then(res => {
+                        if (res.error == false && res.imgUrl != null) {
+                            videoObject.creatorProfilePic = res.imgUrl
+                            db.insert(videoObject, (err, doc) => {
+                                if (err) {
+                                    reject({ error: true, msg: err });
+                                }
+                                else {
+                                    UpdateVideoObject.init(doc._id)
+                                        .then(res => {
+                                            resolve({ error: false, msg: "init successful", videoId: doc._id });
+                                        })
+                                        .catch(err => {
+                                            reject({ error: err });
+                                        })
+                                }
+                            })
+                        }
+                    }).catch(err => {
+                        reject({ error: err })
+                    })
+            } catch (error) {
+                console.log(error);
+            }
         })
     }
 
@@ -247,7 +253,6 @@ class Uploads {
                                     }
                                     else if (res.message == "No match") {
                                         const viewListLength = res.doc[0]["viewers"].length;
-                                        console.log(viewListLength);
                                         db.update(
                                             { _id: videoId },
                                             {
@@ -393,7 +398,6 @@ class Uploads {
                                                         counter += 1;
                                                     }
                                                 }
-                                                console.log("counter: ", counter);
                                             })
                                             .catch(err => {
                                                 reject({ error: true, error_Object: err });
@@ -413,24 +417,61 @@ class Uploads {
                 { _id: videoId },
                 { multi: false },
                 (err, doc) => {
-                    if (err) reject({error: err, message: "Internal Server Error"});
+                    if (err) reject({ error: err, message: "Internal Server Error" });
                     else {
                         if (doc.length == 1) {
+                            const vidFilePath = doc[0].streamUrl.slice(doc[0].streamUrl.indexOf("/video/stream/") + 1)
                             db.remove(
-                                {_id: videoId},
-                                {multi: false},
+                                { _id: videoId },
+                                { multi: false },
                                 (err, n) => {
-                                    if (err)reject({error: err, message: "Failed to Delete"});
+                                    if (err) reject({ error: err, message: "Failed to Delete", vidFilePath: null });
                                     else {
                                         if (n == 1) {
-                                            resolve({error: false, message: n})
+                                            resolve({ error: false, message: n, vidFilePath: vidFilePath })
                                         }
                                         else {
-                                            reject({error: true, message: "Something went wrong"})
+                                            reject({ error: true, message: "Something went wrong", vidFilePath: null })
                                         }
                                     }
                                 }
                             )
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static deleteCreatorVideos(creatorId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { creatorId: creatorId },
+                { multi: true },
+                (err, doc) => {
+                    if (err) {
+                        reject({ error: true, errorObjecct: err, message: "Failed to find" })
+                    }
+                    else {
+                        if (doc.length == 0) {
+                            resolve({ error: false, message: "No matches" })
+                        }
+                        else {
+                            doc.forEach(video => {
+                                this.deleteVideo(video._id)
+                                    .then(() => {
+                                        UpdateVideoObject.deleteVideoObject(video._id)
+                                            .then(() => {return})
+                                            .catch(error => {
+                                                console.log(error);
+                                            })
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        reject({ error: true, message: "Something went wrong", vidFilePath: null })
+                                    })
+                            })
+                            resolve({error: false, message: "delete Success"});
                         }
                     }
                 }

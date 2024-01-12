@@ -11,9 +11,14 @@ const Profile = require('../models/Profiles');
 const VerifyCode = require('../models/Verifycode');
 
 const multer = require('multer');
+const Uploads = require('../models/Uploads');
+const UpdateUserProfileInformation = require('../models/UpdateProfileObjects');
+const UpdateVideoObject = require('../models/UpdateVideoObjects');
+const Log = require('../models/Log');
 const upload = multer({ dest: path.join(__dirname, "../DB/profile_images") });
 
 router.get('/', (req, res) => {
+    // console.log(res);
     res.render("index", { pageTitle: "Tview", error: false, userId: null, msg: "no error" })
 })
 
@@ -23,12 +28,12 @@ router.get('/user/get/email/:id', (req, res) => {
     User.getEmail(id)
         .then(response => {
             if (response.msg == "No user with such email") {
-                res.status(500).end("a major error occured. contact the developer");
+                res.status(404).json("No email found");
             }
         })
         .catch(error => {
             if (error.msg == "User match" && error.userId == id) {
-                res.status(200).json({email: error.email})
+                res.status(200).json({ email: error.email })
             }
         })
 })
@@ -144,9 +149,33 @@ router.get("/user/edit/profile/:userId", (req, res) => {
     } catch (error) {
         res.render(`error/${error}`)
     }
-})
+});
 
-router.get("/admin/delete/deleteVideoByCreator/:videoId",adminController.deleteVideo)
+router.get('/admin/delete-user-account', async (req, res) => {
+    const userId = req.query.userId;
+
+    try {
+        await UpdateUserProfileInformation.deleteUser(userId);
+        await Uploads.deleteCreatorVideos(userId);
+        await Profile.deleteProfile(userId);
+        const result = await User.deleteUser(userId);
+
+        if (result.message === "delete Success") {
+            Log.createLogOfUserId(userId, "delete")
+            res.status(200).json({ message: "delete Success" });
+        } else {
+            Log.createLogOfUserId(userId, "attempted delete")
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    } catch (e) {
+        console.error(e);
+        Log.createLogOfUserId(userId, "attempted delete")
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
+
+router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo)
 
 router.post("/edit/update/name", adminController.userUpdateName);
 router.post("/edit/update/username", adminController.userUpdateUsername);

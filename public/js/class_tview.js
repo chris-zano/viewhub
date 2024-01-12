@@ -53,7 +53,7 @@ class Tview {
         <a href="/tview/stream/video/${this.videoObject._id}/${userid}?creatorId=${this.videoObject.creatorId}" class="object_route">
             <div class="first_child_link">
                 <div class="video_thumbnail">
-                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl" loading="lazy">
+                    <img src="${this.videoObject.thumbnailUrl}" alt="profilePicUrl">
                     <span class="video_duration">${this.videoObject.duration}</span>
                 </div>
                 <div class="video_details">
@@ -105,7 +105,7 @@ class Tview {
             <div class="username_and_pic" id="username_and_pic">
                 <div class="left-header">
                     <img src="./images/user.png" alt="profile" width="30px" height="30px">
-                    <p>@${commentObject.username} replying to ${commentObject.parentUsername}</p>
+                    <p>@${commentObject.username} replying to @${commentObject.parentUsername}</p>
                 </div>
                 <div class="right-header">
                     <p>33m ago</p>

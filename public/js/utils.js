@@ -19,11 +19,16 @@ function fetchuserDetails() {
     const loginState = localStorage.getItem("loginState");
     getUserProfile(JSON.parse(loginState).userId)
         .then(res => {
-            localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
-            const username = res.document[0].username;
-            const ppURL = res.document[0].profilePicUrl;
-            document.getElementById("current-user-name").textContent = username.trim();
-            document.getElementById("big_img").setAttribute("src", ppURL.trim())
+            if (res.document) {
+                localStorage.setItem("userDetails", JSON.stringify(res.document[0]));
+                const username = res.document[0].username;
+                const ppURL = res.document[0].profilePicUrl;
+                document.getElementById("current-user-name").textContent = username.trim();
+                document.getElementById("big_img").setAttribute("src", ppURL.trim())
+            }
+            else {
+                console.debug(res)
+            }
         })
         .catch(error => {
             console.log(error);
@@ -106,35 +111,81 @@ function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
 }
 
-function setTheme() {
-    try {
-        const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
-        const rootHead = document.querySelector("head")
-
-        if (themeStatus == "enabled") {
-            rootHead.removeChild(rootHead.querySelector("#root-css"));
-            const rootUrl = document.createElement("link")
-            rootUrl.setAttribute("rel", "stylesheet");
-            rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root-dark");
-
-            rootHead.append(rootUrl);
+const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const themeStatus = JSON.parse(localStorage.getItem("userDetails"));
+if (!themeStatus) {
+    setTheme("system")
+}
+else {
+    const theme = themeStatus.theme;
+    if (prefersDarkMode) {
+        if (theme == "disabled") {
+            setTheme()
         }
-        else if (themeStatus == "disabled") {
-            rootHead.removeChild(rootHead.querySelector("#root-css"));
-
-            const rootUrl = document.createElement("link")
-            rootUrl.setAttribute("rel", "stylesheet");
-            rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root");
-
-            rootHead.append(rootUrl);
+        else {
+            setTheme("system")
         }
-    } catch (error) {
-        console.log(error);
+    }
+    else {
+        setTheme();
     }
 }
-setTheme()
+
+function setTheme(defaultValue = "null") {
+    try {
+        if (!localStorage.getItem("userDetails")) return
+        const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
+        const rootHead = document.querySelector("head")
+        const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (defaultValue === "system") {
+            if (prefersDarkMode) {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root-dark.css");
+
+                rootHead.append(rootUrl);
+            }
+            else {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root.css");
+
+                rootHead.append(rootUrl);
+            }
+        }
+        else {
+            if (themeStatus == "enabled") {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root-dark.css");
+
+                rootHead.append(rootUrl);
+            }
+            else if (themeStatus == "disabled") {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root.css");
+
+                rootHead.append(rootUrl);
+            }
+        }
+    } catch (error) {
+        console.debug(error);
+    }
+}
+
+
 
 
 function getPastTime(time) {
@@ -181,5 +232,6 @@ function convertTime(timeInSeconds) {
     var wholeMinutes = Math.floor(remainingSeconds / 60);
     var wholeSeconds = Math.round(remainingSeconds % 60);
 
-    return `${wholeHours}:${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
+    return `${wholeHours > 0 ? wholeHours + ":" : ""}${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
+
 }

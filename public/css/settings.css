@@ -29,7 +29,7 @@
     section.left-sidenav ul li {
         cursor: pointer;
         border-radius: 10px;
-        padding: 10px 20px;
+        padding: 10px 5px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -59,6 +59,175 @@
     section.wrapper-main {
         border-radius: 1rem;
         grid-column: 3 / 13;
+        /* background-color: #fff; */
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    div.overlay {
+        background-color: rgba(0, 0, 0, 0.419);
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.overlay-list {
+        background-color: rgba(0, 0, 0, 0.419);
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    section.overlayList {
+        background-color: var(--background-white);
+        box-shadow: var(--box-shadow-extra-thin);
+        padding: 16px;
+        display: grid;
+        row-gap: 10px;
+        border-radius: 0.6rem;
+        width: 528px;
+        position: relative;
+    }
+
+    section.overlayList div ul.overlay-list_container {
+        padding: 16px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+
+    }
+
+    section.overlayList div ul.overlay-list_container li {
+        min-width: 100px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    section.overlayList div ul.overlay-list_container li button {
+        background-color: #f0f0f0;
+        min-width: 100%;
+        height: 100%;
+        border-radius: 0.6rem;
+        border: 1px solid transparent;
+        outline: none;
+        color: black;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    section.overlayList div ul.overlay-list_container li button:hover {
+        background-color: #e0dfdf;
+    }
+    
+    section.overlayList div ul.overlay-list_container li button.data-state-true {
+        background-color: #c0bebe;
+    }
+    
+    section.overlayList div ul.overlay-list_container li button.data-state-true:hover {
+        background-color: #f0f0f0;
+    }
+
+    section.overlayList button#exit-overlay {
+        font-size: 22px;
+        font-weight: 900;
+        position: absolute;
+        top: 1.5%;
+        right: 10%;
+        cursor: pointer;
+        /* padding: 10px; */
+        height: 45px;
+        width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 50%;
+        border: none;
+        outline: none;
+    }
+    
+    section.overlayList button#exit-overlay:hover {
+        background-color: #e0dfdf;
+
+    }
+}
+
+@media (max-width: 768px) {
+    main.container-main {
+        margin-top: 0.4rem;
+        display: flex;
+        flex-flow: column;
+        width: 95vw;
+        margin: 0 auto;
+    }
+
+    section.left-sidenav {
+        margin-top: 0px;
+        border-radius: 1rem;
+        background: var(--background-white);
+        box-shadow: var(--box-shadow-thin);
+        width: fit-content;
+        margin: 0 auto;
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.left-sidenav ul {
+        margin-block: 3rem;
+        /* height: 100%; */
+        display: flex;
+        flex-flow: row;
+    }
+
+    section.left-sidenav ul li {
+        cursor: pointer;
+        border-radius: 10px;
+        display: flex;
+        padding: 0 3px;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition-default);
+    }
+
+    section.left-sidenav ul li:hover {
+        background-color: var(--background-light);
+    }
+    
+    section.left-sidenav ul li.active>a {
+        color: rgb(0, 201, 0);
+    }
+
+    section.left-sidenav ul li a {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    section.wrapper-main {
+        border-radius: 1rem;
         /* background-color: #fff; */
         width: 100%;
         height: 100%;

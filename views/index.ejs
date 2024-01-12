@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/images/recordsymbol.svg" type="image/x-icon">
-    <link rel="stylesheet"  
-id="root-css" href="/css/root">
-    <link rel="stylesheet" href="/css/global-header">
-    <link rel="stylesheet" href="/css/global-footer">
-    <link rel="stylesheet" href="/css/tview_object">
-    <link rel="stylesheet" href="/css/main">
+    <link rel="shortcut icon" href="/images/recordsymbol.png" type="image/x-icon">
+    <link rel="stylesheet" id="root-css" href="/css/root.css">
+    <link rel="stylesheet" href="/css/global-header.css">
+    <link rel="stylesheet" href="/css/global-footer.css">
+    <link rel="stylesheet" href="/css/tview_object.css">
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title><%= pageTitle %></title>
 </head>
@@ -19,15 +18,31 @@ id="root-css" href="/css/root">
 <body>
     <%- include('layouts/global/header') %>
 
-        <main class="container-main">
-            <section class="left-sidenav"><!-- This will be the left navigation --></section>
+        <main class="container-main container_main">
+            <section class="left-sidenav">
+                <!-- This will be the left navigation -->
+                <div class="native-actions actionsbar">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#">Shorts</a></li>
+                        <li><a href="#">History</a></li>
+                        <li><a href="#">Subscriptions</a></li>
+                    </ul>
+                </div>
+                <hr>
+                <div class="custom-actions actionsbar">
+                    <h2 class="action-title-h2" style="text-align: center;">Subscriptions</h2>
+                    <ul id="subsListUL">
+                    </ul>
+                </div>
+            </section>
             <section class="wrapper-main" id="usertviewlist">
                 <!-- this is where the videos will be -->
 
             </section>
         </main>
 
-        <%- include('layouts/global/footer') %>
+        <!-- <%- include('layouts/global/footer') %> -->
             <script src="/js/utils"></script>
             <script src="/js/class_tview"></script>
             <script src="/js/index"></script>

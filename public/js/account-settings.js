@@ -1,7 +1,12 @@
 if (document.readyState == "loading") document.addEventListener("DOMContentLoaded", main);
 else main();
-
-const userId = JSON.parse(localStorage.getItem("userDetails"))._id
+var userId
+if (!localStorage.getItem("userDetails")) {
+    userId = null
+}
+else {
+    userId = JSON.parse(localStorage.getItem("userDetails"))._id
+}
 
 
 function main() {
@@ -40,7 +45,7 @@ function main() {
         }
     }
     else {
-        console.log("Lol");
+        // console.log("Lol");
     }
 }
 
@@ -54,7 +59,6 @@ async function getEmail(id) {
             return res;
         }
         else {
-            console.log(res, status);
             // getEmail(id);
         }
     }
@@ -232,7 +236,27 @@ function searchHistory(searchHistory) {
 }
 function deleteButton(btndeleteButton) {
     btndeleteButton.addEventListener("click", (e) => {
-        // setOverlay("optionA", "optionB")
+        const overlay = setOverlay("Yes", "No");
+        const yesBtn = overlay.querySelector("#yes-btn")
+        const noBtn = overlay.querySelector("#no-btn")
+
+        yesBtn.addEventListener("click", async () => {
+            try {
+                const req = await fetch(`/admin/delete-user-account?userId=${userId}`);
+                const res = await req.json();
+                const status = req.status;
+
+                localStorage.clear()
+
+                alert("Session Expired. Please Login again to continue");
+                window.location.href = "/";
+            }
+            catch (error) {
+                console.debug(error);
+            }
+        })
+
+        noBtn.addEventListener("click", ()=> overlay.style.display = "none" )
     })
 }
 function deactivate(deactivate) {
@@ -245,6 +269,8 @@ function deactivate(deactivate) {
 
 
 function setDefaultProfilesForButton(userDataObject) {
+
+    if (!userDataObject) return
     //privacy buttons
     const btnprivate = document.getElementById("private");
     const btnWatchHistory = document.getElementById("watchHistory");
