@@ -111,6 +111,26 @@ function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
 }
 
+const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const themeStatus = JSON.parse(localStorage.getItem("userDetails"));
+if (!themeStatus) {
+    setTheme("system")
+}
+else {
+    const theme = themeStatus.theme;
+    if (prefersDarkMode) {
+        if (theme == "disabled") {
+            setTheme()
+        }
+        else {
+            setTheme("system")
+        }
+    }
+    else {
+        setTheme();
+    }
+}
+
 function setTheme(defaultValue = "null") {
     try {
         if (!localStorage.getItem("userDetails")) return
@@ -118,7 +138,7 @@ function setTheme(defaultValue = "null") {
         const rootHead = document.querySelector("head")
         const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        if (defaultValue == "system") {
+        if (defaultValue === "system") {
             if (prefersDarkMode) {
                 rootHead.removeChild(rootHead.querySelector("#root-css"));
                 const rootUrl = document.createElement("link")
@@ -165,19 +185,7 @@ function setTheme(defaultValue = "null") {
     }
 }
 
-const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
-if (prefersDarkMode) {
-    if (themeStatus == "disabled") {
-        setTheme()
-    }
-    else {
-        setTheme("system")
-    }
-}
-else {
-    setTheme();
-}
+
 
 
 function getPastTime(time) {
