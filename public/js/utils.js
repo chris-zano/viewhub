@@ -111,36 +111,73 @@ function setLocalStorage(key, value) {
     return localStorage.setItem(key, value);
 }
 
-function setTheme() {
+function setTheme(defaultValue = "null") {
     try {
         if (!localStorage.getItem("userDetails")) return
         const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
         const rootHead = document.querySelector("head")
+        const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        if (themeStatus == "enabled") {
-            rootHead.removeChild(rootHead.querySelector("#root-css"));
-            const rootUrl = document.createElement("link")
-            rootUrl.setAttribute("rel", "stylesheet");
-            rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root-dark.css");
+        if (defaultValue == "system") {
+            if (prefersDarkMode) {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root-dark.css");
 
-            rootHead.append(rootUrl);
+                rootHead.append(rootUrl);
+            }
+            else {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root.css");
+
+                rootHead.append(rootUrl);
+            }
         }
-        else if (themeStatus == "disabled") {
-            rootHead.removeChild(rootHead.querySelector("#root-css"));
+        else {
+            if (themeStatus == "enabled") {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root-dark.css");
 
-            const rootUrl = document.createElement("link")
-            rootUrl.setAttribute("rel", "stylesheet");
-            rootUrl.setAttribute("id", "root-css");
-            rootUrl.setAttribute("href", "/css/root.css");
+                rootHead.append(rootUrl);
+            }
+            else if (themeStatus == "disabled") {
+                rootHead.removeChild(rootHead.querySelector("#root-css"));
 
-            rootHead.append(rootUrl);
+                const rootUrl = document.createElement("link")
+                rootUrl.setAttribute("rel", "stylesheet");
+                rootUrl.setAttribute("id", "root-css");
+                rootUrl.setAttribute("href", "/css/root.css");
+
+                rootHead.append(rootUrl);
+            }
         }
     } catch (error) {
         console.debug(error);
     }
 }
-setTheme()
+
+const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const themeStatus = JSON.parse(localStorage.getItem("userDetails")).theme;
+if (prefersDarkMode) {
+    if (themeStatus == "disabled") {
+        setTheme()
+    }
+    else {
+        setTheme("system")
+    }
+}
+else {
+    setTheme();
+}
 
 
 function getPastTime(time) {
@@ -187,6 +224,6 @@ function convertTime(timeInSeconds) {
     var wholeMinutes = Math.floor(remainingSeconds / 60);
     var wholeSeconds = Math.round(remainingSeconds % 60);
 
-    return `${wholeHours > 0 ? wholeHours + ":": "" }${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
+    return `${wholeHours > 0 ? wholeHours + ":" : ""}${wholeMinutes < 10 ? "0" + wholeMinutes : wholeMinutes}:${wholeSeconds < 10 ? "0" + wholeSeconds : wholeSeconds}`;
 
 }

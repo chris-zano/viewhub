@@ -147,8 +147,12 @@
         color: var(--background-white);
         background: var(--background-white);
         border-color: var(--background-white);
-        width: 160px;
+        width: 90%;
         margin: 0 auto;
+    }
+
+    .action-title-h2 {
+        font-size: 1.2rem;
     }
 
 }
