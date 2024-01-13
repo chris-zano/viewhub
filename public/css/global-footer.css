@@ -64,7 +64,21 @@ footer button {
 
 }
 
+.ytb{
+    color:#d90222; 
+     background-color: white; 
+     border-radius: 12px; 
+     border:1px solid black;
+     border: none; 
+     outline:none; 
+}
 
+
+.ig{
+    border-radius: 12px ;
+    background-image:linear-gradient( 180deg, #8A3AB9,#BC2A8D,#CD486B,#E4405F,#BC2A8D,#E95950,#FBAD50, #FCC663,#FFFC00); 
+    color: white; 
+}
 .wat{
      color: white;
      background-color:#25d366;
