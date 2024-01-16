@@ -480,6 +480,26 @@ class Profile {
         })
     }
 
+    static removeUserProfile(userId) {
+        return new Promise((resolve, reject) => {
+            db.remove(
+                { _id: userId },
+                { multi: false },
+                (error, numRemoved) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                    else {
+                        if (numRemoved == 1) {
+                            resolve({ error: false, message: "delete Success", ppUrl: ppUrl })
+                        }
+                        else {
+                            resolve({ error: true, message: "No usermatch found" });
+                        }
+                    }
+                }
+            )
+        })
+    }
+
 }
 
 
