@@ -39,7 +39,7 @@ router.get('/user/get/email/:id', (req, res) => {
 })
 
 router.get('/user/password/reset/:userId', (req, res) => {
-    if (req.params.userId != "null" || null) {
+    if (req.params.userId != "null") {
         User.checkId(req.params.userId)
             .then(response => {
                 if ((response.msg == "User match") && (response.id == req.params.userId)) {
