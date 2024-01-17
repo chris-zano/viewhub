@@ -174,6 +174,8 @@ router.get('/admin/delete-user-account', async (req, res) => {
     }
 });
 
+router.get('/admin/deactivate-user-account', adminController.deactivateUserAccount);
+
 
 router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo)
 

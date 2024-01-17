@@ -79,30 +79,35 @@ exports.reportError = (req, res) => {
     if (req.body != {}) {
         const report = new ReportError(req.body);
         report.createReport()
-        .then(fdb => {
-            res.status(200).json(fdb);
-        })
-        .catch(err => {
-            res.status(500).json({error: err, message: "Internal Server Error !!!"});
-        })
+            .then(fdb => {
+                res.status(200).json(fdb);
+            })
+            .catch(err => {
+                res.status(500).json({ error: err, message: "Internal Server Error !!!" });
+            })
     }
     else {
-        res.status(500).json({error: err, message: "Internal Server Error !!!"});
+        res.status(500).json({ error: err, message: "Internal Server Error !!!" });
     }
 }
 
-exports.deleteVideo =  (req, res) => {
+exports.deleteVideo = (req, res) => {
     const videoId = req.params.videoId;
     Uploads.deleteVideo(videoId)
-    .then(r => {
-        if (r.message == 1) {
-            res.status(200).json({message: "delete success"})
-        }
-        else {
-            res.status(201).json({message: "delete pending"});
-        }
-    })
-    .catch(err => {
-        res.status(500).json({error: err, message: "An error occured"})
-    })
+        .then(r => {
+            if (r.message == 1) {
+                res.status(200).json({ message: "delete success" })
+            }
+            else {
+                res.status(201).json({ message: "delete pending" });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: err, message: "An error occured" })
+        })
+}
+
+exports.deactivateUserAccount = (req, res) => {
+    const userId = req.query.userId;
+    
 }
