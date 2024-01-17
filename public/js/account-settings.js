@@ -259,9 +259,31 @@ function deleteButton(btndeleteButton) {
         noBtn.addEventListener("click", ()=> overlay.style.display = "none" )
     })
 }
-function deactivate(deactivate) {
-    deactivate.addEventListener("click", (e) => {
-        // setOverlay("optionA", "optionB")
+function deactivate(btndeactivate) {
+    btndeactivate.addEventListener("click", (e) => {
+        const overlay = setOverlay("Yes", "No");
+        const yesBtn = overlay.querySelector("#yes-btn")
+        const noBtn = overlay.querySelector("#no-btn")
+
+        yesBtn.addEventListener("click", async () => {
+            try {
+                const req = await fetch(`/admin/deactivate-user-account?userId=${userId}`);
+                const res = await req.json();
+                const status = req.status;
+
+                console.log(res, status);
+
+                // localStorage.clear()
+
+                // alert("Session Expired. Please Login again to continue");
+                // window.location.href = "/";
+            }
+            catch (error) {
+                console.debug(error);
+            }
+        })
+
+        noBtn.addEventListener("click", ()=> overlay.style.display = "none" )
     })
 }
 
