@@ -73,6 +73,51 @@ exports.uploadVideo = (req, res) => {
         })
 }
 
+exports.uploadShortsVideo = (req, res) => {
+    User.checkId(req.params.userId)
+        .then(response => {
+            if ((response.msg == "User match") && (response.id.trim() == req.params.userId.trim())) {
+                //user is authenticated, so continue
+                const streamUrl = `/video/stream/${req.files.main_video[0].filename}`;
+                const thumbnailUrl = `/video/thumbnail/${req.files.main_thumbnail[0].filename}`;
+
+                getVideoInformation(npath.join(__dirname, "../DB/video_thumbnails/", req.files.main_video[0].filename))
+                    .then(resp => {
+                        if (resp.error == false) {
+                            const videoDuration = resp.duration;
+                            const vidObj = extractObj(req.body);
+
+                            const upload = new Uploads(
+                                req.params.userId.trim(), vidObj.title, vidObj.description,
+                                vidObj.category, thumbnailUrl, streamUrl,
+                                vidObj.tags, vidObj.privacy, vidObj.locale,
+                                vidObj.license, videoDuration
+                            )
+
+                            upload.init()
+                                .then(init_response => {
+
+                                    if (init_response.error == false && init_response.msg == "init successful") {
+                                        res.render("index", { pageTitle: "Home", error: false, userId: null, msg: "no error" })
+                                    }
+                                })
+                                .catch(error => {
+                                    res.render("error", { message: error.msg })
+                                })
+                        }
+                        else {
+                            res.status(500).json({ message: "Internal Server Error" });
+                        }
+                    })
+                    .catch(error => {
+                        if (error.error == true) {
+                            res.render("error", { message: error })
+                        }
+                    })
+            }
+        })
+}
+
 /**
  * fetches a creator's video array
  * @param {object} req request object

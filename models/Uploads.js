@@ -96,6 +96,61 @@ class Uploads {
         })
     }
 
+    initShorts() {
+        return new Promise((resolve, reject) => {
+
+            //authenticate the upload from the calling function
+            try {
+                const dateTime = new Date();
+
+                const videoObject =
+                {
+                    creatorId: this._creatorId,
+                    title: this._title,
+                    description: this._description,
+                    category: this._category,
+                    thumbnailUrl: this._thumbnailUrl,
+                    streamUrl: this._streamUrl,
+                    tags: this._tags,
+                    privacy: this._privacy,
+                    locale: this._locale,
+                    license: this._license,
+                    duration: this._duration,
+                    dateTime: dateTime.getTime(),
+                    views: 0,
+                    likes: 0,
+                    comments: 0,
+                    type: "shorts"
+                }
+                // Profile.getUserProfilePicture(this._creatorId)
+                Profile.fetchProfilePicture(videoObject.creatorId)
+                    .then(res => {
+                        if (res.error == false && res.imgUrl != null) {
+                            videoObject.creatorProfilePic = res.imgUrl
+                            db.insert(videoObject, (err, doc) => {
+                                if (err) {
+                                    reject({ error: true, msg: err });
+                                }
+                                else {
+                                    UpdateVideoObject.init(doc._id)
+                                        .then(res => {
+                                            resolve({ error: false, msg: "init successful", videoId: doc._id });
+                                        })
+                                        .catch(err => {
+                                            reject({ error: err });
+                                        })
+                                }
+                            })
+                        }
+                    }).catch(err => {
+                        reject({ error: err })
+                    })
+            } catch (error) {
+                console.log(error);
+            }
+        })
+    }
+
     /**
      * getCreatorUploads - fetch creator uploads from db
      * 
@@ -443,6 +498,32 @@ class Uploads {
         })
     }
 
+    static setVideoProperty(userId, key, value) {
+        return new Promise((resolve, reject) => {
+            db.update(
+                { creatorId: userId },
+                {
+                    $set: {
+                        [key]: value
+                    }
+                },
+                { multi: true },
+                (error, numChanged) => {
+                    if (error) {
+                    }
+                    else {
+                        if (numChanged !== 0) {
+                            resolve({ error: false, message: "property set successfully" });
+                        }
+                        else {
+                            reject({ error: true, message: "Failed to set property" });
+                        }
+                    }
+                }
+            )
+        });
+    }
+
     static deleteCreatorVideos(creatorId) {
         return new Promise((resolve, reject) => {
             db.find(
@@ -461,7 +542,7 @@ class Uploads {
                                 this.deleteVideo(video._id)
                                     .then(() => {
                                         UpdateVideoObject.deleteVideoObject(video._id)
-                                            .then(() => {return})
+                                            .then(() => { return })
                                             .catch(error => {
                                                 console.log(error);
                                             })
@@ -471,7 +552,7 @@ class Uploads {
                                         reject({ error: true, message: "Something went wrong", vidFilePath: null })
                                     })
                             })
-                            resolve({error: false, message: "delete Success"});
+                            resolve({ error: false, message: "delete Success" });
                         }
                     }
                 }

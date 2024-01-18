@@ -15,7 +15,11 @@ router.get('/signup', (req, res) => {
 })
 
 router.get('/nav/upload_video', (req, res) => {
-    res.render("upload_video");
+    res.render("upload_video", {state: "default"});
+})
+
+router.get('/nav/upload_shorts_video', (req, res) => {
+    res.render("upload_video", {state: "shorts"});
 })
 
 router.get("/get/profile/userbyId/:userId", (req, res) => {

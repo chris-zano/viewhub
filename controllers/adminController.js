@@ -1,5 +1,6 @@
 const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
+const SuspendUserAccount = require("../models/Suspend");
 const Uploads = require("../models/Uploads");
 const User = require("../models/Users");
 
@@ -107,7 +108,35 @@ exports.deleteVideo = (req, res) => {
         })
 }
 
-exports.deactivateUserAccount = (req, res) => {
+exports.deactivateUserAccount = async (req, res) => {
     const userId = req.query.userId;
-    
+    const userObject = {_id: userId, "UsersDB": {}, "ProfileDB": {} }
+
+    const UO_1 = await User.getUserAccount(userId) ?? undefined;
+    const PO_1 = await Profile.fetchUserProfile(userId) ?? undefined;
+
+    if ((UO_1.error == false && UO_1.message == "retreived successfully") && (PO_1.error == false && PO_1.message == "retreived successfully")) {
+        userObject.UsersDB = UO_1.document[0];
+        userObject.ProfileDB = PO_1.document[0];
+
+        const UO_2 = await Uploads.setVideoProperty(userId, "suspendedAccount", "true") ?? undefined;
+        
+        const suspendedAccount = new SuspendUserAccount(userObject);
+        suspendedAccount.initialiseSuspendObject()
+        .then(async r => {
+            res.status(200).json(r);
+            await User.deleteUser(userId);
+            await Profile.deleteProfile(userId);
+        })
+        .catch(e => {
+            res.status(500).json(e)
+        })
+
+    }
+    else {
+        res.status(404).json('404 not found')
+    }
+
+
+
 }
