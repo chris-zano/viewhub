@@ -17,6 +17,7 @@
         <div class="profile-action-buttons hidden" id="profile-action-buttons">
             <button type="submit" class="hidden" id="profileBtn">Profile</button>
             <button type="submit" class="hidden" id="uploadBtn">Upload</button>
+            <button type="submit" class="hidden" id="uploadShortsBtn">Upload Shorts</button>
             <button type="submit" class="hidden" id="settingBtn">Settings</button>
             <button type="submit" class="hidden" id="logoutBtn">Logout</button>
         </div>
@@ -28,13 +29,19 @@
             e.preventDefault();
 
             //remove hidden if it is hidden
-            toggleDisplay(["profile-action-buttons", "profileBtn", "logoutBtn", "uploadBtn", "settingBtn"]);
+            toggleDisplay(["profile-action-buttons", "profileBtn", "logoutBtn", "uploadBtn", "uploadShortsBtn", "settingBtn"]);
             
         })
 
         document.getElementById("uploadBtn").addEventListener("click", ()=> {
             if (localStorage.getItem("userDetails")) {
                 location.href = "/nav/upload_video";
+            }
+        })
+        
+        document.getElementById("uploadShortsBtn").addEventListener("click", ()=> {
+            if (localStorage.getItem("userDetails")) {
+                location.href = "/nav/upload_shorts_video";
             }
         })
        

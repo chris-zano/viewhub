@@ -10,12 +10,24 @@ class SuspendUserAccount {
 
     initialiseSuspendObject() {
         return new Promise((resolve, reject) => {
-            db.insert(this._userObject, (error, document) => {
-                if (error) reject({ error: true, document: error, message: "Error Inserting Document" });
-                else {
-                    resolve({ error: false, document: document, message: "Init Success" })
+            db.find(
+                { _id: this._userObject._id },
+                { multi: false },
+                (error, doc) => {
+                    if (error) reject({ error: true, message: "Error retreiving object" })
+                    else {
+                        if (doc.length == 0) {
+                            db.insert(this._userObject, (error, document) => {
+                                if (error) reject({ error: true, document: error, message: "Error Inserting Document" });
+                                else {
+                                    resolve({ error: false, document: document, message: "Init Success" })
+                                }
+                            })
+                        }
+                        else reject({ error: true, message: "object already exists" })
+                    }
                 }
-            })
+            )
         })
     }
 

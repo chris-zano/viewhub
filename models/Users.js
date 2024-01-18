@@ -87,6 +87,26 @@ class User {
         })
     }
 
+    static getUserAccount(userId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                { _id: userId },
+                { multi: false },
+                (error, document) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Error retreiving Object" });
+                    else {
+                        if (document.length != 0) {
+                            resolve({ error: false, document: document, message: "retreived successfully" });
+                        }
+                        else {
+                            reject({error: true, message: "user not found"});
+                        }
+                    }
+                }
+            )
+        })
+    }
+
     /**
      * *checkId(id:- mandatory!! [ id property of the object ])
      * 

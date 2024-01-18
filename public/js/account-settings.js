@@ -273,10 +273,13 @@ function deactivate(btndeactivate) {
 
                 console.log(res, status);
 
-                // localStorage.clear()
+                if (status == 200 && (res.error == false && res.message == "Init Success")) {
+                    localStorage.clear()
+    
+                    alert("Session Expired. Please Login again to continue");
+                    window.location.href = "/";
+                }
 
-                // alert("Session Expired. Please Login again to continue");
-                // window.location.href = "/";
             }
             catch (error) {
                 console.debug(error);

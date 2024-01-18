@@ -449,7 +449,7 @@ class Profile {
         });
     }
 
-    static deleteProfile(userId) {
+    static deleteProfile(userId, deactivate="false") {
         return new Promise((resolve, reject) => {
             db.find(
                 { _id: userId },
@@ -457,7 +457,9 @@ class Profile {
                 (err, doc) => {
                     if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     if (doc.length == 1) {
-                        const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
+                        if (deactivate == "false") {
+                            const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
+                        }
 
                         db.remove(
                             { _id: userId },
@@ -480,19 +482,19 @@ class Profile {
         })
     }
 
-    static removeUserProfile(userId) {
+    static fetchUserProfile(userId) {
         return new Promise((resolve, reject) => {
-            db.remove(
+            db.find(
                 { _id: userId },
                 { multi: false },
-                (error, numRemoved) => {
-                    if (error) reject({ error: true, errorObject: error, message: "Failed to delete" })
+                (error, document) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Error retreiving Object" });
                     else {
-                        if (numRemoved == 1) {
-                            resolve({ error: false, message: "delete Success", ppUrl: ppUrl })
+                        if (document.length != 0) {
+                            resolve({ error: false, document: document, message: "retreived successfully" });
                         }
                         else {
-                            resolve({ error: true, message: "No usermatch found" });
+                            reject({error: true, message: "user not found"});
                         }
                     }
                 }
