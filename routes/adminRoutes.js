@@ -39,7 +39,7 @@ router.get('/user/get/email/:id', (req, res) => {
 })
 
 router.get('/user/password/reset/:userId', (req, res) => {
-    if (req.params.userId != "null" || null) {
+    if (req.params.userId != "null") {
         User.checkId(req.params.userId)
             .then(response => {
                 if ((response.msg == "User match") && (response.id == req.params.userId)) {
@@ -173,6 +173,8 @@ router.get('/admin/delete-user-account', async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+
+router.get('/admin/deactivate-user-account', adminController.deactivateUserAccount);
 
 
 router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo)
