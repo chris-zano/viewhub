@@ -4,14 +4,13 @@ else main();
 function main() {
     const videoPlayer = document.getElementById("video_player");
     const videoPlayerOverlay = document.getElementById("video_player_overlay");
+  
 
-    videoPlayer.addEventListener("timeupdate", ()=> {
-        const {currentTime, duration} = videoPlayer;
 
         document.getElementById("animated-currentTime").style.width = `${(currentTime / duration) * 100}%`;
         document.getElementById("currentTime-placeholder").innerText = `${convertTime(currentTime)}`;
         document.getElementById("duration-placeholder").innerText = `${convertTime(duration-currentTime)}`;
-    })
+    }
 
     getVideoRecommendations()
         .then(response => {
@@ -266,7 +265,7 @@ function main() {
     }
 
 
-
+   
     let subsCount = document.getElementById("subscribers-count")
     subsCount = String(formatLikesCount(Number(subsCount.innerText.slice(0, subsCount.innerText.indexOf("subscriber")))));
     document.getElementById("subscribers-count").textContent = `${subsCount}`;
@@ -324,14 +323,18 @@ function main() {
 
 
     processCommentsInput();
-}
+
 
 function formatLikesCount(number) {
+    console.log(number)
     if (number >= 1e6) {
+        console.log(number)   
         return (number / 1e6).toFixed(1) + 'M';
     } else if (number >= 1e3) {
+        console.log(number) 
         return (number / 1e3).toFixed(1) + 'K';
     } else {
+        console.log(number) 
         return number.toString();
     }
 }
