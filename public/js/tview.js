@@ -11,6 +11,7 @@ function main() {
         document.getElementById("animated-currentTime").style.width = `${(currentTime / duration) * 100}%`;
         document.getElementById("currentTime-placeholder").innerText = `${convertTime(currentTime)}`;
         document.getElementById("duration-placeholder").innerText = `${convertTime(duration-currentTime)}`;
+        
     })
 
     getVideoRecommendations()
