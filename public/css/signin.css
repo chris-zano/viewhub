@@ -5,7 +5,7 @@
 }
 
 main {
-    background: #efeded;
+    background: var(--background-body);
     padding: 1em 1.5em;
     height: 100vh;
     width: 100vw;
@@ -45,7 +45,7 @@ main>div {
 }
 
 main>div>form {
-    background: #faf9f9;
+    background: var(--background-light);
     min-width: 300px;
     min-height: 400px;
     padding: 1em;
@@ -59,6 +59,7 @@ div.form_title {
     text-align: center;
     text-transform: lowercase;
     font-weight: bold;
+    color: var(--default-dark-font);
 }
 
 form>* {
@@ -72,7 +73,7 @@ form div.input-field {
 
 .input-field>label {
     font-weight: 500;
-    color: #383636;
+    color: var(--default-dark-font);
     font-size: 14px;
     text-transform: lowercase;
     margin-right: 10px;
@@ -83,7 +84,7 @@ form div.input-field {
 
 label {
     font-weight: 500;
-    color: #383636;
+    color: var(--default-dark-font);
     font-size: 14px;
     text-transform: lowercase;
     margin-right: 10px;
@@ -96,6 +97,8 @@ input {
     border-radius: var(--border-radius-default);
     outline: 1px solid var(--error-message);
     height: var(--button-height-desktop);
+    color: var(--default-dark-font);
+    background: var(--background-light);
 }
 
 .signup:hover {
