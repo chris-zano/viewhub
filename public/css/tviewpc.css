@@ -410,7 +410,9 @@ img {
     .media_details {
         margin-top: 11px;
         margin-left: 3px;
-        display: flex;
+        display: grid;
+        grid-auto-flow: row;
+        position: relative;
     }
 
     .media_details .creator_url {
@@ -437,16 +439,13 @@ img {
     }
 
     .media_details .title_des {
-        margin: 0px 3px;
-        width: calc(100% - 19%);
-        display: flex;
-        flex-flow: column;
+        margin: 0px auto;
+        width: 100%;
     }
 
     .title_des .like-sub {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-auto-flow: row;
     }
 
     .title_des .subscribe-btn {
@@ -455,11 +454,14 @@ img {
         border-radius: 50px;
         display: grid;
         place-items: center;
+        position: absolute;
+        top: 0;
+        left: 120px;
     }
 
     .title_des .subscribe-btn button#subscribe-btn {
-        width: 100%;
-        height: 100%;
+        width: 100px;
+        height: 45px;
         border: 1px solid transparent;
         border-radius: inherit;
         background-color: var(--background-light);

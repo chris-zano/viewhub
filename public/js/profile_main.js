@@ -1,24 +1,32 @@
-if (document.readyState == "loading")
-    document.addEventListener("DOMContentLoaded", main);
-else
-    main();
+if (document.readyState == "loading")document.addEventListener("DOMContentLoaded", main);
+else main();
+
+const url = new URL(window.location.href);
+const urlProfileId = url.pathname.slice(url.pathname.lastIndexOf("/") + 1);
 
 function main() {
-    addeventlistener(document.getElementById("editProfile"), "click", (e) => {
-        getUserProfile(e.target.getAttribute("data-userId").trim())
-            .then(response => {
-                if (response.error == false) {//the user has been autheticated
-                    if (response.userId == e.target.getAttribute("data-userId").trim()) {//check if id matches cached id
-                        location.href = `/user/edit/profile/${e.target.getAttribute("data-userId").trim()}`;
+    if (JSON.parse(getLocalStorage("userDetails"))._id === urlProfileId) {
+        console.log(JSON.parse(getLocalStorage("userDetails"))._id);
+        addeventlistener(document.getElementById("editProfile"), "click", (e) => {
+            getUserProfile(urlProfileId)
+                .then(response => {
+                    if (response.error == false) {//the user has been autheticated
+                        if (response.userId == e.target.getAttribute("data-userId").trim()) {//check if id matches cached id
+                            location.href = `/user/edit/profile/${e.target.getAttribute("data-userId").trim()}`;
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                location.href = `/error/${error}`;
-            })
-    })
+                })
+                .catch(error => {
+                    location.href = `/error/${error}`;
+                })
+        })
+    }
+    else {
+        console.log(JSON.parse(getLocalStorage("userDetails"))._id);
+        document.getElementById("editProfile").parentElement.remove(document.getElementById("editProfile"));
+    }
 
-    fetch_C_Up(document.getElementById("editProfile").getAttribute("data-userId").trim())
+    fetch_C_Up(urlProfileId)
         .then(response => {
             for (let video of response.data) {
                 //render videolist by thumbnails and descriptions in grid format
