@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 
+// this utility module will be deprecated soon
 
 exports.sendMail = (recipient, subject, message) => {
     return new Promise((resolve, reject) => {
