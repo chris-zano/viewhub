@@ -1,5 +1,7 @@
 # ViewHub
 
+# this platform will be migrated to mongoDb.
+
 ViewHub is a video sharing platform built with Node.js and Express. Users can upload and share videos, customize their profiles, and interact with a community of creators.
 
 ## Features
