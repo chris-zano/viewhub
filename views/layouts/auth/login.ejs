@@ -1,7 +1,20 @@
 <div>
-    <% if (error==true) { %>
-        <div class="error_message_div">Incorrect usernmae or password</div>
-        <% } %>
+    <% if (error==true && msg == "Account Suspended") { %>
+        <div class="error_message_div">
+            <p>Account Suspended</p>
+            <a href="/account/recover?v=t" style="color: red;" id="recoverAcc">Click here to reactivate your Account</a>
+            <script>
+                document.getElementById("recoverAcc").addEventListener("mouseenter", (e)=> {
+                    e.target.style.color = "blue";
+                    setTimeout(()=> {
+                        e.target.style.color = "red";
+                    },2000)
+                })
+            </script>
+        </div>
+        <% }  else  { %>
+            <div class="error_message_div">Incorrect usernmae or password</div>
+            <% } %>
             <form action="/userlogin" id="form" method="post">
                 <div class="form_title">Login</div>
                 <div class="input-field">

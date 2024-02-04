@@ -449,7 +449,7 @@ class Profile {
         });
     }
 
-    static deleteProfile(userId, deactivate="false") {
+    static deleteProfile(userId, deactivate = "false") {
         return new Promise((resolve, reject) => {
             db.find(
                 { _id: userId },
@@ -457,8 +457,12 @@ class Profile {
                 (err, doc) => {
                     if (err) reject({ error: true, errorObject: error, message: "Failed to delete" })
                     if (doc.length == 1) {
+                        const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
                         if (deactivate == "false") {
-                            const ppUrl = String(doc[0].profilePicUrl).slice(String(doc[0].profilePicUrl).indexOf("/image/profile/") + 1)
+                            //delete profile picture file in FS
+                        }
+                        else {
+                            //do not delete profile picture file in FS
                         }
 
                         db.remove(
@@ -494,11 +498,24 @@ class Profile {
                             resolve({ error: false, document: document, message: "retreived successfully" });
                         }
                         else {
-                            reject({error: true, message: "user not found"});
+                            reject({ error: true, message: "user not found" });
                         }
                     }
                 }
             )
+        })
+    }
+
+    static restoreDeactivatedUserAccount(userObject) {
+        return new Promise((resolve, reject) => {
+            db.insert(userObject, (error, doc) => {
+                if (error) {
+                    reject({error: true, message: "failed"});
+                }
+                else {
+                    resolve({error: false, message: "success"});
+                }
+            })
         })
     }
 

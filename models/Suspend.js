@@ -39,7 +39,40 @@ class SuspendUserAccount {
                 (error, document) => {
                     if (error) reject({ error: true, document: error, message: "Error Retrieving Document" })
                     else {
-                        resolve({ error: false, document: document, message: "retrieve Success" })
+                        if (document.length == 1) {
+                            resolve({ error: false, document: document[0], message: "retrieve Success" })
+                        }
+                        else {
+                            resolve({ error: false, document: document[0], message: "retrieve failed" })
+                        }
+                    }
+                }
+            )
+        })
+    }
+
+    static retrieveSuspendedDocumentByKey(key, value) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {},
+                {multi: true},
+                (error, doc) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        if (doc.length > 0) {
+                            if (key == "username") {
+                                for (let u of doc) {
+                                    if (u.ProfileDB.username == value) {
+                                        resolve({error: false, message: "deactivated account"});
+                                    }   
+                                    else {
+                                        resolve({error:true, message: "no such account"});
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             )

@@ -274,6 +274,7 @@ function deactivate(btndeactivate) {
                 console.log(res, status);
 
                 if (status == 200 && (res.error == false && res.message == "Init Success")) {
+                    console.log("all clear");
                     localStorage.clear()
     
                     alert("Session Expired. Please Login again to continue");
