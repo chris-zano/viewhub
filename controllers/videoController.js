@@ -3,6 +3,7 @@ const npath = require("path")
 const Uploads = require("../models/Uploads");
 const User = require("../models/Users");
 const { getVideoInformation } = require("../utils/getvideoinfo");
+const SuspendUserAccount = require("../models/Suspend");
 
 /**
  * extracts the properties from the request object.$8 takes request.body as argument
@@ -124,16 +125,24 @@ exports.uploadShortsVideo = (req, res) => {
  * @param {object} res response object
  * @return {object}
  */
-exports.getCreatorVideos = (req, res) => {
-    Uploads.getCreatorUploads(req.params.creatorId)
-        .then(response => {
-            if (response.error == false) {
-                res.status(200).json({ error: false, message: "found'em", data: response.data });
-            }
-        })
-        .catch(error => {
-            res.status(404).json({ error: true, message: error, data: null });
-        })
+exports.getCreatorVideos = async (req, res) => {
+    const isNotSuspendedAccount = await SuspendUserAccount.retrieveSuspendedDocument(req.params.creatorId);
+    console.log(isNotSuspendedAccount);
+
+    if (isNotSuspendedAccount.message === "retrieve Success") {
+        res.status(404).json({error: true, message: "User Not found", data: null});
+    }
+    else {
+        Uploads.getCreatorUploads(req.params.creatorId)
+            .then(response => {
+                if (response.error == false) {
+                    res.status(200).json({ error: false, message: "found'em", data: response.data });
+                }
+            })
+            .catch(error => {
+                res.status(404).json({ error: true, message: error, data: null });
+            })
+    }
 }
 
 exports.fetchForYouByUserId = (req, res) => {

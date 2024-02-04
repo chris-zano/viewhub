@@ -255,6 +255,19 @@ class User {
             )
         })
     }
+
+    static restoreDeactivatedUserAccount(userObject) {
+        return new Promise((resolve, reject) => {
+            db.insert(userObject, (error, doc) => {
+                if (error) {
+                    reject({error: true, message: "failed"});
+                }
+                else {
+                    resolve({error: false, message: "success"});
+                }
+            })
+        })
+    }
 }
 
 

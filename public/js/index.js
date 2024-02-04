@@ -14,6 +14,7 @@ function indexMain() {
         if (!getLocalStorage("loginState")) return
         fetchVideos(JSON.parse(getLocalStorage("loginState")).userId)
             .then(res => {
+                console.log(res);
                 if (res.res.message == "Empty Feed") {
                     // alert("Upload a video to get started");
                     // window.location.href = "/nav/upload_video";

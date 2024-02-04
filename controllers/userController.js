@@ -1,5 +1,6 @@
 const ReportError = require("../models/Errors");
 const Profile = require("../models/Profiles");
+const SuspendUserAccount = require("../models/Suspend");
 const UpdateUserProfileInformation = require("../models/UpdateProfileObjects");
 const User = require("../models/Users");
 const AuthFactor = require("../utils/auth");
@@ -69,38 +70,49 @@ exports.userSignup = (req, res) => {
         })
 }
 
-exports.userLogin = (req, res) => {
-    Profile.checkUsernameExists(req.body.username, req.body.password)
-        .then(response => {
-            if (response.error == false && response.msg == "Username and Password match") {
-                res.render("signin", { pageTitle: "authenticateUser", error: false, userId: response.userId, msg: "no error" });
-            }
-            else if (response.error == false && response.msg == "username matches an email") {
-                Profile.checkProfile(response.userId)
-                    .then(response1 => {
-                        if (response1.msg == "No user with such id") {
-                            res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "User already exists" });
-                        }
-                        else if (response1.msg == "no username found") {
-                            res.render("signin", { pageTitle: "Create-Profile ~ name", userId: response1.userID, message: "no username" });
-                        }
-                        else if (response1.msg == "User match") {
+exports.userLogin = async (req, res) => {
+    const suspendedAccount = await SuspendUserAccount.retrieveSuspendedDocumentByKey("username", req.body.username);
+    if (suspendedAccount.message == "deactivated account") {
+        console.log("suspendedAccount");
+        res.render("signin", { pageTitle: "login", userId: null, error: true, msg: "Account Suspended" });
+    }
+    else {
+        Profile.checkUsernameExists(req.body.username, req.body.password)
+            .then(response => {
+                if (response.error == false && response.msg == "Username and Password match") {
+                    res.render("signin", { pageTitle: "authenticateUser", error: false, userId: response.userId, msg: "no error" });
+                }
+                else if (response.error == false && response.msg == "username matches an email") {
+                    Profile.checkProfile(response.userId)
+                        .then(response1 => {
+                            if (response1.msg == "No user with such id") {
+                                res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "User already exists" });
+                            }
+                            else if (response1.msg == "no username found") {
+                                res.render("signin", { pageTitle: "Create-Profile ~ name", userId: response1.userID, msg: "no username" });
+                            }
+                            else if (response1.msg == "User match") {
+                                res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "No such User Exists!" });
+                            }
+                        })
+                        .catch(error1 => {
                             res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "No such User Exists!" });
-                        }
-                    })
-                    .catch(error1 => {
-                        res.render("signin", { pageTitle: "signup", userId: null, error: true, msg: "No such User Exists!" });
-                    })
-            }
-        })
-        .catch(error => {
-            if (error.error == true && error.msg == "Wrong Username") {
-                res.render("signin", { pageTitle: "login", userId: null, error: true })
-            }
-            else if (error.msg.msg == "Wrong Password") {
-                res.render("signin", { pageTitle: "login", userId: null, error: true })
-            }
-        })
+                        })
+                }
+            })
+            .catch(error => {
+                if (error.error == true && error.msg == "Wrong Username") {
+                    res.render("signin", { pageTitle: "login", userId: null, error: true, msg:null })
+                    //  else {
+                    // }
+
+                }
+                else if (error.msg.msg == "Wrong Password") {
+                    res.render("signin", { pageTitle: "login", userId: null, error: true,  msg:null })
+                }
+            })
+
+    }
 }
 
 exports.userLogout = (req, res) => {
@@ -185,7 +197,7 @@ exports.updateUserFollowingAndFollowers = async (req, res) => {
 
     const follow = await UpdateUserProfileInformation.updateSubscriberList(creatorId, followerId);
     await UpdateUserProfileInformation.updateSubscriptionList(followerId, creatorId);
-    
+
 
     if (follow.message == "updated") {
         res.status(200).json({ message: "success", subs: follow.subs });

@@ -151,6 +151,22 @@ class Uploads {
         })
     }
 
+    static initReactivatedUserVideos(videoObject) {
+        return new Promise((resolve, reject) => {
+            const initObject = videoObject;
+            initObject.suspendedAccount = 'false';
+
+            db.insert(initObject, (error, doc) => {
+                if (error) {
+                    reject({error: true, message: "failed"});
+                }
+                else {
+                    resolve({error: false, message: "success"});
+                }
+            })
+        })
+    }
+
     /**
      * getCreatorUploads - fetch creator uploads from db
      * 
@@ -236,6 +252,7 @@ class Uploads {
 
     static fetchUserFeedByLimit() {
         return new Promise((resolve, reject) => {
+            var limit = new Array();
             db.find(
                 {},
                 { multi: true },
@@ -248,7 +265,12 @@ class Uploads {
                             resolve({ error: true, error_Message: "Empty feed" });
                         }
                         else {
-                            resolve({ error: false, document: document })
+                            for (let video of document) {
+                                if (video.suspendedAccount !== "true") {
+                                    limit.push(video);
+                                }
+                            }
+                            resolve({ error: false, document: limit })
                         }
                     }
                 }
@@ -554,6 +576,24 @@ class Uploads {
                             })
                             resolve({ error: false, message: "delete Success" });
                         }
+                    }
+                }
+            )
+        })
+    }
+
+    static retrieveCreatorVideos(creatorId) {
+        return new Promise((resolve, reject) => {
+            db.find(
+                {
+                    creatorId: creatorId,
+                    suspendedAccount: 'true'
+                },
+                { multi: true },
+                (error, document) => {
+                    if (error) reject({ error: true, errorObject: error, message: "Failed to remove videos" });
+                    else {
+                        resolve({ error: false, message: 'success', document: document });
                     }
                 }
             )

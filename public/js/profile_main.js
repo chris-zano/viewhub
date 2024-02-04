@@ -1,6 +1,6 @@
-if (document.readyState == "loading")document.addEventListener("DOMContentLoaded", main);
+if (document.readyState == "loading") document.addEventListener("DOMContentLoaded", main);
 else main();
-
+const userId = JSON.parse(localStorage.getItem("userDetails"))._id;
 const url = new URL(window.location.href);
 const urlProfileId = url.pathname.slice(url.pathname.lastIndexOf("/") + 1);
 
@@ -22,7 +22,6 @@ function main() {
         })
     }
     else {
-        console.log(JSON.parse(getLocalStorage("userDetails"))._id);
         document.getElementById("editProfile").parentElement.remove(document.getElementById("editProfile"));
     }
 
@@ -34,58 +33,22 @@ function main() {
                 getId("usertviewlist").append(tview.renderObjectTemlate());
             }
 
-            const creatorVideosCollection = document.getElementsByClassName("link_object");
-            for (let video of creatorVideosCollection) {
-                video.addEventListener("click", (e) => {
+            if (urlProfileId === userId) {
+                const creatorVideosCollection = document.getElementsByClassName("link_object");
+                for (let video of creatorVideosCollection) {
+                    video.addEventListener("click", (e) => {
 
-                    if (e.target.classList.contains("more-settings")) {
-                        e.preventDefault();
-                        const contextMenu = document.createElement("div");
-                        contextMenu.className = "custom-context-menu";
-                        contextMenu.innerText = "Delete";
+                        if (e.target.classList.contains("more-settings")) {
+                            e.preventDefault();
 
-                        // Position the context menu
-                        contextMenu.style.position = "absolute";
-                        contextMenu.style.left = e.clientX + "px";
-                        contextMenu.style.top = e.clientY + "px";
-                        contextMenu.style.borderRadius = "0.6rem";
-                        contextMenu.style.cursor = "pointer";
+                            const contextMenu = createContextMenu();
 
-                        // Apply styles for normal state
-                        contextMenu.style.backgroundColor = "var(--background-white)";
-                        contextMenu.style.boxShadow = "var(--box-shadow-thin)";
-                        contextMenu.style.color = "var(--default-dark-font)";
-                        contextMenu.style.padding = "1rem";
-                        contextMenu.style.transition = "var(--transition-default)";
+                            document.body.appendChild(contextMenu);
 
-                        document.body.appendChild(contextMenu);
-
-                        contextMenu.addEventListener("mouseover", (e) => {
-                            contextMenu.style.backgroundColor = "red"
-                            contextMenu.style.color = "white"
-                        })
-                        contextMenu.addEventListener("mouseleave", (e) => {
-                            contextMenu.style.backgroundColor = "var(--background-white)"
-                            contextMenu.style.color = "var(--default-dark-font)"
-                        })
-
-                        contextMenu.addEventListener("click", function (menuEvent) {
-                            // Perform actions based on the clicked item
-                            const action = menuEvent.target
-
-                            deleteVideoByCreator(video.getAttribute("id").trim())
-                                .then(res => {
-                                    // Remove the context menu
-                                    document.body.removeChild(contextMenu);
-                                    window.location.href = "";
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                })
-
-                        });
-                    }
-                })
+                            addContextMenuListeners(contextMenu);
+                        }
+                    })
+                }
             }
         })
         .catch(error => {
@@ -126,4 +89,53 @@ async function deleteVideoByCreator(videoId) {
     } catch (error) {
         console.error(error);
     }
+}
+
+function createContextMenu() {
+    const contextMenu = document.createElement("div");
+    contextMenu.className = "custom-context-menu";
+    contextMenu.innerText = "Delete";
+
+    // Position the context menu
+    contextMenu.style.position = "absolute";
+    contextMenu.style.left = e.clientX + "px";
+    contextMenu.style.top = e.clientY + "px";
+    contextMenu.style.borderRadius = "0.6rem";
+    contextMenu.style.cursor = "pointer";
+
+    // Apply styles for normal state
+    contextMenu.style.backgroundColor = "var(--background-white)";
+    contextMenu.style.boxShadow = "var(--box-shadow-thin)";
+    contextMenu.style.color = "var(--default-dark-font)";
+    contextMenu.style.padding = "1rem";
+    contextMenu.style.transition = "var(--transition-default)";
+
+    return contextMenu;
+}
+
+function addContextMenuListeners(contextMenu) {
+    contextMenu.addEventListener("mouseover", (e) => {
+        contextMenu.style.backgroundColor = "red"
+        contextMenu.style.color = "white"
+    })
+    contextMenu.addEventListener("mouseleave", (e) => {
+        contextMenu.style.backgroundColor = "var(--background-white)"
+        contextMenu.style.color = "var(--default-dark-font)"
+    })
+
+    contextMenu.addEventListener("click", function (menuEvent) {
+        // Perform actions based on the clicked item
+        const action = menuEvent.target
+
+        deleteVideoByCreator(video.getAttribute("id").trim())
+            .then(res => {
+                // Remove the context menu
+                document.body.removeChild(contextMenu);
+                window.location.href = "";
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    });
 }
