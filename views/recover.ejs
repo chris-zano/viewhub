@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/recordsymbol.png" type="image/x-icon">
+    <link rel="stylesheet" id="root-css" href="/css/root.css">
+    <title>Viewhub ~ Password Reset</title>
+    <style>
+        div.card {
+            background-color: var(--background-light);
+            min-height: 270px;
+            min-width: 270px;
+            max-width: 50vw;
+            padding: 1rem;
+            margin-block: 1rem;
+            margin-inline: auto;
+            border-radius: var(--border-radius-default);
+        }
+
+        div.card form {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div.card form p {
+            font-family: var(--default-font);
+            color: var( --default-dark-font);
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        div.card form input {
+            height: 45px;
+            width: 260px;
+            border-radius: var(--border-radius-default);
+            border: 1px solid transparent;
+            background-color: var(--background-white);
+            color: var(--default-dark-font);
+            text-indent: 5px;
+            margin-bottom: 1rem;
+        }
+        div.card form input[type="number"]::-webkit-scrollbar {
+            display: none;
+        }
+        div.card form button {
+            height: 45px;
+            width: 260px;
+            border-radius: var(--border-radius-default);
+            border: 1px solid transparent;
+            background-color: var(--background-white);
+            color: var(--default-dark-font);
+            text-indent: 5px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        div.card form button:hover {
+            background-color: var(--color-theme-2);
+        }
+        div.card form button:disabled {
+            cursor: default;
+            background-color: var(--dark-grey);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <form action="#" id="sendCodeFrm">
+            <p>Verify Your Email</p>
+            <input type="email" id="auth_email" placeholder="your email [email@example.com]" required>
+            <button type="submit" id="send_code">Send Code</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <form action="#" id="verifyCodeForm">
+            <p>Enter the verification code</p>
+            <input type="text" id="verification_code" required>
+            <button type="submit" id="verifyBtn" disabled="true">Verify</button>
+        </form>
+    </div>
+
+
+    <script src="/js/utils"></script>
+    <script src="/js/recovery"></script>
+</body>
+
+</html>

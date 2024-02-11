@@ -12,7 +12,7 @@
                 })
             </script>
         </div>
-        <% }  else  { %>
+        <% }  else if(error==true) { %>
             <div class="error_message_div">Incorrect usernmae or password</div>
             <% } %>
             <form action="/userlogin" id="form" method="post">

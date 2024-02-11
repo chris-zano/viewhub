@@ -76,6 +76,7 @@ router.get("/user/getverificationcode/:email", (req, res) => {
     const message = `Your verification code is: ${verificationCode}`;
     const subject = 'Email Verification Code';
     const recipient = req.params.email;
+    console.log(recipient);
 
     mailer.sendMail(recipient, subject, message)
         .then(response => {
@@ -177,7 +178,18 @@ router.get('/admin/delete-user-account', async (req, res) => {
 router.get('/admin/deactivate-user-account', adminController.deactivateUserAccount);
 
 
-router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo)
+router.get("/admin/delete/deleteVideoByCreator/:videoId", adminController.deleteVideo);
+
+router.get("/account/recover", (req, res) => {
+    if (req.query.v == "t") {
+        console.log(true);
+        res.render("recover");
+    }
+    else {
+        console.log(false);
+        res.status(400).json("Bad Request");
+    }
+})
 
 router.post("/edit/update/name", adminController.userUpdateName);
 router.post("/edit/update/username", adminController.userUpdateUsername);

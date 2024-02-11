@@ -538,7 +538,7 @@ class Uploads {
                             resolve({ error: false, message: "property set successfully" });
                         }
                         else {
-                            reject({ error: true, message: "Failed to set property" });
+                            resolve({ error: false, message: "Failed to set property" });
                         }
                     }
                 }

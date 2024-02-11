@@ -142,7 +142,7 @@ class User {
 
     /**
      * checkEmail(email) - checks if the email has already been registered / verified / stored in the database
-     * @param {string} email The enail property of the user object
+     * @param {string} email The email property of the user object
      * @returns {object} Promise -::- This resolves an object with appropriate _ERROR STATES_ and _MESSAGES_ set correctly
      */
     static checkEmail(email) {

@@ -4,6 +4,9 @@ const nodemailer = require("nodemailer");
 
 exports.sendMail = (recipient, subject, message) => {
     return new Promise((resolve, reject) => {
+        console.log(recipient);
+        console.log(subject);
+        console.log(message);
         //create a transporter profile, that allows login access to your gmail
         const transporter = nodemailer.createTransport({
             service: "Gmail",

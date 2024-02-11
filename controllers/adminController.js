@@ -112,9 +112,14 @@ exports.deactivateUserAccount = async (req, res) => {
     const userId = req.query.userId;
     const userObject = { _id: userId, "UsersDB": {}, "ProfileDB": {}, "CreatorVideos": {} }
 
+    console.log("here 0");
+    console.log(userId);
+
     const UO_1 = await User.getUserAccount(userId) ?? undefined;
+    console.log("here 0.1");
     const PO_1 = await Profile.fetchUserProfile(userId) ?? undefined;
 
+    console.log("here 1");
     if ((UO_1.error == false && UO_1.message == "retreived successfully") && (PO_1.error == false && PO_1.message == "retreived successfully")) {
 
         const delUser = await User.deleteUser(userId);
@@ -124,7 +129,7 @@ exports.deactivateUserAccount = async (req, res) => {
 
             const UO_2 = await Uploads.setVideoProperty(userId, "suspendedAccount", "true") ?? undefined;
 
-            if (UO_2.message == "property set successfully") {
+            if (UO_2.error == false) {
 
                 const VU_1 = await Uploads.retrieveCreatorVideos(userId);
 
@@ -155,7 +160,8 @@ exports.deactivateUserAccount = async (req, res) => {
     else {
         res.status(404).json('404 not found')
     }
+}
 
-
-
+exports.verifyAndRecoverSuspendedAccount = (req, res) => {
+    
 }

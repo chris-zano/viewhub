@@ -72,6 +72,16 @@ class SuspendUserAccount {
                                     }
                                 }
                             }
+                            else if (key == "email") {
+                                for (let u of doc) {
+                                    if (u.UsersDB.email == value) {
+                                        resolve({error: false, message: "match found", document: u});
+                                    }
+                                    else {
+                                        resolve({error:true, message: "no such account"})
+                                    }
+                                }
+                            }
                         }
                     }
                 }
